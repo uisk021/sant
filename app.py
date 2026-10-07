@@ -9,7 +9,7 @@ PORTFOLIO_DIR = os.path.join(STATIC_DIR, "portfolio")
 
 app = Flask(__name__, template_folder=TEMPLATE_DIR, static_folder=STATIC_DIR)
 
-SEU_WHATSAPP = "5511999999999"  # 👈 Coloque seu número com DDD
+SEU_WHATSAPP = "5521986010634"  # 👈 Coloque seu número com DDD
 
 LINKS_ENCURTADOS = {
     "zap": f"https://wa.me/{SEU_WHATSAPP}?text=Ol%C3%A1%20SANT%3B!%20Vim%20pelo%20link%20encurtado.",
