@@ -4,13 +4,12 @@ from flask import Flask, render_template
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
 STATIC_DIR = os.path.join(BASE_DIR, "static")
-PORTFOLIO_DIR = os.path.join(STATIC_DIR, "portfolio") # 👈 Nova pasta
+PORTFOLIO_DIR = os.path.join(STATIC_DIR, "portfolio")
 
 app = Flask(__name__, template_folder=TEMPLATE_DIR, static_folder=STATIC_DIR)
 
 @app.route('/')
 def index():
-    # Lê automaticamente todas as fotos dentro da pasta 'static/portfolio'
     portfolio_images = []
     if os.path.exists(PORTFOLIO_DIR):
         for filename in os.listdir(PORTFOLIO_DIR):
