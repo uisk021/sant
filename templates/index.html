@@ -40,27 +40,32 @@
         </div>
     </nav>
 
-    <!-- ========== HERO (COM BACKGROUND ANIMAÇÃO) ========== -->
-    <section id="home" class="hero">
-        <div class="hero-bg-image"></div>
-        <div class="hero-bg-glow"></div>
-        <div class="hero-vignette"></div>
+<!-- ========== HERO COM VÍDEO DE FUNDO ========== -->
+<section id="home" class="hero">
+    <!-- Vídeo de Fundo em Loop -->
+    <video class="hero-bg-video" autoplay loop muted playsinline>
+        <source src="{{ url_for('static', filename='bg-hero.mp4') }}" type="video/mp4">
+    </video>
 
-        <div class="container hero-content">
-            <div class="hero-tag">SANT; — MÉTODO AGA;</div>
-            <h1 class="hero-title">
-                NÃO VENDEMOS SITES.<br>
-                CONSTRUÍMOS SEU <span class="highlight">ECOSSISTEMA;</span>
-            </h1>
-            <p class="hero-subtitle">
-                Aceleração digital através da <strong>Arquitetura de Gestão Autônoma</strong>. 
-                Transformamos seguidores em clientes compradores operando 24/7 com Sites de Alta Conversão e Autobots de IA.
-            </p>
-            <div class="hero-actions">
-                <a href="#metodologia" class="btn btn-primary">VER MÉTODO AGA;</a>
-            </div>
+    <!-- Efeitos Visuais por Cima do Vídeo -->
+    <div class="hero-bg-glow"></div>
+    <div class="hero-vignette"></div>
+
+    <div class="container hero-content">
+        <div class="hero-tag">SANT; — MÉTODO AGA;</div>
+        <h1 class="hero-title">
+            NÃO VENDEMOS SITES.<br>
+            CONSTRUÍMOS SEU <span class="highlight">ECOSSISTEMA;</span>
+        </h1>
+        <p class="hero-subtitle">
+            Aceleração digital através da <strong>Arquitetura de Gestão Autônoma</strong>. 
+            Transformamos seguidores em clientes compradores operando 24/7 com Sites de Alta Conversão e Autobots de IA.
+        </p>
+        <div class="hero-actions">
+            <a href="#metodologia" class="btn btn-primary">VER MÉTODO AGA;</a>
         </div>
-    </section>
+    </div>
+</section>
 
     <!-- ========== TIMELINE HORIZONTAL (MÉTODO AGA; - PURA AUTORIDADE) ========== -->
     <section id="metodologia" class="section timeline-section">
