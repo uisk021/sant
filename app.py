@@ -1,23 +1,23 @@
 import os
-from flask import Flask, render_template, redirect
 from datetime import datetime
+from flask import Flask, render_template, redirect
 
-# ============================================
-# INJETA O ANO ATUAL EM TODOS OS TEMPLATES AUTOMATICAMENTE
-# ============================================
-@app.context_processor
-def inject_year():
-    return {'ano_atual': datetime.now().year}
-
-# Garantia de caminhos absolutos no Windows
+# Configuração de Caminhos Absolutos
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
 STATIC_DIR = os.path.join(BASE_DIR, "static")
 PORTFOLIO_DIR = os.path.join(STATIC_DIR, "portfolio")
 
+# 1. PRIMEIRO CRIAMOS O APP
 app = Flask(__name__, template_folder=TEMPLATE_DIR, static_folder=STATIC_DIR)
 
-SEU_WHATSAPP = "5521986010634"  # 👈 Coloque seu número com DDD
+# 2. INJETAR ANO ATUAL AUTOMÁTICO (Fica depois do app = Flask)
+@app.context_processor
+def inject_year():
+    return {'ano_atual': datetime.now().year}
+
+# 3. CONFIGURAÇÕES & DICIONÁRIO
+SEU_WHATSAPP = "55121986010634"  # 👈 Coloque seu número com DDD
 
 LINKS_ENCURTADOS = {
     "zap": f"https://wa.me/{SEU_WHATSAPP}?text=Ol%C3%A1%20SANT%3B!%20Vim%20pelo%20link%20encurtado.",
@@ -27,7 +27,7 @@ LINKS_ENCURTADOS = {
     "patinho": "https://bot-radio-habbler.onrender.com",
 }
 
-# 1. HOME
+# 4. ROTAS DO SITE
 @app.route('/')
 def index():
     portfolio_images = []
@@ -38,13 +38,11 @@ def index():
                 
     return render_template('index.html', portfolio_images=portfolio_images)
 
-# 2. LINKTREE / BIO (Vem ANTES do encurtador para não dar conflito)
 @app.route('/links')
 @app.route('/bio')
 def bio_links():
     return render_template('links.html')
 
-# 3. ENCURTADOR DE LINKS
 @app.route('/<short_code>')
 def redirecionar_link(short_code):
     codigo = short_code.lower().strip()
