@@ -1341,3 +1341,113 @@ footer { padding: 50px 0; background: #0e0e0e; border-top: 1px solid var(--borde
     background: #ffffff;
     transform: translateY(-2px);
 }
+/* ============================================
+   PÁGINA BIO LINKS (LINKTREE PRÓPRIO DA SANT;)
+   ============================================ */
+.bio-page {
+    background-color: var(--bg-dark);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    background: radial-gradient(circle at top, #222222 0%, #161616 70%);
+}
+
+.bio-container {
+    width: 100%;
+    max-width: 440px;
+    text-align: center;
+}
+
+.bio-header {
+    margin-bottom: 32px;
+}
+
+.bio-logo-wrapper {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 16px;
+    border-radius: 50%;
+    background: var(--bg-card);
+    border: 1px solid var(--border-bright);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.bio-logo {
+    height: 36px;
+    width: auto;
+}
+
+.bio-title {
+    font-family: var(--font-title);
+    font-size: 1.6rem;
+    letter-spacing: 2px;
+    color: var(--text-light);
+    margin-bottom: 6px;
+}
+
+.bio-tagline {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+/* Botões da Bio */
+.bio-links {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 40px;
+}
+
+.bio-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 16px 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    color: var(--text-light);
+    text-decoration: none;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.bio-btn:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--text-light);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(227, 226, 226, 0.15);
+}
+
+/* Botão de Destaque (WhatsApp) */
+.bio-btn.highlight-btn {
+    background: var(--text-light);
+    color: var(--bg-dark);
+    border-color: var(--text-light);
+    font-weight: 800;
+}
+
+.bio-btn.highlight-btn:hover {
+    background: #ffffff;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(227, 226, 226, 0.3);
+}
+
+.btn-icon {
+    font-size: 1.1rem;
+}
+
+.bio-footer p {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
