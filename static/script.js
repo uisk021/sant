@@ -232,3 +232,44 @@ function enviarFormularioProjeto(event) {
         slider.scrollLeft = touchScrollLeft - walk;
     }, { passive: true });
 })();
+// ============================================
+// CONTROLE DA TRILHA SONORA AMBIENTE
+// ============================================
+const bgMusic = document.getElementById("bg-music");
+const audioBtn = document.getElementById("audio-toggle");
+const audioIcon = document.getElementById("audio-icon");
+const audioText = document.getElementById("audio-text");
+
+// Define o volume suave em 20% para não sobressair
+if (bgMusic) {
+    bgMusic.volume = 0.20;
+}
+
+function toggleAudio() {
+    if (!bgMusic) return;
+
+    if (bgMusic.paused) {
+        bgMusic.play().then(() => {
+            audioBtn.classList.add("playing");
+            audioIcon.textContent = "🔊";
+            audioText.textContent = "SOUND ON";
+        }).catch((err) => {
+            console.log("Autoplay bloqueado pelo navegador:", err);
+        });
+    } else {
+        bgMusic.pause();
+        audioBtn.classList.remove("playing");
+        audioIcon.textContent = "🔇";
+        audioText.textContent = "SOUND OFF";
+    }
+}
+
+// BÔNUS OPCIONAL: Ligar automaticamente no primeiro clique do usuário na página
+let audioAutostarted = false;
+document.addEventListener("click", function autoPlayAudio() {
+    if (!audioAutostarted && bgMusic && bgMusic.paused) {
+        // Descomente as 2 linhas abaixo se quiser que toque no 1º clique em qualquer lugar:
+        // toggleAudio();
+        // audioAutostarted = true;
+    }
+}, { once: true });
