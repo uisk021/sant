@@ -1451,3 +1451,207 @@ footer { padding: 50px 0; background: #0e0e0e; border-top: 1px solid var(--borde
     font-size: 0.75rem;
     color: var(--text-muted);
 }
+/* ============================================
+   SEÇÃO DE DESTAQUE: SANT; CONTINUUM;
+   ============================================ */
+.continuum-section {
+    background: #0d0d0d;
+    padding: 100px 0;
+}
+
+.continuum-card {
+    background: linear-gradient(145deg, #1f1f1f 0%, #141414 100%);
+    border: 1px solid var(--border-bright);
+    border-radius: 24px;
+    padding: 60px 40px;
+    position: relative;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+}
+
+.continuum-badge {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: var(--text-dark);
+    background: var(--text-light);
+    padding: 6px 16px;
+    border-radius: 50px;
+    margin-bottom: 20px;
+}
+
+.continuum-title {
+    font-family: var(--font-title);
+    font-size: clamp(2rem, 4vw, 3rem);
+    letter-spacing: -1px;
+    margin-bottom: 10px;
+}
+
+.continuum-subtitle {
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin-bottom: 45px;
+}
+
+.continuum-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 50px;
+    align-items: center;
+}
+
+.continuum-text {
+    font-size: 1rem;
+    color: var(--text-light);
+    line-height: 1.7;
+    margin-bottom: 30px;
+}
+
+.continuum-benefits {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.continuum-benefits li {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.continuum-benefits .check {
+    color: var(--text-light);
+    font-weight: bold;
+}
+
+/* Caixa de Preço Destaque */
+.continuum-pricing-box {
+    background: #111111;
+    border: 1px solid rgba(227, 226, 226, 0.2);
+    border-radius: 20px;
+    padding: 40px 30px;
+    text-align: center;
+    position: relative;
+}
+
+.box-tag {
+    font-family: var(--font-body);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    display: block;
+    margin-bottom: 10px;
+}
+
+.discount-badge {
+    position: absolute;
+    top: -15px;
+    right: 20px;
+    background: var(--text-light);
+    color: var(--bg-dark);
+    font-family: var(--font-body);
+    font-weight: 800;
+    font-size: 0.8rem;
+    padding: 6px 14px;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(227, 226, 226, 0.2);
+}
+
+.pricing-display {
+    margin: 20px 0 30px;
+}
+
+.price-from {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-decoration: line-through;
+    margin-bottom: 5px;
+}
+
+.price-main {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    color: var(--text-light);
+}
+
+.price-currency {
+    font-family: var(--font-title);
+    font-size: 1.2rem;
+    margin-right: 4px;
+}
+
+.price-val {
+    font-family: var(--font-title);
+    font-size: 3.5rem;
+    line-height: 1;
+}
+
+.price-cents {
+    font-family: var(--font-title);
+    font-size: 1.2rem;
+}
+
+.price-period {
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-left: 8px;
+}
+
+.price-sub {
+    display: block;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-top: 10px;
+}
+
+.btn-continuum {
+    width: 100%;
+    justify-content: center;
+    padding: 16px;
+    font-size: 0.85rem;
+}
+
+.pricing-note {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    margin-top: 12px;
+}
+
+/* Grade de 4 Colunas para o Discord */
+.grid-4 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+.card-tag-badge {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: var(--bg-dark);
+    background: var(--text-light);
+    padding: 3px 10px;
+    border-radius: 50px;
+    margin-bottom: 12px;
+}
+
+@media (max-width: 992px) {
+    .continuum-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    .continuum-card {
+        padding: 40px 24px;
+    }
+}
