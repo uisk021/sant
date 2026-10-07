@@ -1468,17 +1468,92 @@ footer { padding: 50px 0; background: #0e0e0e; border-top: 1px solid var(--borde
     box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
 }
 
+/* ============================================
+   1) BADGE DO CONTINUUM (TEXTO LEGÍVEL)
+   ============================================ */
 .continuum-badge {
     display: inline-block;
     font-family: var(--font-body);
     font-size: 0.72rem;
     font-weight: 800;
     letter-spacing: 2px;
-    color: var(--text-dark);
-    background: var(--text-light);
+    color: #161616 !important;          /* texto escuro */
+    background: #E3E2E2 !important;     /* fundo claro */
     padding: 6px 16px;
     border-radius: 50px;
     margin-bottom: 20px;
+}
+
+/* ============================================
+   3) ANIMAÇÃO PRATEADA NO TÍTULO CONTINUUM
+   ============================================ */
+.continuum-title {
+    font-family: var(--font-title);
+    font-size: clamp(2rem, 4vw, 3rem);
+    letter-spacing: -1px;
+    margin-bottom: 10px;
+    background: linear-gradient(
+        110deg,
+        #8a8a8a 0%,
+        #E3E2E2 25%,
+        #ffffff 50%,
+        #E3E2E2 75%,
+        #8a8a8a 100%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: silverShine 3.5s linear infinite;
+}
+
+@keyframes silverShine {
+    0%   { background-position: 0% center; }
+    100% { background-position: 200% center; }
+}
+
+/* ============================================
+   2) BOTÕES NOS CARDS DO DISCORD
+   ============================================ */
+.card-actions {
+    margin-top: 18px;
+}
+
+.btn-card-discord {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 11px 14px;
+    background: transparent;
+    border: 1px solid rgba(227, 226, 226, 0.25);
+    color: #E3E2E2;
+    text-decoration: none;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.btn-card-discord:hover {
+    background: #E3E2E2;
+    color: #161616;
+    border-color: #E3E2E2;
+    transform: translateY(-2px);
+}
+
+.card-highlight .btn-card-discord {
+    background: #E3E2E2;
+    color: #161616;
+    border-color: #E3E2E2;
+}
+
+.card-highlight .btn-card-discord:hover {
+    background: #ffffff;
+    box-shadow: 0 8px 20px rgba(227, 226, 226, 0.2);
 }
 
 .continuum-title {
