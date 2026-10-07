@@ -407,5 +407,18 @@
     </div>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
+<!-- ========== TRILHA SONORA AMBIENTE ========== -->
+<audio id="bg-music" loop preload="none">
+    <source src="{{ url_for('static', filename='ambient.mp3') }}" type="audio/mpeg">
+</audio>
+
+<!-- Botão Flutuante de Áudio -->
+<button class="audio-toggle-btn" id="audio-toggle" onclick="toggleAudio()" title="Trilha Sonora SANT;">
+    <span class="audio-icon" id="audio-icon">🔇</span>
+    <span class="audio-text" id="audio-text">SOUND OFF</span>
+    <div class="sound-bars" id="sound-bars">
+        <span></span><span></span><span></span>
+    </div>
+</button>
 </body>
 </html>
