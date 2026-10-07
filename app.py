@@ -1,5 +1,13 @@
 import os
 from flask import Flask, render_template, redirect
+from datetime import datetime
+
+# ============================================
+# INJETA O ANO ATUAL EM TODOS OS TEMPLATES AUTOMATICAMENTE
+# ============================================
+@app.context_processor
+def inject_year():
+    return {'ano_atual': datetime.now().year}
 
 # Garantia de caminhos absolutos no Windows
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
