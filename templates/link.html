@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SANT; — Links Oficiais</title>
+    
+    <!-- Fontes Oficiais -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="bio-page">
+
+    <div class="bio-container">
+        
+        <!-- Header da Bio -->
+        <header class="bio-header">
+            <div class="bio-logo-wrapper">
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="SANT;" class="bio-logo">
+            </div>
+            <h1 class="bio-title">SANT<span class="semicolon">;</span></h1>
+            <p class="bio-tagline">Reconstrução & Aceleração Digital</p>
+        </header>
+
+        <!-- Lista de Links estilo SANT; -->
+        <main class="bio-links">
+
+            <a href="https://wa.me/5511999999999?text=Ol%C3%A1%20SANT%3B!%20Vim%20pelo%20link%20da%20Bio." target="_blank" class="bio-btn highlight-btn">
+                <span class="btn-icon">💬</span>
+                <span class="btn-text">Iniciar Projeto no WhatsApp ;</span>
+            </a>
+
+            <a href="/" class="bio-btn">
+                <span class="btn-icon">🌐</span>
+                <span class="btn-text">Nosso Site Oficial</span>
+            </a>
+
+            <a href="https://bot-radio-habbler.onrender.com" target="_blank" class="bio-btn">
+                <span class="btn-icon">🐤</span>
+                <span class="btn-text">Patinho Bot (Rádio & Discord)</span>
+            </a>
+
+            <a href="/#produtos" class="bio-btn">
+                <span class="btn-icon">🛒</span>
+                <span class="btn-text">Loja de Templates & Scripts</span>
+            </a>
+
+            <a href="https://www.instagram.com/sant.social/" target="_blank" class="bio-btn">
+                <span class="btn-icon">📸</span>
+                <span class="btn-text">Instagram Oficial @sant.social</span>
+            </a>
+
+        </main>
+
+        <!-- Footer da Bio -->
+        <footer class="bio-footer">
+            <p>SANT; © 2025 · Ecossistemas Digitais</p>
+        </footer>
+
+    </div>
+
+</body>
+</html>
