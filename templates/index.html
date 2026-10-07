@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SANT; — Ecossistemas Digitais</title>
+    <title>SANT; — Método AGA; & Ecossistemas Digitais</title>
     
     <!-- Fontes Oficiais -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,177 +14,150 @@
 </head>
 <body>
 
-    <button class="btn-nav" onclick="abrirPopupProjeto()">INICIAR PROJETO ;</button>
-
     <!-- ========== NAVBAR ========== -->
-<nav class="navbar">
-    <div class="nav-container">
-        <!-- Puxa diretamente o arquivo static/logo.png -->
-        <a href="#home" class="logo-link" title="SANT;">
-            <img src="{{ url_for('static', filename='logo.png') }}" alt="SANT;" class="brand-logo-nav">
-        </a>
+    <nav class="navbar">
+        <div class="nav-container">
+            <!-- Logo oficial ;S -->
+            <a href="#home" class="logo-link" title="SANT;">
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="SANT;" class="brand-logo-nav">
+            </a>
 
-        <!-- Links do Menu -->
-        <ul class="nav-menu">
-            <li><a href="#metodologia">METODOLOGIA</a></li>
-            <li><a href="#portfolio">PORTFÓLIO</a></li>
-            <li><a href="#clientes">CLIENTES</a></li>
-            <li><a href="#discord">DISCORD & BOTS</a></li>
-            <li><a href="#produtos">TEMPLATES</a></li>
-        </ul>
+            <!-- Links do Menu -->
+            <ul class="nav-menu">
+                <li><a href="#metodologia">MÉTODO AGA;</a></li>
+                <li><a href="#discord">DISCORD & BOTS</a></li>
+                <li><a href="#portfolio">PORTFÓLIO</a></li>
+                <li><a href="#produtos">TEMPLATES</a></li>
+            </ul>
 
-        <!-- Botão de Ação -->
-    <button class="btn-nav" onclick="abrirWhatsAppDirect()">INICIAR PROJETO ;</button>
-    </div>
-</nav>
-<!-- ========== HERO COM ANIMAÇÃO DE FUNDO ========== -->
-<!-- ========== HERO COM VÍDEO DE FUNDO ========== -->
-<section id="home" class="hero">
-    <!-- Vídeo de Fundo em Loop Automático -->
-    <video autoplay loop muted playsinline class="hero-bg-video">
-        <source src="{{ url_for('static', filename='bg-hero.mp4') }}" type="video/mp4">
-    </video>
-    
-    <!-- Camada escura por cima para o texto ficar legível -->
-    <div class="hero-vignette"></div>
-
-    <div class="container hero-content">
-        <div class="hero-tag">SANT; DIGITAL ECOSYSTEMS</div>
-        <h1 class="hero-title">
-            NÃO VENDEMOS SITES.<br>
-            CONSTRUÍMOS SEU <span class="highlight">ECOSSISTEMA;</span>
-        </h1>
-        <p class="hero-subtitle">
-            O que começou como um simples Instagram agora exige automação. 
-            Nós transformamos seguidores em clientes operando 24/7 com Sites de Alta Conversão e Autobots de IA.
-        </p>
-        <div class="hero-actions">
-            <a href="#metodologia" class="btn btn-primary">VER COMO FUNCIONA ;</a>
+            <!-- Botão Ação -->
+            <a href="https://wa.me/5511999999999?text=Ol%C3%A1%20SANT%3B!%20Gostaria%20de%20iniciar%20um%20novo%20projeto." 
+               target="_blank" 
+               class="btn-nav">
+                INICIAR PROJETO ;
+            </a>
         </div>
-    </div>
-</section>
+    </nav>
 
-<!-- ========== TIMELINE HORIZONTAL (SEM ESPAÇO FANTASMA) ========== -->
-<section id="metodologia" class="section timeline-section">
-    <div class="container">
-        <h2 class="section-title-left">A JORNADA SANT;</h2>
-        <p class="section-subtitle-left">O passo a passo exato para escalar sua empresa no digital. Sem achismos.</p>
-    </div>
+    <!-- ========== HERO (COM BACKGROUND ANIMAÇÃO) ========== -->
+    <section id="home" class="hero">
+        <div class="hero-bg-image"></div>
+        <div class="hero-bg-glow"></div>
+        <div class="hero-vignette"></div>
 
-    <div class="timeline-wrapper">
-        <div class="timeline-track">
-            <!-- Etapa 1 -->
-            <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <span class="step-number">01</span>
-                <h3>Brand & Rebrand;</h3>
-                <p>Redefinição de posicionamento. Criação de identidade visual marcante, manual de marca e design estratégico para você se destacar da concorrência no primeiro olhar.</p>
-            </div>
-            
-            <!-- Etapa 2 -->
-            <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <span class="step-number">02</span>
-                <h3>Growth & Ads;</h3>
-                <p>Aquisição de leads acelerada. Gestão de tráfego pago (Meta & Google Ads) focada em diminuir seu Custo Por Lead e trazer clientes qualificados todos os dias.</p>
-            </div>
-            
-            <!-- Etapa 3 -->
-            <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <span class="step-number">03</span>
-                <h3>Social Media;</h3>
-                <p>Conteúdo que gera autoridade. Planejamento editorial, design de postagens e retenção de comunidade para aquecer seu público antes da venda.</p>
-            </div>
-            
-            <!-- Etapa 4 -->
-            <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <span class="step-number">04</span>
-                <h3>Métricas & BI;</h3>
-                <p>Decisões baseadas em dados. Dashboards em tempo real para monitorar vendas, origens de tráfego e o ROI de cada centavo investido no seu negócio.</p>
-            </div>
-
-            <!-- Etapa 5 -->
-            <div class="timeline-item destaque">
-                <div class="timeline-dot"></div>
-                <span class="step-number">05</span>
-                <h3>Web + Autobot;</h3>
-                <p>O coração do ecossistema. Desenvolvemos seu site ultra-rápido integrado a um Autobot de IA que atende, qualifica e envia o lead quente direto para o seu WhatsApp.</p>
-            </div>
-        </div>
-    </div>
-</section>
-    <!-- ========== PORTFÓLIO (AUTOMÁTICO) ========== -->
-    <section id="portfolio" class="section">
-        <div class="container">
-            <h2 class="section-title-left">PORTFÓLIO;</h2>
-            <p class="section-subtitle-left">Uma amostra dos ecossistemas e bots que já construímos.</p>
-
-            <div class="portfolio-grid">
-                {% if portfolio_images %}
-                    <!-- Loop Mágico: O Python cria uma caixinha para cada foto na pasta -->
-                    {% for img in portfolio_images %}
-                        <div class="portfolio-item">
-                            <img src="{{ url_for('static', filename='portfolio/' + img) }}" alt="Portfólio SANT;">
-                        </div>
-                    {% endfor %}
-                {% else %}
-                    <!-- Se a pasta estiver vazia, mostra esse aviso -->
-                    <p style="color: #888;">Nenhuma imagem encontrada. Crie a pasta "portfolio" dentro de "static" e coloque suas imagens lá!</p>
-                {% endif %}
+        <div class="container hero-content">
+            <div class="hero-tag">SANT; — MÉTODO AGA;</div>
+            <h1 class="hero-title">
+                NÃO VENDEMOS SITES.<br>
+                CONSTRUÍMOS SEU <span class="highlight">ECOSSISTEMA;</span>
+            </h1>
+            <p class="hero-subtitle">
+                Aceleração digital através da <strong>Arquitetura de Gestão Autônoma</strong>. 
+                Transformamos seguidores em clientes compradores operando 24/7 com Sites de Alta Conversão e Autobots de IA.
+            </p>
+            <div class="hero-actions">
+                <a href="#metodologia" class="btn btn-primary">VER MÉTODO AGA;</a>
             </div>
         </div>
     </section>
-        <!-- ========== CLIENTES / MARCAS NA ESTRADA ========== -->
-<section id="clientes" class="section clientes-section">
-    <div class="container">
-        <h2 class="section-title-center">MARCAS NA ESTRADA;</h2>
-        <p class="section-subtitle-center">Empresas e projetos que já aceleraram com a SANT;.</p>
 
-        <div class="clientes-track-wrapper">
-            <div class="clientes-track" id="clientes-track">
-                <!-- 
-                  COMO ADICIONAR CLIENTES:
-                  1. Salve o logo em static/clientes/nome.png
-                  2. Adicione um <div class="cliente-logo"> abaixo
-                -->
-                <div class="cliente-logo">
-                    <img src="{{ url_for('static', filename='clientes/cliente1.png') }}" alt="Cliente 1" onerror="this.parentElement.style.display='none'">
+    <!-- ========== TIMELINE HORIZONTAL (MÉTODO AGA;) ========== -->
+    <section id="metodologia" class="section timeline-section">
+        <div class="container">
+            <h2 class="section-title-left">MÉTODO AGA;</h2>
+            <p class="section-subtitle-left">Arquitetura, Gestão e Autonomia. O passo a passo exato para transformar sua empresa em uma máquina de vendas no digital.</p>
+        </div>
+
+        <div class="timeline-wrapper">
+            <div class="timeline-track">
+                <!-- Etapa 1: Arquitetura -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <span class="step-number">01</span>
+                    <h3>Brand & Rebrand;</h3>
+                    <p><strong>[ARQUITETURA]</strong> Redefinição de posicionamento. Criação de identidade visual marcante, manual de marca e design estratégico para você se destacar da concorrência no primeiro olhar.</p>
                 </div>
-                <div class="cliente-logo">
-                    <img src="{{ url_for('static', filename='clientes/cliente2.png') }}" alt="Cliente 2" onerror="this.parentElement.style.display='none'">
+                
+                <!-- Etapa 2: Gestão -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <span class="step-number">02</span>
+                    <h3>Growth & Ads;</h3>
+                    <p><strong>[GESTÃO]</strong> Aquisição de leads acelerada. Gestão de tráfego pago (Meta & Google Ads) focada em diminuir seu Custo Por Lead e trazer clientes qualificados todos os dias.</p>
                 </div>
-                <div class="cliente-logo">
-                    <img src="{{ url_for('static', filename='clientes/cliente3.png') }}" alt="Cliente 3" onerror="this.parentElement.style.display='none'">
+                
+                <!-- Etapa 3: Gestão -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <span class="step-number">03</span>
+                    <h3>Social Media;</h3>
+                    <p><strong>[GESTÃO]</strong> Conteúdo que gera autoridade. Planejamento editorial, design de postagens e retenção de comunidade para aquecer seu público antes da venda.</p>
                 </div>
-                <div class="cliente-logo">
-                    <img src="{{ url_for('static', filename='clientes/cliente4.png') }}" alt="Cliente 4" onerror="this.parentElement.style.display='none'">
-                </div>
-                <div class="cliente-logo">
-                    <img src="{{ url_for('static', filename='clientes/cliente5.png') }}" alt="Cliente 5" onerror="this.parentElement.style.display='none'">
+                
+                <!-- Etapa 4: Gestão -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <span class="step-number">04</span>
+                    <h3>Métricas & BI;</h3>
+                    <p><strong>[GESTÃO]</strong> Decisões baseadas em dados. Dashboards em tempo real para monitorar vendas, origens de tráfego e o ROI de cada centavo investido no seu negócio.</p>
                 </div>
 
-                <!-- Duplicados para o efeito de carrossel infinito -->
-                <div class="cliente-logo">
-                    <img src="{{ url_for('static', filename='clientes/cliente1.png') }}" alt="Cliente 1" onerror="this.parentElement.style.display='none'">
-                </div>
-                <div class="cliente-logo">
-                    <img src="{{ url_for('static', filename='clientes/cliente2.png') }}" alt="Cliente 2" onerror="this.parentElement.style.display='none'">
-                </div>
-                <div class="cliente-logo">
-                    <img src="{{ url_for('static', filename='clientes/cliente3.png') }}" alt="Cliente 3" onerror="this.parentElement.style.display='none'">
-                </div>
-                <div class="cliente-logo">
-                    <img src="{{ url_for('static', filename='clientes/cliente4.png') }}" alt="Cliente 4" onerror="this.parentElement.style.display='none'">
-                </div>
-                <div class="cliente-logo">
-                    <img src="{{ url_for('static', filename='clientes/cliente5.png') }}" alt="Cliente 5" onerror="this.parentElement.style.display='none'">
+                <!-- Etapa 5: Autonomia (O Coração) -->
+                <div class="timeline-item destaque">
+                    <div class="timeline-dot"></div>
+                    <span class="step-number">05</span>
+                    <h3>Web + Autobot;</h3>
+                    <p><strong>[AUTONOMIA]</strong> O coração do ecossistema. Desenvolvemos seu site ultra-rápido integrado a um Autobot de IA que atende, qualifica e envia o lead quente direto para o seu WhatsApp 24/7.</p>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+
+    <!-- ========== CLIENTES / MARCAS NA ESTRADA ========== -->
+    <section id="clientes" class="section clientes-section">
+        <div class="container">
+            <h2 class="section-title-center">MARCAS NA ESTRADA;</h2>
+            <p class="section-subtitle-center">Empresas e projetos que já aceleraram com a SANT;.</p>
+
+            <div class="clientes-track-wrapper">
+                <div class="clientes-track" id="clientes-track">
+                    <div class="cliente-logo">
+                        <img src="{{ url_for('static', filename='clientes/cliente1.png') }}" alt="Cliente 1" onerror="this.parentElement.style.display='none'">
+                    </div>
+                    <div class="cliente-logo">
+                        <img src="{{ url_for('static', filename='clientes/cliente2.png') }}" alt="Cliente 2" onerror="this.parentElement.style.display='none'">
+                    </div>
+                    <div class="cliente-logo">
+                        <img src="{{ url_for('static', filename='clientes/cliente3.png') }}" alt="Cliente 3" onerror="this.parentElement.style.display='none'">
+                    </div>
+                    <div class="cliente-logo">
+                        <img src="{{ url_for('static', filename='clientes/cliente4.png') }}" alt="Cliente 4" onerror="this.parentElement.style.display='none'">
+                    </div>
+                    <div class="cliente-logo">
+                        <img src="{{ url_for('static', filename='clientes/cliente5.png') }}" alt="Cliente 5" onerror="this.parentElement.style.display='none'">
+                    </div>
+
+                    <!-- Duplicados para efeito Infinito -->
+                    <div class="cliente-logo">
+                        <img src="{{ url_for('static', filename='clientes/cliente1.png') }}" alt="Cliente 1" onerror="this.parentElement.style.display='none'">
+                    </div>
+                    <div class="cliente-logo">
+                        <img src="{{ url_for('static', filename='clientes/cliente2.png') }}" alt="Cliente 2" onerror="this.parentElement.style.display='none'">
+                    </div>
+                    <div class="cliente-logo">
+                        <img src="{{ url_for('static', filename='clientes/cliente3.png') }}" alt="Cliente 3" onerror="this.parentElement.style.display='none'">
+                    </div>
+                    <div class="cliente-logo">
+                        <img src="{{ url_for('static', filename='clientes/cliente4.png') }}" alt="Cliente 4" onerror="this.parentElement.style.display='none'">
+                    </div>
+                    <div class="cliente-logo">
+                        <img src="{{ url_for('static', filename='clientes/cliente5.png') }}" alt="Cliente 5" onerror="this.parentElement.style.display='none'">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- ========== SERVIÇOS PARA DISCORD ========== -->
     <section id="discord" class="section discord-section">
         <div class="container">
@@ -211,6 +184,25 @@
         </div>
     </section>
 
+    <!-- ========== PORTFÓLIO (AUTOMÁTICO) ========== -->
+    <section id="portfolio" class="section">
+        <div class="container">
+            <h2 class="section-title-left">PORTFÓLIO;</h2>
+            <p class="section-subtitle-left">Uma amostra dos ecossistemas e bots que já construímos.</p>
+
+            <div class="portfolio-grid">
+                {% if portfolio_images %}
+                    {% for img in portfolio_images %}
+                        <div class="portfolio-item">
+                            <img src="{{ url_for('static', filename='portfolio/' + img) }}" alt="Portfólio SANT;">
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p style="color: #888;">Nenhuma imagem encontrada na pasta static/portfolio.</p>
+                {% endif %}
+            </div>
+        </div>
+    </section>
 
     <!-- ========== PRODUTOS & TEMPLATES ========== -->
     <section id="produtos" class="section">
@@ -251,130 +243,76 @@
                 <img src="{{ url_for('static', filename='logo.png') }}" alt="SANT;" class="footer-logo">
                 <p>Agência de Reconstrução & Aceleração Digital.</p>
             </div>
-            <p>SANT; © {{ ano_atual }} · Todos os direitos reservados.</p>
+            <p class="copy">SANT; © {{ ano_atual }} · Todos os direitos reservados.</p>
         </div>
     </footer>
 
-<!-- ========== CHATBOT FIXO ========== -->
-<div class="chatbot-wrapper" id="chatbot-wrapper">
-
-    <!-- Janela do Chat -->
-    <div class="chat-history" id="chat-history">
-        <div class="chat-header">
-            <div class="chat-header-left">
-                <img src="{{ url_for('static', filename='logo.png') }}" alt="SANT;" class="chat-header-logo">
-                <div class="chat-header-text">
-                    <strong>ASSISTENTE SANT;</strong>
-                    <span class="chat-status">Online agora</span>
-                </div>
-            </div>
-            <button class="close-chat" onclick="fecharChat()">✕</button>
-        </div>
-
-        <div class="chat-messages" id="chat-messages">
-            <div class="msg bot-msg">
-                <div class="msg-label">SANT; AI</div>
-                <div class="msg-content">
-                    Olá! Sou a IA da SANT;. Como posso ajudar a escalar seu negócio hoje?
-                </div>
-            </div>
-        </div>
-
-        <div class="chat-footer-note">
-            <span class="dot-online"></span>
-            Qualificação automática de leads · Resposta em segundos
-        </div>
-    </div>
-
-    <!-- Pílulas -->
-    <div class="chat-suggestions" id="chat-suggestions">
-        <button onclick="enviarMensagem('Quero um Site + Autobot')">Quero um Site + Autobot ;</button>
-        <button onclick="enviarMensagem('Serviços para Discord')">Serviços para Discord ;</button>
-        <button onclick="enviarMensagem('Brand & Rebrand')">Brand & Rebrand ;</button>
-        <button onclick="enviarMensagem('Growth & Ads')">Growth & Ads ;</button>
-        <button onclick="enviarMensagem('Social Media')">Social Media ;</button>
-        <button onclick="enviarMensagem('Métricas & BI')">Métricas & BI ;</button>
-        <button onclick="enviarMensagem('Comprar Templates')">Templates Prontos ;</button>
-    </div>
-
-    <!-- Input -->
-    <div class="chat-input-container">
-        <div class="chat-icon-left">
-            <div class="ia-orb"></div>
-        </div>
-        <input type="text" id="chat-input" placeholder="Digite uma mensagem ou escolha acima..." onkeypress="handleEnter(event)">
-        <button class="chat-send-btn" onclick="enviarInput()" aria-label="Enviar">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-                <path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"/>
+    <!-- ========== REDES SOCIAIS FLUTUANTES ========== -->
+    <div class="social-float">
+        <a href="https://www.instagram.com/sant.social/" target="_blank" class="social-btn ig" title="Instagram SANT;">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                <path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/>
             </svg>
-        </button>
+        </a>
+        <a href="https://wa.me/5511999999999" target="_blank" class="social-btn wa" title="WhatsApp SANT;">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/>
+            </svg>
+        </a>
     </div>
-</div>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
 
-<!-- ========== POPUP INICIAR PROJETO ========== -->
-<div class="popup-overlay" id="popup-projeto">
-    <div class="popup-card">
-        <button class="popup-close" onclick="fecharPopupProjeto()">✕</button>
-        
-        <div class="popup-header">
-            <img src="{{ url_for('static', filename='logo.png') }}" alt="SANT;" class="popup-logo">
-            <h3>INICIAR PROJETO ;</h3>
-            <p>Responda em 30 segundos e nossa equipe te atende no WhatsApp.</p>
+    <!-- ========== CHATBOT FIXO ========== -->
+    <div class="chatbot-wrapper" id="chatbot-wrapper">
+        <div class="chat-history" id="chat-history">
+            <div class="chat-header">
+                <div class="chat-header-left">
+                    <img src="{{ url_for('static', filename='logo.png') }}" alt="SANT;" class="chat-header-logo">
+                    <div class="chat-header-text">
+                        <strong>ASSISTENTE SANT;</strong>
+                        <span class="chat-status">Online agora</span>
+                    </div>
+                </div>
+                <button class="close-chat" onclick="fecharChat()">✕</button>
+            </div>
+
+            <div class="chat-messages" id="chat-messages">
+                <div class="msg bot-msg">
+                    <div class="msg-label">SANT; AI</div>
+                    <div class="msg-content">
+                        Olá! Sou a IA da SANT;. Como posso ajudar a escalar seu negócio hoje?
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-footer-note">
+                <span class="dot-online"></span>
+                Método AGA; · Atendimento Autônomo 24/7
+            </div>
         </div>
 
-        <form id="form-projeto" onsubmit="enviarFormularioProjeto(event)">
-            <div class="form-group">
-                <label>Qual serviço você precisa?</label>
-                <select id="form-servico" required>
-                    <option value="" disabled selected>Selecione...</option>
-                    <option value="Site + Autobot">Site + Autobot</option>
-                    <option value="Brand & Rebrand">Brand & Rebrand</option>
-                    <option value="Growth & Ads">Growth & Ads</option>
-                    <option value="Social Media">Social Media</option>
-                    <option value="Métricas & BI">Métricas & BI</option>
-                    <option value="Bot Discord">Bot Discord</option>
-                    <option value="Pacote Completo">Pacote Completo (Timeline)</option>
-                </select>
-            </div>
+        <div class="chat-suggestions" id="chat-suggestions">
+            <button onclick="enviarMensagem('Quero um Site + Autobot')">Quero um Site + Autobot ;</button>
+            <button onclick="enviarMensagem('Serviços para Discord')">Serviços para Discord ;</button>
+            <button onclick="enviarMensagem('Brand & Rebrand')">Brand & Rebrand ;</button>
+            <button onclick="enviarMensagem('Growth & Ads')">Growth & Ads ;</button>
+            <button onclick="enviarMensagem('Social Media')">Social Media ;</button>
+            <button onclick="enviarMensagem('Métricas & BI')">Métricas & BI ;</button>
+            <button onclick="enviarMensagem('Comprar Templates')">Templates Prontos ;</button>
+        </div>
 
-            <div class="form-group">
-                <label>Nome da empresa / projeto</label>
-                <input type="text" id="form-empresa" placeholder="Ex: Minha Marca LTDA" required>
+        <div class="chat-input-container">
+            <div class="chat-icon-left">
+                <div class="ia-orb"></div>
             </div>
-
-            <div class="form-group">
-                <label>Orçamento estimado</label>
-                <select id="form-orcamento" required>
-                    <option value="" disabled selected>Selecione...</option>
-                    <option value="Até R$ 1.000">Até R$ 1.000</option>
-                    <option value="R$ 1.000 a R$ 3.000">R$ 1.000 a R$ 3.000</option>
-                    <option value="R$ 3.000 a R$ 8.000">R$ 3.000 a R$ 8.000</option>
-                    <option value="Acima de R$ 8.000">Acima de R$ 8.000</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Seu WhatsApp (com DDD)</label>
-                <input type="tel" id="form-telefone" placeholder="(11) 99999-9999" required>
-            </div>
-
-            <button type="submit" class="btn-popup">ENVIAR PARA WHATSAPP ;</button>
-        </form>
+            <input type="text" id="chat-input" placeholder="Digite uma mensagem ou escolha acima..." onkeypress="handleEnter(event)">
+            <button class="chat-send-btn" onclick="enviarInput()" aria-label="Enviar">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                    <path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"/>
+                </svg>
+            </button>
+        </div>
     </div>
-</div>
-<!-- ========== REDES SOCIAIS FLUTUANTES ========== -->
-<div class="social-float">
-    <a href="https://www.instagram.com/sant.social/" target="_blank" class="social-btn ig" title="Instagram SANT;">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
-            <path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/>
-        </svg>
-    </a>
-    <a href="https://wa.me/5511999999999" target="_blank" class="social-btn wa" title="WhatsApp SANT;" id="btn-whatsapp-float">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/>
-        </svg>
-    </a>
-</div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
