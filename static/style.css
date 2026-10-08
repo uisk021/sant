@@ -561,3 +561,231 @@ footer { padding: 50px 0; background: #0e0e0e; border-top: 1px solid var(--borde
     .card, .continuum-card { padding: 28px 20px !important; }
     .section-title-left, .section-title-center { font-size: 1.6rem !important; }
 }
+/* ============================================
+   NOVAS SEÇÕES DE CONVERSÃO & CRO
+   ============================================ */
+
+/* Pílulas da Hero */
+.hero-proof-pills {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 30px;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.hero-proof-pills span {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 6px 14px;
+    border-radius: 50px;
+    border: 1px solid var(--border-subtle);
+}
+
+/* Dobra 2: Erros do Mercado */
+.erros-section {
+    background: #111111;
+}
+
+.erro-card {
+    border-color: rgba(239, 68, 68, 0.2);
+    position: relative;
+}
+
+.erro-card:hover {
+    border-color: rgba(239, 68, 68, 0.5);
+}
+
+.erro-num {
+    font-family: var(--font-title);
+    font-size: 2rem;
+    color: rgba(239, 68, 68, 0.4);
+    margin-bottom: 10px;
+}
+
+/* Empilhamento de Valor (Stack) */
+.stack-title {
+    font-family: var(--font-title);
+    font-size: 1rem;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    color: var(--text-light);
+}
+
+.stack-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 25px;
+}
+
+.stack-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.02);
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1px solid var(--border-subtle);
+}
+
+.stack-check {
+    color: #34d399;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.stack-item strong {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.stack-item small {
+    display: block;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+}
+
+.stack-val {
+    margin-left: auto;
+    font-family: var(--font-title);
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
+.stack-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: rgba(227, 226, 226, 0.05);
+    border-radius: 10px;
+    border: 1px dashed var(--border-bright);
+}
+
+.stack-total span {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-muted);
+}
+
+.stack-total strong {
+    font-family: var(--font-title);
+    font-size: 1.2rem;
+    color: var(--text-light);
+}
+
+.scarcity-note {
+    margin-top: 15px;
+    font-size: 0.75rem;
+    color: #f87171;
+    background: rgba(239, 68, 68, 0.08);
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+/* Dobra 6: FAQ */
+.faq-section {
+    background: #111111;
+}
+
+.faq-container {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.faq-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.faq-question {
+    width: 100%;
+    padding: 20px 24px;
+    background: transparent;
+    border: none;
+    color: var(--text-light);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.2s;
+}
+
+.faq-question:hover {
+    background: var(--bg-card-hover);
+}
+
+.faq-icon {
+    font-family: var(--font-title);
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    transition: transform 0.3s;
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    padding: 0 24px;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.faq-item.active .faq-answer {
+    max-height: 200px;
+    padding: 0 24px 20px 24px;
+}
+
+.faq-item.active .faq-icon {
+    transform: rotate(45deg);
+    color: var(--text-light);
+}
+
+.faq-answer p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* CTA Final */
+.cta-final-section {
+    background: radial-gradient(circle at center, #222 0%, #161616 80%);
+    text-align: center;
+    padding: 100px 0;
+}
+
+.cta-title {
+    font-family: var(--font-title);
+    font-size: clamp(2rem, 4vw, 3rem);
+    margin-bottom: 15px;
+}
+
+.cta-desc {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 0 auto 35px;
+}
+
+.btn-lg {
+    padding: 18px 45px !important;
+    font-size: 0.9rem !important;
+}
+
+.text-center {
+    text-align: center;
+}
