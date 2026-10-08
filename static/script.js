@@ -231,3 +231,20 @@ function toggleMobileMenu() {
         slider.scrollLeft = touchScrollLeft - walk;
     }, { passive: true });
 })();
+// ============================================
+// ACORDEÃO DO FAQ (ABRIR E FECHAR PERGUNTAS)
+// ============================================
+function toggleFaq(button) {
+    const item = button.parentElement;
+    const isPrimary = item.classList.contains("active");
+
+    // Fecha todos os outros que estiverem abertos
+    document.querySelectorAll(".faq-item").forEach(el => {
+        el.classList.remove("active");
+    });
+
+    // Se o clicado não estava aberto, abre ele
+    if (!isPrimary) {
+        item.classList.add("active");
+    }
+}
