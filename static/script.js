@@ -1,14 +1,13 @@
 // ============================================
-// SANT; — LÓGICA DO CHATBOT, INTERAÇÕES & ZAP
+// SANT; — LÓGICA DO CHATBOT, AUDIO, DRAG & ZAP
 // ============================================
 
-// ⚠️ COLOQUE SEU NÚMERO AQUI (DDD + NÚMERO) - DECLARADO UMA ÚNICA VEZ!
-const SEU_WHATSAPP = "5521986010634";
+const SEU_WHATSAPP = "5521986010634"; // 👈 COLOQUE SEU DDD + NÚMERO AQUI
 
 let fluxoAtual = 0;
 let dadosLead = {};
 
-// ----- 1. ABRIR WHATSAPP DIRETO (BOTÃO INICIAR PROJETO) -----
+// ----- 1. ABRIR WHATSAPP DIRETO -----
 function abrirWhatsAppDirect() {
     const textoZap = encodeURIComponent("Olá SANT;! Gostaria de iniciar um novo projeto.");
     window.open(`https://wa.me/${SEU_WHATSAPP}?text=${textoZap}`, "_blank");
@@ -131,47 +130,47 @@ function comprar(produto) {
     window.open(`https://wa.me/${SEU_WHATSAPP}?text=${textoZap}`, '_blank');
 }
 
-// ----- 3. POPUP OPCIONAL -----
-function abrirPopupProjeto() {
-    const popup = document.getElementById("popup-projeto");
-    if (popup) {
-        popup.classList.add("active");
-        document.body.style.overflow = "hidden";
+// ----- 3. CONTROLE DA TRILHA SONORA AMBIENTE -----
+function toggleAudio() {
+    const bgMusic = document.getElementById("bg-music");
+    const audioBtn = document.getElementById("audio-toggle");
+    const audioIcon = document.getElementById("audio-icon");
+    const audioText = document.getElementById("audio-text");
+
+    if (!bgMusic) return;
+
+    bgMusic.volume = 0.25;
+
+    if (bgMusic.paused) {
+        bgMusic.play().then(() => {
+            if (audioBtn) audioBtn.classList.add("playing");
+            if (audioIcon) audioIcon.textContent = "🔊";
+            if (audioText) audioText.textContent = "SOUND ON";
+        }).catch((erro) => {
+            console.error("Erro áudio:", erro);
+        });
+    } else {
+        bgMusic.pause();
+        if (audioBtn) audioBtn.classList.remove("playing");
+        if (audioIcon) audioIcon.textContent = "🔇";
+        if (audioText) audioText.textContent = "SOUND OFF";
     }
 }
 
-function fecharPopupProjeto() {
-    const popup = document.getElementById("popup-projeto");
-    if (popup) {
-        popup.classList.remove("active");
-        document.body.style.overflow = "";
+// ----- 4. MENU MOBILE (DRAWER) -----
+function toggleMobileMenu() {
+    const drawer = document.getElementById("mobile-drawer");
+    if (drawer) {
+        drawer.classList.toggle("active");
+        if (drawer.classList.contains("active")) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "";
+        }
     }
 }
 
-document.getElementById("popup-projeto")?.addEventListener("click", function (e) {
-    if (e.target === this) fecharPopupProjeto();
-});
-
-function enviarFormularioProjeto(event) {
-    event.preventDefault();
-
-    const servico = document.getElementById("form-servico")?.value || "Não informado";
-    const empresa = document.getElementById("form-empresa")?.value.trim() || "Não informada";
-    const orcamento = document.getElementById("form-orcamento")?.value || "Não informado";
-    const telefone = document.getElementById("form-telefone")?.value.trim() || "";
-
-    const textoZap =
-        `Olá SANT;! Vim pelo formulário do site.%0A%0A` +
-        `*Empresa:* ${empresa}%0A` +
-        `*Serviço:* ${servico}%0A` +
-        `*Orçamento:* ${orcamento}%0A` +
-        `*WhatsApp:* ${telefone}`;
-
-    window.open(`https://wa.me/${SEU_WHATSAPP}?text=${textoZap}`, "_blank");
-    fecharPopupProjeto();
-}
-
-// ----- 4. DRAG HORIZONTAL NAS PÍLULAS DE ATALHO -----
+// ----- 5. DRAG HORIZONTAL NAS PÍLULAS DO CHATBOT -----
 (function () {
     const slider = document.getElementById("chat-suggestions");
     if (!slider) return;
@@ -232,52 +231,3 @@ function enviarFormularioProjeto(event) {
         slider.scrollLeft = touchScrollLeft - walk;
     }, { passive: true });
 })();
-// ============================================
-// CONTROLE DA TRILHA SONORA AMBIENTE
-// ============================================
-function toggleAudio() {
-    const bgMusic = document.getElementById("bg-music");
-    const audioBtn = document.getElementById("audio-toggle");
-    const audioIcon = document.getElementById("audio-icon");
-    const audioText = document.getElementById("audio-text");
-
-    if (!bgMusic) {
-        alert("Elemento de áudio não encontrado!");
-        return;
-    }
-
-    // Define o volume suave em 25%
-    bgMusic.volume = 0.25;
-
-    if (bgMusic.paused) {
-        bgMusic.play().then(() => {
-            if (audioBtn) audioBtn.classList.add("playing");
-            if (audioIcon) audioIcon.textContent = "🔊";
-            if (audioText) audioText.textContent = "SOUND ON";
-        }).catch((erro) => {
-            console.error("Erro ao tocar áudio:", erro);
-            alert("O navegador bloqueou o áudio ou o arquivo de som não foi encontrado!");
-        });
-    } else {
-        bgMusic.pause();
-        if (audioBtn) audioBtn.classList.remove("playing");
-        if (audioIcon) audioIcon.textContent = "🔇";
-        if (audioText) audioText.textContent = "SOUND OFF";
-    }
-}
-// ============================================
-// MENU DRAWER MOBILE (CELULAR)
-// ============================================
-function toggleMobileMenu() {
-    const drawer = document.getElementById("mobile-drawer");
-    if (drawer) {
-        drawer.classList.toggle("active");
-        
-        // Bloqueia a rolagem do fundo quando o menu está aberto
-        if (drawer.classList.contains("active")) {
-            document.body.style.overflow = "hidden";
-        } else {
-            document.body.style.overflow = "";
-        }
-    }
-}
