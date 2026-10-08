@@ -94,29 +94,61 @@
 <body>
 
     <!-- ========== NAVBAR ========== -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <!-- Logo oficial ;S -->
-            <a href="#home" class="logo-link" title="SANT;">
-                <img src="{{ url_for('static', filename='logo.png') }}" alt="SANT;" class="brand-logo-nav">
-            </a>
+    <nav class="navbar"><!-- ========== NAVBAR RESPONSIVA PARA CELULAR ========== -->
+<nav class="navbar">
+    <div class="nav-container">
+        <!-- Logo -->
+        <a href="#home" class="logo-link" title="SANT;">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="SANT;" class="brand-logo-nav">
+        </a>
 
-            <!-- Links do Menu -->
-            <ul class="nav-menu">
-                <li><a href="#metodologia">MÉTODO AGA;</a></li>
-                <li><a href="#continuum">SANT; CONTINUUM;</a></li>
-                <li><a href="#discord">DISCORD & BOTS</a></li>
-                <li><a href="#portfolio">PORTFÓLIO</a></li>
-                <li><a href="#produtos">TEMPLATES</a></li>
-            </ul>
+        <!-- Links Desktop -->
+        <ul class="nav-menu">
+            <li><a href="#metodologia">MÉTODO AGA;</a></li>
+            <li><a href="#continuum">SANT; CONTINUUM;</a></li>
+            <li><a href="#discord">DISCORD & BOTS</a></li>
+            <li><a href="#portfolio">PORTFÓLIO</a></li>
+            <li><a href="#produtos">TEMPLATES</a></li>
+        </ul>
 
-            <!-- Botão Ação -->
-            <a href="https://wa.me/5511999999999?text=Ol%C3%A1%20SANT%3B!%20Gostaria%20de%20iniciar%20um%20novo%20projeto." 
-               target="_blank" 
-               class="btn-nav">
-                INICIAR PROJETO ;
-            </a>
-        </div>
+        <!-- Botão Ação Desktop -->
+        <a href="https://wa.me/5511999999999?text=Ol%C3%A1%20SANT%3B!%20Gostaria%20de%20iniciar%20um%20novo%20projeto." 
+           target="_blank" 
+           class="btn-nav btn-nav-desktop">
+            INICIAR PROJETO ;
+        </a>
+
+        <!-- Botão Hambúrguer Celular -->
+        <button class="mobile-menu-btn" id="mobile-toggle" onclick="toggleMobileMenu()" aria-label="Abrir Menu">
+            <span class="hamburger-bar"></span>
+            <span class="hamburger-bar"></span>
+        </button>
+    </div>
+</nav>
+
+<!-- ========== DRAWER / MENU OVERLAY MOBILE ========== -->
+<div class="mobile-drawer" id="mobile-drawer">
+    <div class="drawer-header">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="SANT;" class="drawer-logo">
+        <button class="drawer-close" onclick="toggleMobileMenu()">✕</button>
+    </div>
+
+    <ul class="drawer-links">
+        <li><a href="#metodologia" onclick="toggleMobileMenu()">01. MÉTODO AGA;</a></li>
+        <li><a href="#continuum" onclick="toggleMobileMenu()">02. SANT; CONTINUUM;</a></li>
+        <li><a href="#discord" onclick="toggleMobileMenu()">03. DISCORD & BOTS</a></li>
+        <li><a href="#portfolio" onclick="toggleMobileMenu()">04. PORTFÓLIO</a></li>
+        <li><a href="#produtos" onclick="toggleMobileMenu()">05. TEMPLATES</a></li>
+    </ul>
+
+    <div class="drawer-footer">
+        <a href="https://wa.me/5511999999999?text=Ol%C3%A1%20SANT%3B!%20Gostaria%20de%20iniciar%20um%20novo%20projeto." 
+           target="_blank" 
+           class="btn btn-primary btn-drawer">
+            INICIAR PROJETO NO WHATSAPP ;
+        </a>
+    </div>
+</div>
     </nav>
 
 <!-- ========== HERO COM VÍDEO DE FUNDO ========== -->
