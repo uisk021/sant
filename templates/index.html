@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SANT; — Método AGA; & Ecossistemas Digitais</title>
+    <title>SANT; — Ecossistemas Digitais & Método AGA;</title>
     
     <!-- Fontes Oficiais -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,11 +22,11 @@
             </a>
 
             <ul class="nav-menu">
+                <li><a href="#erros">O PROBLEMA</a></li>
                 <li><a href="#metodologia">MÉTODO AGA;</a></li>
-                <li><a href="#continuum">SANT; CONTINUUM;</a></li>
-                <li><a href="#discord">DISCORD & BOTS</a></li>
+                <li><a href="#continuum">OFERTA CONTINUUM;</a></li>
                 <li><a href="#portfolio">PORTFÓLIO</a></li>
-                <li><a href="#produtos">TEMPLATES</a></li>
+                <li><a href="#faq">FAQ</a></li>
             </ul>
 
             <button class="btn-nav btn-nav-desktop" onclick="abrirWhatsAppDirect()">INICIAR PROJETO ;</button>
@@ -46,11 +46,11 @@
         </div>
 
         <ul class="drawer-links">
-            <li><a href="#metodologia" onclick="toggleMobileMenu()">01. MÉTODO AGA;</a></li>
-            <li><a href="#continuum" onclick="toggleMobileMenu()">02. SANT; CONTINUUM;</a></li>
-            <li><a href="#discord" onclick="toggleMobileMenu()">03. DISCORD & BOTS</a></li>
+            <li><a href="#erros" onclick="toggleMobileMenu()">01. O PROBLEMA</a></li>
+            <li><a href="#metodologia" onclick="toggleMobileMenu()">02. MÉTODO AGA;</a></li>
+            <li><a href="#continuum" onclick="toggleMobileMenu()">03. SANT; CONTINUUM;</a></li>
             <li><a href="#portfolio" onclick="toggleMobileMenu()">04. PORTFÓLIO</a></li>
-            <li><a href="#produtos" onclick="toggleMobileMenu()">05. TEMPLATES</a></li>
+            <li><a href="#faq" onclick="toggleMobileMenu()">05. FAQ</a></li>
         </ul>
 
         <div class="drawer-footer">
@@ -60,7 +60,7 @@
         </div>
     </div>
 
-    <!-- ========== HERO ========== -->
+    <!-- ========== DOBRA 1: HERO (IMPACTO & URGÊNCIA) ========== -->
     <section id="home" class="hero">
         <video class="hero-bg-video" autoplay loop muted playsinline>
             <source src="{{ url_for('static', filename='bg-hero.mp4') }}" type="video/mp4">
@@ -70,26 +70,62 @@
         <div class="hero-vignette"></div>
 
         <div class="container hero-content">
-            <div class="hero-tag">SANT; — MÉTODO AGA;</div>
+            <div class="hero-tag">SANT; — DIGITAL ECOSYSTEMS</div>
             <h1 class="hero-title">
-                NÃO VENDEMOS SITES.<br>
-                CONSTRUÍMOS SEU <span class="highlight">ECOSSISTEMA;</span>
+                ENQUANTO SEU SITE DORMIA,<br>
+                SEU CONCORRENTE <span class="highlight">FECHOU 3 VENDAS;</span>
             </h1>
             <p class="hero-subtitle">
-                Aceleração digital através da <strong>Arquitetura de Gestão Autônoma</strong>. 
-                Transformamos seguidores em clientes compradores operando 24/7 com Sites de Alta Conversão e Autobots de IA.
+                Reconstruímos sua presença digital com o <strong>Método AGA;</strong>: Sites de Alta Conversão integrados a Autobots de IA que atendem, qualificam e vendem no seu WhatsApp 24/7.
             </p>
+
             <div class="hero-actions">
-                <a href="#metodologia" class="btn btn-primary">VER MÉTODO AGA;</a>
+                <button onclick="abrirWhatsAppDirect()" class="btn btn-primary">
+                    CONSTRUIR MEU ECOSSISTEMA ;
+                </button>
+            </div>
+
+            <div class="hero-proof-pills">
+                <span>⚡ Atendimento em 4 segundos</span>
+                <span>🔒 100% Autônomo</span>
+                <span>📈 Foco em ROI Real</span>
             </div>
         </div>
     </section>
 
-    <!-- ========== TIMELINE HORIZONTAL (MÉTODO AGA;) ========== -->
+    <!-- ========== DOBRA 2: O INIMIGO COMUM (OS 3 ERROS DO MERCADO) ========== -->
+    <section id="erros" class="section erros-section">
+        <div class="container">
+            <h2 class="section-title-left">POR QUE SEU MARKETING ATUAL NÃO FUNCIONA;</h2>
+            <p class="section-subtitle-left">A maioria das empresas comete estes 3 erros fatais e rasga dinheiro no digital todos os dias.</p>
+
+            <div class="grid-3">
+                <div class="card erro-card">
+                    <div class="erro-num">01</div>
+                    <h3>O Site Panfleteiro;</h3>
+                    <p>Um site institucional bonito que ninguém visita, não captura contatos e não gera 1 real de faturamento no final do mês.</p>
+                </div>
+
+                <div class="card erro-card">
+                    <div class="erro-num">02</div>
+                    <h3>Mídia Social Escrava;</h3>
+                    <p>Produzir posts e Reels sem constância para ganhar curtidas de quem nunca vai comprar o seu produto ou serviço.</p>
+                </div>
+
+                <div class="card erro-card">
+                    <div class="erro-num">03</div>
+                    <h3>Atendimento Lento;</h3>
+                    <p>Perder clientes quentes à noite, no almoço ou no final de semana porque ninguém respondeu no WhatsApp em menos de 5 minutos.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== DOBRA 3: TIMELINE HORIZONTAL (MÉTODO AGA;) ========== -->
     <section id="metodologia" class="section timeline-section">
         <div class="container">
-            <h2 class="section-title-left">MÉTODO AGA;</h2>
-            <p class="section-subtitle-left">Arquitetura, Gestão e Autonomia. O passo a passo exato para transformar sua empresa em uma máquina de vendas no digital.</p>
+            <h2 class="section-title-left">A SOLUÇÃO: MÉTODO AGA;</h2>
+            <p class="section-subtitle-left">Arquitetura, Gestão e Autonomia. A jornada exata para transformar sua empresa em uma operação autônoma de vendas.</p>
         </div>
 
         <div class="timeline-wrapper">
@@ -98,69 +134,113 @@
                     <div class="timeline-dot"></div>
                     <span class="step-number">01</span>
                     <h3>Brand & Rebrand;</h3>
-                    <p><strong>[ARQUITETURA]</strong> Redefinição de posicionamento. Criação de identidade visual marcante, manual de marca e design estratégico para você se destacar da concorrência no primeiro olhar.</p>
+                    <p><strong>[ARQUITETURA]</strong> Redefinição de posicionamento. Criação de identidade visual marcante, manual de marca e design estratégico para transmitir autoridade imediata.</p>
                 </div>
                 
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="step-number">02</span>
                     <h3>Growth & Ads;</h3>
-                    <p><strong>[GESTÃO]</strong> Aquisição de leads acelerada. Gestão de tráfego pago (Meta & Google Ads) focada em diminuir seu Custo Por Lead e trazer clientes qualificados todos os dias.</p>
+                    <p><strong>[GESTÃO]</strong> Tráfego pago focado em ROI (Meta & Google Ads). Atraímos pessoas qualificadas diminuindo o seu Custo Por Lead (CPL).</p>
                 </div>
                 
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="step-number">03</span>
                     <h3>Social Media;</h3>
-                    <p><strong>[GESTÃO]</strong> Conteúdo que gera autoridade. Planejamento editorial, design de postagens e retenção de comunidade para aquecer seu público antes da venda.</p>
+                    <p><strong>[GESTÃO]</strong> Conteúdo de alta retenção. Estratégia editorial e design de autoridade para aquecer seu público antes da venda.</p>
                 </div>
                 
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="step-number">04</span>
                     <h3>Métricas & BI;</h3>
-                    <p><strong>[GESTÃO]</strong> Decisões baseadas em dados. Dashboards em tempo real para monitorar vendas, origens de tráfego e o ROI de cada centavo investido no seu negócio.</p>
+                    <p><strong>[GESTÃO]</strong> Dashboards em tempo real para monitorar vendas, origens de tráfego e o retorno exato de cada centavo investido.</p>
                 </div>
 
                 <div class="timeline-item destaque">
                     <div class="timeline-dot"></div>
                     <span class="step-number">05</span>
                     <h3>Web + Autobot;</h3>
-                    <p><strong>[AUTONOMIA]</strong> O coração do ecossistema. Desenvolvemos seu site ultra-rápido integrado a um Autobot de IA que atende, qualifica e envia o lead quente direto para o seu WhatsApp 24/7.</p>
+                    <p><strong>[AUTONOMIA]</strong> O coração do ecossistema. Site ultra-rápido integrado a um Autobot de IA que atende, qualifica e entrega o lead pronto no seu WhatsApp 24/7.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ========== DESTAQUE EXCLUSIVO: SANT; CONTINUUM; ========== -->
+    <!-- ========== DOBRA 4: A OFERTA IRRESISTÍVEL (EMPILHAMENTO + CONTINUUM;) ========== -->
     <section id="continuum" class="section continuum-section">
         <div class="container">
             <div class="continuum-card">
                 <div class="continuum-badge">PROGRAMA DE PARCERIA & ACELERAÇÃO</div>
-                <h2 class="continuum-title">SANT; CONTINUUM;</h2>
-                <p class="continuum-subtitle">Seu ecossistema blindado, gerenciado e em constante evolução por 12 meses.</p>
+                <h2 class="continuum-title">SANT; CONTINUUM<span class="semicolon">;</span></h2>
+                <p class="continuum-subtitle">Sua empresa com uma diretoria técnica terceirizada por 12 meses.</p>
 
                 <div class="continuum-grid">
+                    <!-- Empilhamento de Valor (Offer Stack) -->
                     <div class="continuum-info">
-                        <p class="continuum-text">
-                            Não entregamos um site para ele ficar desatualizado depois de 3 meses. 
-                            Com o <strong>SANT; CONTINUUM;</strong>, sua empresa ganha uma diretoria técnica terceirizada que cuida da sua tecnologia, do seu tráfego e da sua IA o ano todo.
-                        </p>
+                        <h3 class="stack-title">O QUE VOCÊ RECEBE NO ECOSSISTEMA:</h3>
+                        
+                        <div class="stack-list">
+                            <div class="stack-item">
+                                <span class="stack-check">✓</span>
+                                <div>
+                                    <strong>Site Ultra-Rápido AEO-Native</strong>
+                                    <small>Desenvolvido em código puro preparado para conversão e IA.</small>
+                                </div>
+                                <span class="stack-val">R$ 3.000</span>
+                            </div>
 
-                        <ul class="continuum-benefits">
-                            <li><span class="check">✓</span> <strong>20% OFF no valor do ecossistema</strong> em relação ao contrato avulso.</li>
-                            <li><span class="check">✓</span> <strong>Entrada Facilitada de Ativação</strong> (1ª Parcela + 10%) e o restante em 11x mensais.</li>
-                            <li><span class="check">✓</span> <strong>Seguro de Evolução Digital:</strong> Alterações, atualizações e ajustes no Autobot inclusos.</li>
-                            <li><span class="check">✓</span> <strong>Garantia de Uptime 99.9%:</strong> Infraestrutura gerenciada 24/7 sem quedas.</li>
-                            <li><span class="check">✓</span> <strong>Reunião Mensal de BI & Vendas:</strong> Análise periódica de tráfego e conversoes.</li>
-                        </ul>
+                            <div class="stack-item">
+                                <span class="stack-check">✓</span>
+                                <div>
+                                    <strong>Autobot de IA 24/7 para WhatsApp</strong>
+                                    <small>Atendimento, triagem e qualificação de clientes em tempo real.</small>
+                                </div>
+                                <span class="stack-val">R$ 1.500</span>
+                            </div>
+
+                            <div class="stack-item">
+                                <span class="stack-check">✓</span>
+                                <div>
+                                    <strong>Dashboard de Métricas & BI</strong>
+                                    <small>Painel interativo para acompanhar leads e conversoes.</small>
+                                </div>
+                                <span class="stack-val">R$ 800</span>
+                            </div>
+
+                            <div class="stack-item">
+                                <span class="stack-check">✓</span>
+                                <div>
+                                    <strong>Seguro de Evolução Digital (12 Meses)</strong>
+                                    <small>Alterações, atualizações e suporte contra quedas o ano todo.</small>
+                                </div>
+                                <span class="stack-val">R$ 1.800</span>
+                            </div>
+
+                            <div class="stack-item">
+                                <span class="stack-check">✓</span>
+                                <div>
+                                    <strong>Reuniões Mensais de Estratégia & BI</strong>
+                                    <small>12 encontros no ano para analisar e otimizar suas vendas.</small>
+                                </div>
+                                <span class="stack-val">R$ 2.200</span>
+                            </div>
+                        </div>
+
+                        <div class="stack-total">
+                            <span>VALOR TOTAL ENTREGUE:</span>
+                            <strong>R$ 9.300,00</strong>
+                        </div>
                     </div>
 
+                    <!-- Caixa de Fechamento -->
                     <div class="continuum-pricing-box">
-                        <span class="box-tag">CONDIÇÃO EXCLUSIVA</span>
+                        <span class="box-tag">CONDIÇÃO EXCLUSIVA SANT;</span>
                         <div class="discount-badge">20% OFF</div>
+                        
                         <div class="pricing-display">
-                            <span class="price-from">De R$ 3.000,00 avulso por:</span>
+                            <span class="price-from">Valor Avulso: R$ 3.000,00</span>
                             <div class="price-main">
                                 <span class="price-currency">R$</span>
                                 <span class="price-val">220</span>
@@ -173,110 +253,31 @@
                         <button onclick="abrirWhatsAppDirect()" class="btn btn-primary btn-continuum">
                             ATIVAR SANT; CONTINUUM;
                         </button>
-                        <p class="pricing-note">*Condição válida mediante contrato de fidelidade de 12 meses.</p>
+                        
+                        <div class="scarcity-note">
+                            ⚡ <strong>Atenção:</strong> Aceitamos apenas 4 novos ecossistemas por mês para garantir o padrão de atendimento.
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ========== CLIENTES / MARCAS NA ESTRADA ========== -->
-    <section id="clientes" class="section clientes-section">
-        <div class="container">
-            <h2 class="section-title-center">MARCAS NA ESTRADA;</h2>
-            <p class="section-subtitle-center">Empresas e projetos que já aceleraram com a SANT;.</p>
-
-            <div class="clientes-track-wrapper">
-                <div class="clientes-track" id="clientes-track">
-                    <div class="cliente-logo">
-                        <img src="{{ url_for('static', filename='clientes/cliente1.png') }}" alt="Cliente 1" onerror="this.parentElement.style.display='none'">
-                    </div>
-                    <div class="cliente-logo">
-                        <img src="{{ url_for('static', filename='clientes/cliente2.png') }}" alt="Cliente 2" onerror="this.parentElement.style.display='none'">
-                    </div>
-                    <div class="cliente-logo">
-                        <img src="{{ url_for('static', filename='clientes/cliente3.png') }}" alt="Cliente 3" onerror="this.parentElement.style.display='none'">
-                    </div>
-                    <div class="cliente-logo">
-                        <img src="{{ url_for('static', filename='clientes/cliente4.png') }}" alt="Cliente 4" onerror="this.parentElement.style.display='none'">
-                    </div>
-                    <div class="cliente-logo">
-                        <img src="{{ url_for('static', filename='clientes/cliente5.png') }}" alt="Cliente 5" onerror="this.parentElement.style.display='none'">
-                    </div>
-
-                    <!-- Duplicados para Loop Infinito -->
-                    <div class="cliente-logo">
-                        <img src="{{ url_for('static', filename='clientes/cliente1.png') }}" alt="Cliente 1" onerror="this.parentElement.style.display='none'">
-                    </div>
-                    <div class="cliente-logo">
-                        <img src="{{ url_for('static', filename='clientes/cliente2.png') }}" alt="Cliente 2" onerror="this.parentElement.style.display='none'">
-                    </div>
-                    <div class="cliente-logo">
-                        <img src="{{ url_for('static', filename='clientes/cliente3.png') }}" alt="Cliente 3" onerror="this.parentElement.style.display='none'">
-                    </div>
-                    <div class="cliente-logo">
-                        <img src="{{ url_for('static', filename='clientes/cliente4.png') }}" alt="Cliente 4" onerror="this.parentElement.style.display='none'">
-                    </div>
-                    <div class="cliente-logo">
-                        <img src="{{ url_for('static', filename='clientes/cliente5.png') }}" alt="Cliente 5" onerror="this.parentElement.style.display='none'">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ========== SERVIÇOS PARA DISCORD ========== -->
-    <section id="discord" class="section discord-section">
-        <div class="container">
-            <h2 class="section-title-left">COMUNIDADES & DISCORD;</h2>
-            <p class="section-subtitle-left">Soluções completas para engajar, moderar e monetizar seu servidor.</p>
-            
-            <div class="grid-4">
-                <div class="card">
-                    <h3>BOTS PERSONALIZADOS;</h3>
-                    <p>Automação em Python sob medida. Sistemas de tickets, moderação avançada e comandos de utilidades.</p>
-                    <span class="card-price">A partir de R$ 150</span>
-                    <div class="card-actions">
-                        <button class="btn-card-discord" onclick="comprar('Bot Discord Personalizado')">CONTRATAR ;</button>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h3>ECONOMIA & JOGOS;</h3>
-                    <p>Daily, carteiras, transferências, minigames, cassino e ranking completo de membros.</p>
-                    <span class="card-price">A partir de R$ 200</span>
-                    <div class="card-actions">
-                        <button class="btn-card-discord" onclick="comprar('Bot de Economia Discord')">CONTRATAR ;</button>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h3>SISTEMA DE LOJA PIX;</h3>
-                    <p>Venda cargos VIP e itens no Discord com entrega e aprovação automática via Pix (Mercado Pago).</p>
-                    <span class="card-price">A partir de R$ 350</span>
-                    <div class="card-actions">
-                        <button class="btn-card-discord" onclick="comprar('Sistema de Loja Pix Discord')">CONTRATAR ;</button>
-                    </div>
-                </div>
-
-                <div class="card card-highlight">
-                    <div class="card-tag-badge">MAIS COMPLETO</div>
-                    <h3>BOT + PORTAL WEB;</h3>
-                    <p>Assim como o nosso famoso <strong>Patinho Bot</strong>: bot em Python integrado a um portal web completo com ranking, rádio e logs.</p>
-                    <span class="card-price">A partir de R$ 450</span>
-                    <div class="card-actions">
-                        <button class="btn-card-discord" onclick="comprar('Bot + Portal Web Integrado')">CONTRATAR ;</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ========== PORTFÓLIO AUTOMÁTICO ========== -->
+    <!-- ========== DOBRA 5: CLIENTES & PORTFÓLIO ========== -->
     <section id="portfolio" class="section">
         <div class="container">
-            <h2 class="section-title-left">PORTFÓLIO;</h2>
-            <p class="section-subtitle-left">Uma amostra dos ecossistemas e bots que já construímos.</p>
+            <h2 class="section-title-left">MARCAS & PORTFÓLIO;</h2>
+            <p class="section-subtitle-left">Uma amostra dos ecossistemas e marcas construídas pela SANT;.</p>
+
+            <div class="clientes-track-wrapper" style="margin-bottom: 50px;">
+                <div class="clientes-track">
+                    <div class="cliente-logo"><img src="{{ url_for('static', filename='clientes/cliente1.png') }}" alt="" onerror="this.parentElement.style.display='none'"></div>
+                    <div class="cliente-logo"><img src="{{ url_for('static', filename='clientes/cliente2.png') }}" alt="" onerror="this.parentElement.style.display='none'"></div>
+                    <div class="cliente-logo"><img src="{{ url_for('static', filename='clientes/cliente3.png') }}" alt="" onerror="this.parentElement.style.display='none'"></div>
+                    <div class="cliente-logo"><img src="{{ url_for('static', filename='clientes/cliente4.png') }}" alt="" onerror="this.parentElement.style.display='none'"></div>
+                    <div class="cliente-logo"><img src="{{ url_for('static', filename='clientes/cliente5.png') }}" alt="" onerror="this.parentElement.style.display='none'"></div>
+                </div>
+            </div>
 
             <div class="portfolio-grid">
                 {% if portfolio_images %}
@@ -286,41 +287,70 @@
                         </div>
                     {% endfor %}
                 {% else %}
-                    <p style="color: #888;">Nenhuma imagem encontrada na pasta static/portfolio.</p>
+                    <p style="color: #888;">Imagens do portfólio carregadas via pasta static/portfolio.</p>
                 {% endif %}
             </div>
         </div>
     </section>
 
-    <!-- ========== TEMPLATES & PRODUTOS ========== -->
-    <section id="produtos" class="section">
+    <!-- ========== DOBRA 6: FAQ (MATADOR DE OBJEÇÕES) ========== -->
+    <section id="faq" class="section faq-section">
         <div class="container">
-            <h2 class="section-title-left">LOJA DE TEMPLATES;</h2>
-            <p class="section-subtitle-left">Código limpo e soluções prontas para você implementar hoje mesmo.</p>
+            <h2 class="section-title-left">PERGUNTAS FREQUENTES;</h2>
+            <p class="section-subtitle-left">Tudo o que você precisa saber antes de iniciar seu projeto.</p>
 
-            <div class="grid-3">
-                <div class="card">
-                    <div class="card-tag">LANDING PAGE</div>
-                    <h3>TEMPLATE CLEAN;</h3>
-                    <p>HTML/CSS/JS focado em conversão. Responsivo, rápido e fácil de customizar para qualquer nicho.</p>
-                    <span class="card-price">R$ 89,00</span>
-                    <button class="btn-card" onclick="comprar('Template Clean')">COMPRAR AGORA ;</button>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Preciso ter conhecimento técnico para gerenciar o site ou Autobot?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p><strong>Não.</strong> A SANT; cuida de 100% da infraestrutura técnica, servidores e código. Você só precisa receber os leads qualificados prontos no seu WhatsApp.</p>
+                    </div>
                 </div>
-                <div class="card">
-                    <div class="card-tag">DISCORD.PY</div>
-                    <h3>BOT DE ECONOMIA;</h3>
-                    <p>Código fonte com comandos de daily, transferências, trabalhos e ranking integrado (SQLite).</p>
-                    <span class="card-price">R$ 120,00</span>
-                    <button class="btn-card" onclick="comprar('Bot Economia')">COMPRAR AGORA ;</button>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Como o Autobot de IA funciona no meu WhatsApp?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Quando o cliente acessa o seu site, o Autobot faz o atendimento inicial, identifica a dor dele, filtra o orçamento disponível e gera um link formatado enviando a conversa pronta para o WhatsApp da sua equipe.</p>
+                    </div>
                 </div>
-                <div class="card">
-                    <div class="card-tag">AUTOMAÇÃO</div>
-                    <h3>SCRIPT AUTOBOT;</h3>
-                    <p>Código base do nosso chatbot de qualificação de leads com redirecionamento para WhatsApp.</p>
-                    <span class="card-price">R$ 150,00</span>
-                    <button class="btn-card" onclick="comprar('Script Autobot')">COMPRAR AGORA ;</button>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Qual a vantagem do SANT; CONTINUUM; comparado ao projeto avulso?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>No avulso, você recebe o site e fica sozinho. No <strong>SANT; CONTINUUM;</strong>, você ganha 20% de desconto no setup, entrada facilitada e 12 meses de suporte, atualizações ilimitadas e reuniões mensais de vendas.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Qual é o prazo de entrega do ecossistema?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>O tempo médio de desenvolvimento e integração do site + Autobot de IA é de <strong>7 a 15 dias úteis</strong> após o envio das informações da sua empresa.</p>
+                    </div>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- ========== CTA FINAL (FECHAMENTO) ========== -->
+    <section class="section cta-final-section">
+        <div class="container text-center">
+            <h2 class="cta-title">PRONTO PARA CONSTRUIR SEU ECOSSISTEMA;</h2>
+            <p class="cta-desc">Fale agora com o nosso atendimento e qualifique o seu projeto em menos de 2 minutos.</p>
+            <button onclick="abrirWhatsAppDirect()" class="btn btn-primary btn-lg">
+                INICIAR PROJETO NO WHATSAPP ;
+            </button>
         </div>
     </section>
 
@@ -335,7 +365,7 @@
         </div>
     </footer>
 
-    <!-- ========== REDES SOCIAIS FLUTUANTES (P&B) ========== -->
+    <!-- ========== REDES SOCIAIS FLUTUANTES ========== -->
     <div class="social-float">
         <a href="https://www.instagram.com/sant.social/" target="_blank" class="social-btn ig" title="Instagram SANT;">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
@@ -362,7 +392,7 @@
         </div>
     </button>
 
-    <!-- ========== CHATBOT FIXO (ESTILO PILL) ========== -->
+    <!-- ========== CHATBOT FIXO ========== -->
     <div class="chatbot-wrapper" id="chatbot-wrapper">
         <div class="chat-history" id="chat-history">
             <div class="chat-header">
@@ -393,12 +423,10 @@
 
         <div class="chat-suggestions" id="chat-suggestions">
             <button onclick="enviarMensagem('Quero um Site + Autobot')">Quero um Site + Autobot ;</button>
-            <button onclick="enviarMensagem('Serviços para Discord')">Serviços para Discord ;</button>
             <button onclick="enviarMensagem('Brand & Rebrand')">Brand & Rebrand ;</button>
             <button onclick="enviarMensagem('Growth & Ads')">Growth & Ads ;</button>
             <button onclick="enviarMensagem('Social Media')">Social Media ;</button>
             <button onclick="enviarMensagem('Métricas & BI')">Métricas & BI ;</button>
-            <button onclick="enviarMensagem('Comprar Templates')">Templates Prontos ;</button>
         </div>
 
         <div class="chat-input-container">
