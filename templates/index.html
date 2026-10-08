@@ -11,174 +11,81 @@
     <link href="https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <!-- ESTILO DO BOTÃO DE ÁUDIO DIRETO NO HTML -->
-<style>
-.audio-toggle-btn {
-    position: fixed;
-    top: 90px;
-    right: 24px;
-    z-index: 990;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(26, 26, 26, 0.85);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(227, 226, 226, 0.2);
-    border-radius: 50px;
-    padding: 8px 16px;
-    color: #E3E2E2;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    opacity: 0.5;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-}
-
-.audio-toggle-btn:hover {
-    opacity: 1;
-    border-color: #E3E2E2;
-    transform: translateY(-2px);
-}
-
-.audio-toggle-btn.playing {
-    opacity: 1;
-    border-color: #E3E2E2;
-    background: #1f1f1f;
-}
-
-.sound-bars {
-    display: flex;
-    align-items: flex-end;
-    gap: 2px;
-    height: 12px;
-}
-
-.sound-bars span {
-    width: 2px;
-    height: 3px;
-    background: #E3E2E2;
-    border-radius: 1px;
-    transition: height 0.2s;
-}
-
-.audio-toggle-btn.playing .sound-bars span:nth-child(1) {
-    animation: barPulse 0.8s ease-in-out infinite alternate;
-}
-.audio-toggle-btn.playing .sound-bars span:nth-child(2) {
-    animation: barPulse 0.8s ease-in-out infinite alternate 0.2s;
-}
-.audio-toggle-btn.playing .sound-bars span:nth-child(3) {
-    animation: barPulse 0.8s ease-in-out infinite alternate 0.4s;
-}
-
-@keyframes barPulse {
-    0% { height: 3px; }
-    100% { height: 12px; }
-}
-
-@media (max-width: 768px) {
-    .audio-toggle-btn {
-        top: auto;
-        bottom: 80px;
-        right: 16px;
-        padding: 6px 12px;
-    }
-    .audio-text { display: none; }
-}
-</style>
 </head>
 <body>
 
     <!-- ========== NAVBAR ========== -->
-    <nav class="navbar"><!-- ========== NAVBAR RESPONSIVA PARA CELULAR ========== -->
-<nav class="navbar">
-    <div class="nav-container">
-        <!-- Logo -->
-        <a href="#home" class="logo-link" title="SANT;">
-            <img src="{{ url_for('static', filename='logo.png') }}" alt="SANT;" class="brand-logo-nav">
-        </a>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#home" class="logo-link" title="SANT;">
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="SANT;" class="brand-logo-nav">
+            </a>
 
-        <!-- Links Desktop -->
-        <ul class="nav-menu">
-            <li><a href="#metodologia">MÉTODO AGA;</a></li>
-            <li><a href="#continuum">SANT; CONTINUUM;</a></li>
-            <li><a href="#discord">DISCORD & BOTS</a></li>
-            <li><a href="#portfolio">PORTFÓLIO</a></li>
-            <li><a href="#produtos">TEMPLATES</a></li>
-        </ul>
+            <ul class="nav-menu">
+                <li><a href="#metodologia">MÉTODO AGA;</a></li>
+                <li><a href="#continuum">SANT; CONTINUUM;</a></li>
+                <li><a href="#discord">DISCORD & BOTS</a></li>
+                <li><a href="#portfolio">PORTFÓLIO</a></li>
+                <li><a href="#produtos">TEMPLATES</a></li>
+            </ul>
 
-        <!-- Botão Ação Desktop -->
-        <a href="https://wa.me/5511999999999?text=Ol%C3%A1%20SANT%3B!%20Gostaria%20de%20iniciar%20um%20novo%20projeto." 
-           target="_blank" 
-           class="btn-nav btn-nav-desktop">
-            INICIAR PROJETO ;
-        </a>
+            <button class="btn-nav btn-nav-desktop" onclick="abrirWhatsAppDirect()">INICIAR PROJETO ;</button>
 
-        <!-- Botão Hambúrguer Celular -->
-        <button class="mobile-menu-btn" id="mobile-toggle" onclick="toggleMobileMenu()" aria-label="Abrir Menu">
-            <span class="hamburger-bar"></span>
-            <span class="hamburger-bar"></span>
-        </button>
-    </div>
-</nav>
-
-<!-- ========== DRAWER / MENU OVERLAY MOBILE ========== -->
-<div class="mobile-drawer" id="mobile-drawer">
-    <div class="drawer-header">
-        <img src="{{ url_for('static', filename='logo.png') }}" alt="SANT;" class="drawer-logo">
-        <button class="drawer-close" onclick="toggleMobileMenu()">✕</button>
-    </div>
-
-    <ul class="drawer-links">
-        <li><a href="#metodologia" onclick="toggleMobileMenu()">01. MÉTODO AGA;</a></li>
-        <li><a href="#continuum" onclick="toggleMobileMenu()">02. SANT; CONTINUUM;</a></li>
-        <li><a href="#discord" onclick="toggleMobileMenu()">03. DISCORD & BOTS</a></li>
-        <li><a href="#portfolio" onclick="toggleMobileMenu()">04. PORTFÓLIO</a></li>
-        <li><a href="#produtos" onclick="toggleMobileMenu()">05. TEMPLATES</a></li>
-    </ul>
-
-    <div class="drawer-footer">
-        <a href="https://wa.me/5511999999999?text=Ol%C3%A1%20SANT%3B!%20Gostaria%20de%20iniciar%20um%20novo%20projeto." 
-           target="_blank" 
-           class="btn btn-primary btn-drawer">
-            INICIAR PROJETO NO WHATSAPP ;
-        </a>
-    </div>
-</div>
+            <button class="mobile-menu-btn" id="mobile-toggle" onclick="toggleMobileMenu()" aria-label="Abrir Menu">
+                <span class="hamburger-bar"></span>
+                <span class="hamburger-bar"></span>
+            </button>
+        </div>
     </nav>
 
-<!-- ========== HERO COM VÍDEO DE FUNDO ========== -->
-<section id="home" class="hero">
-    <!-- Vídeo de Fundo em Loop -->
-    <video class="hero-bg-video" autoplay loop muted playsinline>
-        <source src="{{ url_for('static', filename='bg-hero.mp4') }}" type="video/mp4">
-    </video>
+    <!-- ========== DRAWER MENU MOBILE ========== -->
+    <div class="mobile-drawer" id="mobile-drawer">
+        <div class="drawer-header">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="SANT;" class="drawer-logo">
+            <button class="drawer-close" onclick="toggleMobileMenu()">✕</button>
+        </div>
 
-    <!-- Efeitos Visuais por Cima do Vídeo -->
-    <div class="hero-bg-glow"></div>
-    <div class="hero-vignette"></div>
+        <ul class="drawer-links">
+            <li><a href="#metodologia" onclick="toggleMobileMenu()">01. MÉTODO AGA;</a></li>
+            <li><a href="#continuum" onclick="toggleMobileMenu()">02. SANT; CONTINUUM;</a></li>
+            <li><a href="#discord" onclick="toggleMobileMenu()">03. DISCORD & BOTS</a></li>
+            <li><a href="#portfolio" onclick="toggleMobileMenu()">04. PORTFÓLIO</a></li>
+            <li><a href="#produtos" onclick="toggleMobileMenu()">05. TEMPLATES</a></li>
+        </ul>
 
-    <div class="container hero-content">
-        <div class="hero-tag">SANT; — MÉTODO AGA;</div>
-        <h1 class="hero-title">
-            NÃO VENDEMOS SITES.<br>
-            CONSTRUÍMOS SEU <span class="highlight">ECOSSISTEMA;</span>
-        </h1>
-        <p class="hero-subtitle">
-            Aceleração digital através da <strong>Arquitetura de Gestão Autônoma</strong>. 
-            Transformamos seguidores em clientes compradores operando 24/7 com Sites de Alta Conversão e Autobots de IA.
-        </p>
-        <div class="hero-actions">
-            <a href="#metodologia" class="btn btn-primary">VER MÉTODO AGA;</a>
+        <div class="drawer-footer">
+            <button class="btn btn-primary btn-drawer" onclick="abrirWhatsAppDirect(); toggleMobileMenu();">
+                INICIAR PROJETO NO WHATSAPP ;
+            </button>
         </div>
     </div>
-</section>
 
-    <!-- ========== TIMELINE HORIZONTAL (MÉTODO AGA; - PURA AUTORIDADE) ========== -->
+    <!-- ========== HERO ========== -->
+    <section id="home" class="hero">
+        <video class="hero-bg-video" autoplay loop muted playsinline>
+            <source src="{{ url_for('static', filename='bg-hero.mp4') }}" type="video/mp4">
+        </video>
+
+        <div class="hero-bg-glow"></div>
+        <div class="hero-vignette"></div>
+
+        <div class="container hero-content">
+            <div class="hero-tag">SANT; — MÉTODO AGA;</div>
+            <h1 class="hero-title">
+                NÃO VENDEMOS SITES.<br>
+                CONSTRUÍMOS SEU <span class="highlight">ECOSSISTEMA;</span>
+            </h1>
+            <p class="hero-subtitle">
+                Aceleração digital através da <strong>Arquitetura de Gestão Autônoma</strong>. 
+                Transformamos seguidores em clientes compradores operando 24/7 com Sites de Alta Conversão e Autobots de IA.
+            </p>
+            <div class="hero-actions">
+                <a href="#metodologia" class="btn btn-primary">VER MÉTODO AGA;</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== TIMELINE HORIZONTAL (MÉTODO AGA;) ========== -->
     <section id="metodologia" class="section timeline-section">
         <div class="container">
             <h2 class="section-title-left">MÉTODO AGA;</h2>
@@ -187,7 +94,6 @@
 
         <div class="timeline-wrapper">
             <div class="timeline-track">
-                <!-- Etapa 1 -->
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="step-number">01</span>
@@ -195,7 +101,6 @@
                     <p><strong>[ARQUITETURA]</strong> Redefinição de posicionamento. Criação de identidade visual marcante, manual de marca e design estratégico para você se destacar da concorrência no primeiro olhar.</p>
                 </div>
                 
-                <!-- Etapa 2 -->
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="step-number">02</span>
@@ -203,15 +108,13 @@
                     <p><strong>[GESTÃO]</strong> Aquisição de leads acelerada. Gestão de tráfego pago (Meta & Google Ads) focada em diminuir seu Custo Por Lead e trazer clientes qualificados todos os dias.</p>
                 </div>
                 
-                <!-- Etapa 3 -->
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="step-number">03</span>
                     <h3>Social Media;</h3>
-                    <p><strong>[GESTÃO]</strong> Conteúdo que gera autoridade. Planejamento editorial, design de postagens e retenção de  para aquecer seu público antes da venda.</p>
+                    <p><strong>[GESTÃO]</strong> Conteúdo que gera autoridade. Planejamento editorial, design de postagens e retenção de comunidade para aquecer seu público antes da venda.</p>
                 </div>
                 
-                <!-- Etapa 4 -->
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <span class="step-number">04</span>
@@ -219,7 +122,6 @@
                     <p><strong>[GESTÃO]</strong> Decisões baseadas em dados. Dashboards em tempo real para monitorar vendas, origens de tráfego e o ROI de cada centavo investido no seu negócio.</p>
                 </div>
 
-                <!-- Etapa 5 -->
                 <div class="timeline-item destaque">
                     <div class="timeline-dot"></div>
                     <span class="step-number">05</span>
@@ -235,7 +137,7 @@
         <div class="container">
             <div class="continuum-card">
                 <div class="continuum-badge">PROGRAMA DE PARCERIA & ACELERAÇÃO</div>
-                <h2 class="continuum-title">SANT; CONTINUUM<span class="semicolon">;</span></h2>
+                <h2 class="continuum-title">SANT; CONTINUUM;</h2>
                 <p class="continuum-subtitle">Seu ecossistema blindado, gerenciado e em constante evolução por 12 meses.</p>
 
                 <div class="continuum-grid">
@@ -268,11 +170,9 @@
                             <span class="price-sub">+ 11 parcelas de <strong>R$ 200,00/mês</strong></span>
                         </div>
 
-                        <a href="https://wa.me/5511999999999?text=Ol%C3%A1%20SANT%3B!%20Gostaria%20de%20saber%20mais%20sobre%20o%20SANT%3B%20CONTINUUM%3B." 
-                           target="_blank" 
-                           class="btn btn-primary btn-continuum">
+                        <button onclick="abrirWhatsAppDirect()" class="btn btn-primary btn-continuum">
                             ATIVAR SANT; CONTINUUM;
-                        </a>
+                        </button>
                         <p class="pricing-note">*Condição válida mediante contrato de fidelidade de 12 meses.</p>
                     </div>
                 </div>
@@ -304,7 +204,7 @@
                         <img src="{{ url_for('static', filename='clientes/cliente5.png') }}" alt="Cliente 5" onerror="this.parentElement.style.display='none'">
                     </div>
 
-                    <!-- Duplicados para efeito Infinito -->
+                    <!-- Duplicados para Loop Infinito -->
                     <div class="cliente-logo">
                         <img src="{{ url_for('static', filename='clientes/cliente1.png') }}" alt="Cliente 1" onerror="this.parentElement.style.display='none'">
                     </div>
@@ -325,70 +225,54 @@
         </div>
     </section>
 
-   <!-- ========== SERVIÇOS PARA DISCORD ========== -->
-<section id="discord" class="section discord-section">
-    <div class="container">
-        <h2 class="section-title-left">COMUNIDADES & DISCORD;</h2>
-        <p class="section-subtitle-left">Soluções completas para engajar, moderar e monetizar seu servidor.</p>
-        
-        <div class="grid-4">
-            <div class="card">
-                <h3>BOTS PERSONALIZADOS;</h3>
-                <p>Automação em Python sob medida. Sistemas de tickets, moderação avançada e comandos de utilidades.</p>
-                <span class="card-price">A partir de R$ 150</span>
-                <div class="card-actions">
-                    <a class="btn-card-discord"
-                       href="https://wa.me/5511999999999?text=Ol%C3%A1%20SANT%3B!%20Quero%20um%20Bot%20Personalizado%20para%20Discord."
-                       target="_blank">
-                        CONTRATAR ;
-                    </a>
+    <!-- ========== SERVIÇOS PARA DISCORD ========== -->
+    <section id="discord" class="section discord-section">
+        <div class="container">
+            <h2 class="section-title-left">COMUNIDADES & DISCORD;</h2>
+            <p class="section-subtitle-left">Soluções completas para engajar, moderar e monetizar seu servidor.</p>
+            
+            <div class="grid-4">
+                <div class="card">
+                    <h3>BOTS PERSONALIZADOS;</h3>
+                    <p>Automação em Python sob medida. Sistemas de tickets, moderação avançada e comandos de utilidades.</p>
+                    <span class="card-price">A partir de R$ 150</span>
+                    <div class="card-actions">
+                        <button class="btn-card-discord" onclick="comprar('Bot Discord Personalizado')">CONTRATAR ;</button>
+                    </div>
                 </div>
-            </div>
 
-            <div class="card">
-                <h3>ECONOMIA & JOGOS;</h3>
-                <p>Daily, carteiras, transferências, minigames, cassino e ranking completo de membros.</p>
-                <span class="card-price">A partir de R$ 200</span>
-                <div class="card-actions">
-                    <a class="btn-card-discord"
-                       href="https://wa.me/5511999999999?text=Ol%C3%A1%20SANT%3B!%20Quero%20o%20sistema%20de%20Economia%20%26%20Jogos%20no%20Discord."
-                       target="_blank">
-                        CONTRATAR ;
-                    </a>
+                <div class="card">
+                    <h3>ECONOMIA & JOGOS;</h3>
+                    <p>Daily, carteiras, transferências, minigames, cassino e ranking completo de membros.</p>
+                    <span class="card-price">A partir de R$ 200</span>
+                    <div class="card-actions">
+                        <button class="btn-card-discord" onclick="comprar('Bot de Economia Discord')">CONTRATAR ;</button>
+                    </div>
                 </div>
-            </div>
 
-            <div class="card">
-                <h3>SISTEMA DE LOJA PIX;</h3>
-                <p>Venda cargos VIP e itens no Discord com entrega e aprovação automática via Pix (Mercado Pago).</p>
-                <span class="card-price">A partir de R$ 350</span>
-                <div class="card-actions">
-                    <a class="btn-card-discord"
-                       href="https://wa.me/5511999999999?text=Ol%C3%A1%20SANT%3B!%20Quero%20o%20Sistema%20de%20Loja%20Pix%20Autom%C3%A1tico."
-                       target="_blank">
-                        CONTRATAR ;
-                    </a>
+                <div class="card">
+                    <h3>SISTEMA DE LOJA PIX;</h3>
+                    <p>Venda cargos VIP e itens no Discord com entrega e aprovação automática via Pix (Mercado Pago).</p>
+                    <span class="card-price">A partir de R$ 350</span>
+                    <div class="card-actions">
+                        <button class="btn-card-discord" onclick="comprar('Sistema de Loja Pix Discord')">CONTRATAR ;</button>
+                    </div>
                 </div>
-            </div>
 
-            <div class="card card-highlight">
-                <div class="card-tag-badge">MAIS COMPLETO</div>
-                <h3>BOT + PORTAL WEB;</h3>
-                <p>Assim como o nosso famoso <strong>Patinho Bot</strong>: bot em Python integrado a um portal web completo com ranking, rádio e logs.</p>
-                <span class="card-price">A partir de R$ 450</span>
-                <div class="card-actions">
-                    <a class="btn-card-discord"
-                       href="https://wa.me/5511999999999?text=Ol%C3%A1%20SANT%3B!%20Quero%20o%20Bot%20%2B%20Portal%20Web%20Integrado."
-                       target="_blank">
-                        CONTRATAR ;
-                    </a>
+                <div class="card card-highlight">
+                    <div class="card-tag-badge">MAIS COMPLETO</div>
+                    <h3>BOT + PORTAL WEB;</h3>
+                    <p>Assim como o nosso famoso <strong>Patinho Bot</strong>: bot em Python integrado a um portal web completo com ranking, rádio e logs.</p>
+                    <span class="card-price">A partir de R$ 450</span>
+                    <div class="card-actions">
+                        <button class="btn-card-discord" onclick="comprar('Bot + Portal Web Integrado')">CONTRATAR ;</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-    <!-- ========== PORTFÓLIO (AUTOMÁTICO) ========== -->
+    <!-- ========== PORTFÓLIO AUTOMÁTICO ========== -->
     <section id="portfolio" class="section">
         <div class="container">
             <h2 class="section-title-left">PORTFÓLIO;</h2>
@@ -408,7 +292,7 @@
         </div>
     </section>
 
-    <!-- ========== PRODUTOS & TEMPLATES ========== -->
+    <!-- ========== TEMPLATES & PRODUTOS ========== -->
     <section id="produtos" class="section">
         <div class="container">
             <h2 class="section-title-left">LOJA DE TEMPLATES;</h2>
@@ -451,7 +335,7 @@
         </div>
     </footer>
 
-    <!-- ========== REDES SOCIAIS FLUTUANTES ========== -->
+    <!-- ========== REDES SOCIAIS FLUTUANTES (P&B) ========== -->
     <div class="social-float">
         <a href="https://www.instagram.com/sant.social/" target="_blank" class="social-btn ig" title="Instagram SANT;">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
@@ -465,7 +349,20 @@
         </a>
     </div>
 
-    <!-- ========== CHATBOT FIXO ========== -->
+    <!-- ========== TRILHA SONORA AMBIENTE ========== -->
+    <audio id="bg-music" loop preload="none">
+        <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73220.mp3?filename=ambient-piano-amp-strings-10711.mp3" type="audio/mpeg">
+    </audio>
+
+    <button class="audio-toggle-btn" id="audio-toggle" onclick="toggleAudio()" title="Trilha Sonora SANT;">
+        <span class="audio-icon" id="audio-icon">🔇</span>
+        <span class="audio-text" id="audio-text">SOUND OFF</span>
+        <div class="sound-bars" id="sound-bars">
+            <span></span><span></span><span></span>
+        </div>
+    </button>
+
+    <!-- ========== CHATBOT FIXO (ESTILO PILL) ========== -->
     <div class="chatbot-wrapper" id="chatbot-wrapper">
         <div class="chat-history" id="chat-history">
             <div class="chat-header">
@@ -518,18 +415,5 @@
     </div>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
-<!-- ========== TRILHA SONORA AMBIENTE ========== -->
-<audio id="bg-music" loop preload="none">
-    <source src="{{ url_for('static', filename='ambient.mp3') }}" type="audio/mpeg">
-</audio>
-
-<button class="audio-toggle-btn" id="audio-toggle" onclick="toggleAudio()" title="Trilha Sonora SANT;">
-    <span class="audio-icon" id="audio-icon">🔇</span>
-    <span class="audio-text" id="audio-text">SOUND OFF</span>
-    <div class="sound-bars" id="sound-bars">
-        <span></span><span></span><span></span>
-    </div>
-</button>
-</button>
 </body>
 </html>
