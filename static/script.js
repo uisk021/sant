@@ -265,3 +265,19 @@ function toggleAudio() {
         if (audioText) audioText.textContent = "SOUND OFF";
     }
 }
+// ============================================
+// MENU DRAWER MOBILE (CELULAR)
+// ============================================
+function toggleMobileMenu() {
+    const drawer = document.getElementById("mobile-drawer");
+    if (drawer) {
+        drawer.classList.toggle("active");
+        
+        // Bloqueia a rolagem do fundo quando o menu está aberto
+        if (drawer.classList.contains("active")) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "";
+        }
+    }
+}
