@@ -2,7 +2,7 @@
 // SANT; — LÓGICA DO CHATBOT, AUDIO, DRAG & ZAP
 // ============================================
 
-const SEU_WHATSAPP = "5521986010634"; // 👈 COLOQUE SEU DDD + NÚMERO AQUI
+const SEU_WHATSAPP = "5511999999999"; // 👈 COLOQUE SEU DDD + NÚMERO AQUI
 
 let fluxoAtual = 0;
 let dadosLead = {};
@@ -157,7 +157,12 @@ function toggleAudio() {
     }
 }
 
-// ----- 4. MENU MOBILE (DRAWER) -----
+// ----- 4. ACORDEÃO DO FAQ -----
+function toggleFaq(button) {
+    button.parentElement.classList.toggle("active");
+}
+
+// ----- 5. MENU DRAWER MOBILE -----
 function toggleMobileMenu() {
     const drawer = document.getElementById("mobile-drawer");
     if (drawer) {
@@ -170,7 +175,7 @@ function toggleMobileMenu() {
     }
 }
 
-// ----- 5. DRAG HORIZONTAL NAS PÍLULAS DO CHATBOT -----
+// ----- 6. DRAG HORIZONTAL NAS PÍLULAS (COM THRESHOLD PARA NÃO BLOQUEAR CLIQUES) -----
 (function () {
     const slider = document.getElementById("chat-suggestions");
     if (!slider) return;
@@ -183,7 +188,6 @@ function toggleMobileMenu() {
     slider.addEventListener("mousedown", (e) => {
         isDown = true;
         dragged = false;
-        slider.classList.add("dragging");
         startX = e.pageX - slider.offsetLeft;
         scrollLeft = slider.scrollLeft;
     });
@@ -200,13 +204,19 @@ function toggleMobileMenu() {
 
     slider.addEventListener("mousemove", (e) => {
         if (!isDown) return;
-        e.preventDefault();
-        dragged = true;
         const x = e.pageX - slider.offsetLeft;
         const walk = (x - startX) * 1.4;
-        slider.scrollLeft = scrollLeft - walk;
+
+        // Só considera ARRASTE se moveu mais de 6 pixels (evita bloquear o clique simples)
+        if (Math.abs(x - startX) > 6) {
+            dragged = true;
+            slider.classList.add("dragging");
+            e.preventDefault();
+            slider.scrollLeft = scrollLeft - walk;
+        }
     });
 
+    // Bloqueia clique apenas se REALMENTE arrastou
     slider.querySelectorAll("button").forEach((btn) => {
         btn.addEventListener("click", (e) => {
             if (dragged) {
@@ -232,19 +242,133 @@ function toggleMobileMenu() {
     }, { passive: true });
 })();
 // ============================================
-// ACORDEÃO DO FAQ (ABRIR E FECHAR PERGUNTAS)
+// ✨ OBSERVADOR DE SCROLL (REVEAL ON SCROLL)
 // ============================================
-function toggleFaq(button) {
-    const item = button.parentElement;
-    const isPrimary = item.classList.contains("active");
+document.addEventListener("DOMContentLoaded", () => {
+    const observerOptions = {
+        root: null,
+        rootMargin: "0px 0px -60px 0px", // Ativa o efeito pouco antes de entrar totalmente na tela
+        threshold: 0.1
+    };
 
-    // Fecha todos os outros que estiverem abertos
-    document.querySelectorAll(".faq-item").forEach(el => {
-        el.classList.remove("active");
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("active");
+            }
+        });
+    }, observerOptions);
+
+    // Observa todos os elementos com as classes de revelação
+    document.querySelectorAll(".reveal, .reveal-left, .reveal-scale").forEach(el => {
+        observer.observe(el);
+    });
+});
+// ============================================
+// 🐭 LÓGICA DO MOUSE CUSTOMIZADO SANT;
+// ============================================
+(function () {
+    const cursor = document.getElementById("custom-cursor");
+    if (!cursor) return;
+
+    let mouseX = -100;
+    let mouseY = -100;
+
+    // Atualiza a posição do cursor em tempo real
+    window.addEventListener("mousemove", (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        
+        cursor.style.left = `${mouseX}px`;
+        cursor.style.top = `${mouseY}px`;
+        
+        if (!cursor.classList.contains("active")) {
+            cursor.classList.add("active");
+        }
     });
 
-    // Se o clicado não estava aberto, abre ele
-    if (!isPrimary) {
-        item.classList.add("active");
+    // Esconde o cursor quando sai da janela do navegador
+    document.addEventListener("mouseleave", () => {
+        cursor.classList.remove("active");
+    });
+    document.addEventListener("mouseenter", () => {
+        cursor.classList.add("active");
+    });
+
+    // Efeito de Pressionar (Click)
+    window.addEventListener("mousedown", () => {
+        cursor.classList.add("clicked");
+    });
+    window.addEventListener("mouseup", () => {
+        cursor.classList.remove("clicked");
+    });
+
+    // Efeito Hover ao passar sobre elementos interativos
+    const elementosInterativos = "a, button, input, select, textarea, .btn, .card, .social-btn, .timeline-item, .faq-question";
+    
+    document.addEventListener("mouseover", (e) => {
+        if (e.target.closest(elementosInterativos)) {
+            cursor.classList.add("hovered");
+        }
+    });
+
+    document.addEventListener("mouseout", (e) => {
+        if (e.target.closest(elementosInterativos)) {
+            cursor.classList.remove("hovered");
+        }
+    });
+})();
+// ============================================
+// 📱 CHAT MOBILE (BOLINHA → ABRE O AUTOBOT)
+// ============================================
+function abrirChatMobile() {
+    const wrapper = document.getElementById("chatbot-wrapper");
+    const fab = document.getElementById("chat-fab");
+
+    if (!wrapper) return;
+
+    wrapper.classList.add("mobile-open");
+    wrapper.classList.add("chat-ativo");
+
+    if (fab) fab.classList.add("hidden");
+
+    // Abre direto o histórico com boas-vindas
+    abrirHistorico();
+
+    // Foca no input
+    setTimeout(() => {
+        const input = document.getElementById("chat-input");
+        if (input) input.focus();
+    }, 150);
+}
+
+function fecharChat() {
+    const history = document.getElementById("chat-history");
+    const suggestions = document.getElementById("chat-suggestions");
+    const wrapper = document.getElementById("chatbot-wrapper");
+    const fab = document.getElementById("chat-fab");
+
+    if (history) history.classList.remove("active");
+    if (suggestions) suggestions.style.display = "flex";
+
+    if (wrapper) {
+        wrapper.classList.remove("chat-ativo");
+        wrapper.classList.remove("mobile-open"); // fecha no mobile
+    }
+
+    // volta a bolinha no mobile
+    if (fab) fab.classList.remove("hidden");
+
+    fluxoAtual = 0;
+    dadosLead = {};
+
+    const messages = document.getElementById("chat-messages");
+    if (messages) {
+        messages.innerHTML = `
+            <div class="msg bot-msg">
+                <div class="msg-label">SANT; AI</div>
+                <div class="msg-content">Olá! Sou a IA da SANT;. Como posso ajudar a escalar seu negócio hoje?</div>
+            </div>
+        `;
     }
 }
