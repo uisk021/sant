@@ -1,5 +1,5 @@
 // ============================================
-// SANT; — LÓGICA DO CHATBOT, AUDIO, DRAG & ZAP
+// SANT; — LÓGICA DO CHATBOT, IA, AUDIO, DRAG & ZAP
 // ============================================
 
 const SEU_WHATSAPP = "5511999999999"; // 👈 COLOQUE SEU DDD + NÚMERO AQUI
@@ -13,7 +13,7 @@ function abrirWhatsAppDirect() {
     window.open(`https://wa.me/${SEU_WHATSAPP}?text=${textoZap}`, "_blank");
 }
 
-// ----- 2. CHATBOT INTERATIVO -----
+// ----- 2. CHATBOT COM IA (SANT; AI) -----
 function focusChat() {
     const input = document.getElementById("chat-input");
     if (input) input.focus();
@@ -38,10 +38,17 @@ function fecharChat() {
     const history = document.getElementById("chat-history");
     const suggestions = document.getElementById("chat-suggestions");
     const wrapper = document.getElementById("chatbot-wrapper");
+    const fab = document.getElementById("chat-fab");
 
     if (history) history.classList.remove("active");
     if (suggestions) suggestions.style.display = "flex";
-    if (wrapper) wrapper.classList.remove("chat-ativo");
+
+    if (wrapper) {
+        wrapper.classList.remove("chat-ativo");
+        wrapper.classList.remove("mobile-open");
+    }
+
+    if (fab) fab.classList.remove("hidden");
 
     fluxoAtual = 0;
     dadosLead = {};
@@ -73,34 +80,45 @@ function enviarInput() {
     }
 }
 
-function enviarMensagem(textoUsuario) {
+// ----- CONECTADO À API DA IA NO PYTHON -----
+async function enviarMensagem(textoUsuario) {
+    if (!textoUsuario) return;
+
     abrirHistorico();
     addMsg(textoUsuario, 'user');
     
-    setTimeout(() => {
-        if (fluxoAtual === 0) {
-            dadosLead.interesse = textoUsuario;
-            addMsg("Entendi. Para eu te direcionar ao especialista correto, qual é o nome da sua empresa/projeto?", 'bot');
-            fluxoAtual = 1;
-        } 
-        else if (fluxoAtual === 1) {
-            dadosLead.empresa = textoUsuario;
-            addMsg(`Perfeito, ${dadosLead.empresa}. Qual o orçamento estimado disponível para este investimento? (Ex: Até R$ 1k, R$ 2k-5k, Acima de 5k)`, 'bot');
-            fluxoAtual = 2;
-        }
-        else if (fluxoAtual === 2) {
-            dadosLead.orcamento = textoUsuario;
-            addMsg("Excelente! Gerando seu atendimento VIP e direcionando para nossa equipe no WhatsApp...", 'bot');
-            
-            const textoZap = `Olá SANT;! Vim pelo Autobot do site.%0A%0A*Empresa:* ${dadosLead.empresa}%0A*Interesse:* ${dadosLead.interesse}%0A*Orçamento:* ${dadosLead.orcamento}`;
-            const url = `https://wa.me/${SEU_WHATSAPP}?text=${textoZap}`;
-            
-            setTimeout(() => {
-                window.open(url, '_blank');
-                fecharChat();
-            }, 1800);
-        }
-    }, 700);
+    // Indicador de "SANT; AI está analisando..."
+    const box = document.getElementById("chat-messages");
+    if (!box) return;
+
+    const divDigitando = document.createElement("div");
+    divDigitando.className = "msg bot-msg digitando-msg";
+    divDigitando.innerHTML = `
+        <div class="msg-label">SANT; AI</div>
+        <div class="msg-content" style="color: #888; font-style: italic;">
+            SANT; AI está analisando... 🤖
+        </div>
+    `;
+    box.appendChild(divDigitando);
+    box.scrollTop = box.scrollHeight;
+
+    try {
+        const resposta = await fetch('/api/chat-ai', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ mensagem: textoUsuario })
+        });
+
+        const dados = await resposta.json();
+        
+        divDigitando.remove();
+        addMsg(dados.resposta, 'bot');
+
+    } catch (erro) {
+        divDigitando.remove();
+        addMsg("Desculpe, tive uma oscilação de conexão. Clique no botão de WhatsApp abaixo para falar direto com nossa equipe ;", 'bot');
+        console.error("Erro na API da IA:", erro);
+    }
 }
 
 function addMsg(texto, tipo) {
@@ -175,7 +193,27 @@ function toggleMobileMenu() {
     }
 }
 
-// ----- 6. DRAG HORIZONTAL NAS PÍLULAS (COM THRESHOLD PARA NÃO BLOQUEAR CLIQUES) -----
+// ----- 6. CHAT MOBILE (BOLINHA → ABRE O AUTOBOT) -----
+function abrirChatMobile() {
+    const wrapper = document.getElementById("chatbot-wrapper");
+    const fab = document.getElementById("chat-fab");
+
+    if (!wrapper) return;
+
+    wrapper.classList.add("mobile-open");
+    wrapper.classList.add("chat-ativo");
+
+    if (fab) fab.classList.add("hidden");
+
+    abrirHistorico();
+
+    setTimeout(() => {
+        const input = document.getElementById("chat-input");
+        if (input) input.focus();
+    }, 150);
+}
+
+// ----- 7. DRAG HORIZONTAL NAS PÍLULAS -----
 (function () {
     const slider = document.getElementById("chat-suggestions");
     if (!slider) return;
@@ -207,7 +245,6 @@ function toggleMobileMenu() {
         const x = e.pageX - slider.offsetLeft;
         const walk = (x - startX) * 1.4;
 
-        // Só considera ARRASTE se moveu mais de 6 pixels (evita bloquear o clique simples)
         if (Math.abs(x - startX) > 6) {
             dragged = true;
             slider.classList.add("dragging");
@@ -216,7 +253,6 @@ function toggleMobileMenu() {
         }
     });
 
-    // Bloqueia clique apenas se REALMENTE arrastou
     slider.querySelectorAll("button").forEach((btn) => {
         btn.addEventListener("click", (e) => {
             if (dragged) {
@@ -241,13 +277,12 @@ function toggleMobileMenu() {
         slider.scrollLeft = touchScrollLeft - walk;
     }, { passive: true });
 })();
-// ============================================
-// ✨ OBSERVADOR DE SCROLL (REVEAL ON SCROLL)
-// ============================================
+
+// ----- 8. OBSERVADOR DE SCROLL (REVEAL) -----
 document.addEventListener("DOMContentLoaded", () => {
     const observerOptions = {
         root: null,
-        rootMargin: "0px 0px -60px 0px", // Ativa o efeito pouco antes de entrar totalmente na tela
+        rootMargin: "0px 0px -60px 0px",
         threshold: 0.1
     };
 
@@ -259,14 +294,12 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }, observerOptions);
 
-    // Observa todos os elementos com as classes de revelação
     document.querySelectorAll(".reveal, .reveal-left, .reveal-scale").forEach(el => {
         observer.observe(el);
     });
 });
-// ============================================
-// 🐭 LÓGICA DO MOUSE CUSTOMIZADO SANT;
-// ============================================
+
+// ----- 9. MOUSE CUSTOMIZADO SANT; -----
 (function () {
     const cursor = document.getElementById("custom-cursor");
     if (!cursor) return;
@@ -274,7 +307,6 @@ document.addEventListener("DOMContentLoaded", () => {
     let mouseX = -100;
     let mouseY = -100;
 
-    // Atualiza a posição do cursor em tempo real
     window.addEventListener("mousemove", (e) => {
         mouseX = e.clientX;
         mouseY = e.clientY;
@@ -287,7 +319,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Esconde o cursor quando sai da janela do navegador
     document.addEventListener("mouseleave", () => {
         cursor.classList.remove("active");
     });
@@ -295,7 +326,6 @@ document.addEventListener("DOMContentLoaded", () => {
         cursor.classList.add("active");
     });
 
-    // Efeito de Pressionar (Click)
     window.addEventListener("mousedown", () => {
         cursor.classList.add("clicked");
     });
@@ -303,7 +333,6 @@ document.addEventListener("DOMContentLoaded", () => {
         cursor.classList.remove("clicked");
     });
 
-    // Efeito Hover ao passar sobre elementos interativos
     const elementosInterativos = "a, button, input, select, textarea, .btn, .card, .social-btn, .timeline-item, .faq-question";
     
     document.addEventListener("mouseover", (e) => {
@@ -318,57 +347,3 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 })();
-// ============================================
-// 📱 CHAT MOBILE (BOLINHA → ABRE O AUTOBOT)
-// ============================================
-function abrirChatMobile() {
-    const wrapper = document.getElementById("chatbot-wrapper");
-    const fab = document.getElementById("chat-fab");
-
-    if (!wrapper) return;
-
-    wrapper.classList.add("mobile-open");
-    wrapper.classList.add("chat-ativo");
-
-    if (fab) fab.classList.add("hidden");
-
-    // Abre direto o histórico com boas-vindas
-    abrirHistorico();
-
-    // Foca no input
-    setTimeout(() => {
-        const input = document.getElementById("chat-input");
-        if (input) input.focus();
-    }, 150);
-}
-
-function fecharChat() {
-    const history = document.getElementById("chat-history");
-    const suggestions = document.getElementById("chat-suggestions");
-    const wrapper = document.getElementById("chatbot-wrapper");
-    const fab = document.getElementById("chat-fab");
-
-    if (history) history.classList.remove("active");
-    if (suggestions) suggestions.style.display = "flex";
-
-    if (wrapper) {
-        wrapper.classList.remove("chat-ativo");
-        wrapper.classList.remove("mobile-open"); // fecha no mobile
-    }
-
-    // volta a bolinha no mobile
-    if (fab) fab.classList.remove("hidden");
-
-    fluxoAtual = 0;
-    dadosLead = {};
-
-    const messages = document.getElementById("chat-messages");
-    if (messages) {
-        messages.innerHTML = `
-            <div class="msg bot-msg">
-                <div class="msg-label">SANT; AI</div>
-                <div class="msg-content">Olá! Sou a IA da SANT;. Como posso ajudar a escalar seu negócio hoje?</div>
-            </div>
-        `;
-    }
-}
