@@ -2,10 +2,13 @@ import os
 from datetime import datetime
 from flask import Flask, render_template, redirect, request, jsonify
 import google.generativeai as genai
-from dotenv import load_dotenv  # 👈 Adicione isso!
 
-# Carrega as variáveis do arquivo .env no seu PC!
-load_dotenv()  # 👈 Adicione isso!
+# Tenta carregar o .env local no seu PC. No Render, as variáveis entram direto!
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
