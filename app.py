@@ -24,14 +24,13 @@ def inject_year():
     return {'ano_atual': datetime.now().year}
 
 # ============================================
-# 🤖 2. CONFIGURAÇÃO DA IA SANT; (NOVO SDK GOOGLE-GENAI)
+# 🤖 2. CONFIGURAÇÃO DA IA SANT; (SDK GOOGLE-GENAI)
 # ============================================
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 
 client = None
 if GEMINI_API_KEY:
     try:
-        # O Client reconhece a chave informada ou a variável de ambiente GEMINI_API_KEY
         client = genai.Client(api_key=GEMINI_API_KEY)
         print("🤖 SANT; AI ativada com sucesso via novo SDK google-genai!", flush=True)
     except Exception as e:
@@ -99,10 +98,11 @@ def chat_ai():
     if not mensagem_usuario:
         return jsonify({"resposta": "Como posso te ajudar a escalar sua presença digital hoje?"})
 
-    # TENTA RESPOSTA VIA NOVO SDK DA GOOGLE
+    # TENTA RESPOSTA VIA SDK GOOGLE-GENAI
     if client is not None:
-        modelos_testar = ['gemini-2.5-flash', 'gemini-1.5-flash', 'gemini-2.0-flash']
-        for modelo_nome in modelos_testar:
+        modelos_disponiveis = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash']
+        
+        for modelo_nome in modelos_disponiveis:
             try:
                 prompt_completo = f"{PROMPT_SANT_AI}\n\nCliente perguntou: {mensagem_usuario}\nSANT; AI:"
                 
@@ -115,10 +115,10 @@ def chat_ai():
                     print(f"✅ [GEMINI ({modelo_nome}) RESPONDEU]: {response.text[:50]}...", flush=True)
                     return jsonify({"resposta": response.text.strip()})
             except Exception as e:
-                print(f"⚠️ Tentando modelo alternativo após erro em {modelo_nome}: {e}", flush=True)
+                print(f"⚠️ Tentando modelo alternativo ({modelo_nome} indisponível): {e}", flush=True)
                 continue
 
-    # FALLBACK INTELIGENTE (Caso a API oscile)
+    # FALLBACK INTELIGENTE (Modo de Segurança)
     msg = mensagem_usuario.lower()
 
     if any(p in msg for p in ["quanto", "preco", "preço", "valor", "custo", "investimento", "orcamento", "orçamento"]):
