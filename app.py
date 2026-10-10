@@ -3,10 +3,11 @@ from datetime import datetime
 from flask import Flask, render_template, redirect, request, jsonify
 from dotenv import load_dotenv
 
-# Carrega as variáveis do arquivo .env
+# Carrega as variáveis do arquivo .env (Ambiente Local)
 load_dotenv()
 
-import google.generativeai as genai
+# Novo SDK Oficial da Google
+from google import genai
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
@@ -16,40 +17,27 @@ PORTFOLIO_DIR = os.path.join(STATIC_DIR, "portfolio")
 app = Flask(__name__, template_folder=TEMPLATE_DIR, static_folder=STATIC_DIR)
 
 # ============================================
-# 🤖 CONFIGURAÇÃO DA IA SANT; (MODELOS ATUALIZADOS)
+# 📅 1. INJETA O ANO ATUAL AUTOMATICAMENTE
+# ============================================
+@app.context_processor
+def inject_year():
+    return {'ano_atual': datetime.now().year}
+
+# ============================================
+# 🤖 2. CONFIGURAÇÃO DA IA SANT; (NOVO SDK GOOGLE-GENAI)
 # ============================================
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 
-model = None
+client = None
 if GEMINI_API_KEY:
     try:
-        genai.configure(api_key=GEMINI_API_KEY)
-        
-        # Lista dos modelos recomendados e atualizados da Google (na ordem de prioridade)
-        modelos_recomendados = [
-            'gemini-1.5-flash',
-            'gemini-1.5-flash-002',
-            'gemini-2.0-flash',
-            'gemini-1.5-pro',
-            'gemini-pro'
-        ]
-        
-        for nome_modelo in modelos_recomendados:
-            try:
-                m = genai.GenerativeModel(nome_modelo)
-                # Teste de validação rápido
-                m.generate_content("ping")
-                model = m
-                print(f"🤖 SANT; AI ativada com sucesso no modelo: {nome_modelo}!", flush=True)
-                break
-            except Exception as e_mod:
-                print(f"⚠️ Modelo {nome_modelo} indisponível: {e_mod}", flush=True)
-                continue
-
+        # O Client reconhece a chave informada ou a variável de ambiente GEMINI_API_KEY
+        client = genai.Client(api_key=GEMINI_API_KEY)
+        print("🤖 SANT; AI ativada com sucesso via novo SDK google-genai!", flush=True)
     except Exception as e:
-        print(f"⚠️ Erro geral ao configurar Gemini: {e}", flush=True)
+        print(f"⚠️ Erro ao inicializar o cliente do Gemini: {e}", flush=True)
 else:
-    print("⚠️ GEMINI_API_KEY não encontrada no .env ou Render.", flush=True)
+    print("⚠️ GEMINI_API_KEY não encontrada no arquivo .env ou no Render.", flush=True)
 
 PROMPT_SANT_AI = """
 Você é a SANT; AI, a inteligência artificial oficial de atendimento da agência de aceleração digital SANT;.
@@ -57,7 +45,7 @@ Você é a SANT; AI, a inteligência artificial oficial de atendimento da agênc
 SUA PERSONALIDADE & TOM DE VOZ:
 - Sofisticada, direta, técnica, educada, humana e de alto padrão (High-Ticket).
 - Você usa o estilo visual da marca: use pontuação com ponto e vírgula ";" em frases de destaque.
-- Respostas curtas de no máximo 1 a 2 parágrafos.
+- Respostas curtas e elegantes de 1 a 2 parágrafos.
 
 SOU A SANT;:
 - Não vendemos sites comuns, construímos ecossistemas digitais de vendas autônomas.
@@ -79,11 +67,9 @@ LINKS_ENCURTADOS = {
     "patinho": "https://bot-radio-habbler.onrender.com",
 }
 
-@app.context_processor
-def inject_year():
-    return {'ano_atual': datetime.now().year}
-
-# 1. HOME
+# ============================================
+# 🏠 3. ROTA 1: HOME (PÁGINA PRINCIPAL)
+# ============================================
 @app.route('/')
 def index():
     portfolio_images = []
@@ -94,13 +80,17 @@ def index():
                 
     return render_template('index.html', portfolio_images=portfolio_images)
 
-# 2. LINKTREE / BIO
+# ============================================
+# 📱 4. ROTA 2: LINKTREE / BIO EXCLUSIVO
+# ============================================
 @app.route('/links')
 @app.route('/bio')
 def bio_links():
     return render_template('links.html')
 
-# 3. API DA INTELIGÊNCIA ARTIFICIAL DO CHATBOT 🤖
+# ============================================
+# 🤖 5. ROTA 3: API DA IA (SANT; AI)
+# ============================================
 @app.route('/api/chat-ai', methods=['POST'])
 def chat_ai():
     dados = request.get_json() or {}
@@ -109,30 +99,42 @@ def chat_ai():
     if not mensagem_usuario:
         return jsonify({"resposta": "Como posso te ajudar a escalar sua presença digital hoje?"})
 
-    # TENTA RESPOSTA COM GEMINI IA
-    if model is not None:
-        try:
-            prompt_completo = f"{PROMPT_SANT_AI}\n\nCliente perguntou: {mensagem_usuario}\nSANT; AI:"
-            response = model.generate_content(prompt_completo)
-            if response and response.text:
-                print(f"✅ [GEMINI RESPONDEU]: {response.text[:50]}...", flush=True)
-                return jsonify({"resposta": response.text.strip()})
-        except Exception as e:
-            print(f"❌ [ERRO GEMINI]: {e}", flush=True)
+    # TENTA RESPOSTA VIA NOVO SDK DA GOOGLE
+    if client is not None:
+        modelos_testar = ['gemini-2.5-flash', 'gemini-1.5-flash', 'gemini-2.0-flash']
+        for modelo_nome in modelos_testar:
+            try:
+                prompt_completo = f"{PROMPT_SANT_AI}\n\nCliente perguntou: {mensagem_usuario}\nSANT; AI:"
+                
+                response = client.models.generate_content(
+                    model=modelo_nome,
+                    contents=prompt_completo
+                )
+                
+                if response and response.text:
+                    print(f"✅ [GEMINI ({modelo_nome}) RESPONDEU]: {response.text[:50]}...", flush=True)
+                    return jsonify({"resposta": response.text.strip()})
+            except Exception as e:
+                print(f"⚠️ Tentando modelo alternativo após erro em {modelo_nome}: {e}", flush=True)
+                continue
 
-    # FALLBACK INTELIGENTE (Se a IA oscilar)
+    # FALLBACK INTELIGENTE (Caso a API oscile)
     msg = mensagem_usuario.lower()
 
     if any(p in msg for p in ["quanto", "preco", "preço", "valor", "custo", "investimento", "orcamento", "orçamento"]):
         resp = "Nossos ecossistemas empresariais operam pelo **Plano SANT; CONTINUUM;**: por **Entrada de R$ 390 + 11x de R$ 350/mês**, você recebe o site completo, o Autobot e 12 meses de acompanhamento ;"
     elif any(p in msg for p in ["onde", "aonde", "fica", "local", "cidade"]):
         resp = "A SANT; é uma agência 100% digital AEO-Native. Atendemos empresas de todo o Brasil e do exterior de forma remota e ágil ;"
+    elif any(p in msg for p in ["como", "funciona", "passo", "processo", "metodo", "método", "aga"]):
+        resp = "Operamos através do **Método AGA;**: construímos seu site AEO-Native integrado ao Autobot de IA que atende, qualifica e envia o lead pronto para o seu WhatsApp 24/7. Quer ver uma demonstração do processo?"
     else:
-        resp = f"Para analisarmos a arquitetura exata para o seu caso, clique no botão e fale direto com nossos especialistas no WhatsApp ;"
+        resp = "Para analisarmos a arquitetura exata para o seu caso, clique no botão e fale direto com nossos especialistas no WhatsApp ;"
 
     return jsonify({"resposta": resp})
 
-# 4. ENCURTADOR DE LINKS
+# ============================================
+# 🚀 6. ROTA 4: ENCURTADOR DE LINKS
+# ============================================
 @app.route('/<short_code>')
 def redirecionar_link(short_code):
     codigo = short_code.lower().strip()
@@ -140,6 +142,9 @@ def redirecionar_link(short_code):
         return redirect(LINKS_ENCURTADOS[codigo])
     return redirect('/')
 
+# ============================================
+# EXECUÇÃO LOCAL / RENDER
+# ============================================
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=True)
