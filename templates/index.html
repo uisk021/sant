@@ -361,9 +361,9 @@
             </div>
             
             <!-- Área de Input e Botão -->
-            <div style="display: flex; gap: 10px;">
+            <div style="display: flex; gap: 10px;" class="chat-input-area-section">
                 <input type="text" id="userInput" placeholder="Digite sua dúvida aqui..." onkeypress="handleKeyPressSection(event)" style="flex: 1; padding: 14px 18px; border-radius: 50px; border: 1px solid var(--border-bright); background: #121212; color: var(--text-light); font-family: var(--font-body); font-size: 0.95rem; outline: none;">
-                <button onclick="enviarMensagemSection()" style="background: var(--text-light); color: var(--text-dark); border: none; padding: 14px 28px; border-radius: 50px; cursor: pointer; font-family: var(--font-body); font-weight: 800; font-size: 0.85rem; letter-spacing: 1px; transition: all 0.3s ease;">
+                <button id="btnEnviarSection" onclick="enviarMensagemSection()" style="background: var(--text-light); color: var(--text-dark); border: none; padding: 14px 28px; border-radius: 50px; cursor: pointer; font-family: var(--font-body); font-weight: 800; font-size: 0.85rem; letter-spacing: 1px; transition: all 0.3s ease;">
                     Enviar ;
                 </button>
             </div>
@@ -496,32 +496,50 @@
 
         async function enviarMensagemSection() {
             const input = document.getElementById('userInput');
+            const botao = document.getElementById('btnEnviarSection');
             if (!input) return;
+
             const mensagem = input.value.trim();
             if (!mensagem) return;
 
             const chatMessages = document.getElementById('chatMessages');
 
-            // 1. Mensagem do usuário
+            // 1. Bloqueia os campos temporariamente
+            input.disabled = true;
+            if (botao) botao.disabled = true;
+
+            // 2. Adiciona mensagem do usuário
             chatMessages.innerHTML += `
                 <div style="margin: 10px 0; padding: 10px 14px; border-radius: 12px; border-bottom-right-radius: 2px; max-width: 80%; background: var(--text-light); color: var(--bg-dark); margin-left: auto; text-align: right; line-height: 1.5; font-size: 0.9rem; font-weight: 500;">
                     ${mensagem}
                 </div>
             `;
             input.value = '';
+
+            // 3. Adiciona indicador visual de análise
+            const idCarregando = "msg-carregando-" + Date.now();
+            chatMessages.innerHTML += `
+                <div id="${idCarregando}" style="margin: 10px 0; padding: 10px 14px; border-radius: 12px; border-bottom-left-radius: 2px; max-width: 80%; background: #242424; color: #aaaaaa; margin-right: auto; line-height: 1.5; font-size: 0.85rem; font-style: italic; border: 1px solid rgba(227,226,226,0.08);">
+                    SANT; AI está analisando... ⏳
+                </div>
+            `;
             chatMessages.scrollTop = chatMessages.scrollHeight;
 
-            // 2. Requisição para o backend Flask (/api/chat-ai)
+            // 4. Requisição para o backend Flask (/api/chat-ai)
             try {
                 const response = await fetch('/api/chat-ai', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ mensagem: mensagem })
                 });
-                
+
                 const dados = await response.json();
-                
-                // 3. Resposta gerada pela SANT; AI
+
+                // Remove indicador de carregando
+                const elCarregando = document.getElementById(idCarregando);
+                if (elCarregando) elCarregando.remove();
+
+                // Adiciona resposta final da SANT; AI
                 chatMessages.innerHTML += `
                     <div style="margin: 10px 0; padding: 12px 16px; border-radius: 12px; border-bottom-left-radius: 2px; max-width: 80%; background: #242424; color: var(--text-light); margin-right: auto; line-height: 1.5; font-size: 0.9rem; border: 1px solid rgba(227,226,226,0.08);">
                         <div style="font-size: 0.68rem; letter-spacing: 0.6px; color: #9a9a9a; font-weight: 600; margin-bottom: 4px;">SANT; AI</div>
@@ -529,13 +547,20 @@
                     </div>
                 `;
             } catch (error) {
+                const elCarregando = document.getElementById(idCarregando);
+                if (elCarregando) elCarregando.remove();
+
                 chatMessages.innerHTML += `
                     <div style="margin: 10px 0; padding: 10px 14px; border-radius: 12px; border-bottom-left-radius: 2px; max-width: 80%; background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); margin-right: auto; line-height: 1.4; font-size: 0.85rem;">
-                        ⚠️ Desculpe, ocorreu um erro de conexão. Tente novamente ;
+                        ⚠️ Conexão instável. Por favor, tente enviar novamente ;
                     </div>
                 `;
             }
-            
+
+            // Desbloqueia campos e restaura o foco
+            input.disabled = false;
+            if (botao) botao.disabled = false;
+            input.focus();
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
     </script>
