@@ -92,7 +92,7 @@ def bio_links():
     return render_template('links.html')
 
 # ============================================
-# 🤖 6. ROTA 3: API DA IA (SANT; AI)
+# 🤖 6. ROTA 3: API DA IA (SANT; AI) - CORREÇÃO DEFINITIVA
 # ============================================
 @app.route('/api/chat-ai', methods=['POST'])
 def chat_ai():
@@ -102,25 +102,26 @@ def chat_ai():
     if not mensagem_usuario:
         return jsonify({"resposta": "Como posso te ajudar a escalar sua presença digital hoje?"})
 
-    # TENTA RESPOSTA VIA SDK GOOGLE-GENAI
+    # TENTA RESPOSTA VIA SDK GOOGLE-GENAI (INTERACTIONS API EXCLUSIVA DO GEMINI 3.8)
     if client is not None:
         modelo_nome = 'gemini-3.8-flash'
         try:
             prompt_completo = f"{PROMPT_SANT_AI}\n\nCliente perguntou: {mensagem_usuario}\nSANT; AI:"
             
-            response = client.models.generate_content(
+            # SINTAXE OFICIAL PARA O GEMINI 3.8 FLASH
+            interaction = client.interactions.create(
                 model=modelo_nome,
-                contents=prompt_completo
+                input=prompt_completo
             )
             
-            if response and response.text:
-                print(f"✅ [GEMINI ({modelo_nome}) RESPONDEU]: {response.text[:50]}...", flush=True)
-                return jsonify({"resposta": response.text.strip()})
+            # O retorno do texto no modelo 3.8 é feito por .output_text
+            if interaction and interaction.output_text:
+                print(f"✅ [GEMINI ({modelo_nome}) RESPONDEU]: {interaction.output_text[:50]}...", flush=True)
+                return jsonify({"resposta": interaction.output_text.strip()})
         except Exception as e:
-            # IMPRIME O ERRO EXATO NO PAINEL DA RENDER PARA DIAGNÓSTICO
-            print(f"❌ [ERRO CRÍTICO GEMINI]: {str(e)}", flush=True)
+            print(f"❌ [ERRO CRÍTICO GEMINI 3.8]: {str(e)}", flush=True)
 
-    # FALLBACK INTELIGENTE (Caso a API oscile, falhe ou falte saldo)
+    # FALLBACK INTELIGENTE (Caso a API oscile ou falte saldo)
     msg = mensagem_usuario.lower()
 
     if any(p in msg for p in ["quanto", "preco", "preço", "valor", "custo", "investimento", "orcamento", "orçamento"]):
@@ -131,20 +132,6 @@ def chat_ai():
         resp = "Operamos através do **Método AGA;**: construímos seu site AEO-Native integrado ao Autobot de IA que atende, qualifica e envia o lead pronto para o seu WhatsApp 24/7. Quer ver uma demonstração do processo?"
     else:
         resp = "Para analisarmos a arquitetura exata para o seu caso, clique no botão abaixo para qualificar seu projeto com nossa equipe no WhatsApp comercial ;"
-
-    return jsonify({"resposta": resp})
-
-    # FALLBACK INTELIGENTE (Caso a API oscile ou a chave esteja ausente)
-    msg = mensagem_usuario.lower()
-
-    if any(p in msg for p in ["quanto", "preco", "preço", "valor", "custo", "investimento", "orcamento", "orçamento"]):
-        resp = "Nossos ecossistemas empresariais operam pelo **Plano SANT; CONTINUUM;**: por **Entrada de R$ 390 + 11x de R$ 350/mês**, você recebe o site completo, o Autobot e 12 meses de acompanhamento ;"
-    elif any(p in msg for p in ["onde", "aonde", "fica", "local", "cidade"]):
-        resp = "A SANT; é uma agência 100% digital AEO-Native. Atendemos empresas de todo o Brasil e do exterior de forma remota e ágil ;"
-    elif any(p in msg for p in ["como", "funciona", "passo", "processo", "metodo", "método", "aga"]):
-        resp = "Operamos através do **Método AGA;**: construímos seu site AEO-Native integrado ao Autobot de IA que atende, qualifica e envia o lead pronto para o seu WhatsApp 24/7. Quer ver uma demonstração do processo?"
-    else:
-        resp = "Para analisarmos a arquitetura exata para o seu caso, fale direto com nossos especialistas no WhatsApp comercial ;"
 
     return jsonify({"resposta": resp})
 
