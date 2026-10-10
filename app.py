@@ -26,7 +26,7 @@ def inject_year():
 # ============================================
 # ⚙️ 2. CONFIGURAÇÕES & WHATSAPP DA SANT;
 # ============================================
-SEU_WHATSAPP = "5511999999999"  # 👈 Coloque seu DDD + Número real aqui
+SEU_WHATSAPP = "5521986010634"  # 👈 Seu número real configurado com sucesso
 
 LINKS_ENCURTADOS = {
     "zap": f"https://wa.me/{SEU_WHATSAPP}?text=Ol%C3%A1%20SANT%3B!%20Vim%20pelo%20link%20encurtado.",
@@ -102,24 +102,23 @@ def chat_ai():
     if not mensagem_usuario:
         return jsonify({"resposta": "Como posso te ajudar a escalar sua presença digital hoje?"})
 
-    # TENTA RESPOSTA VIA SDK GOOGLE-GENAI (SINTAXE OFICIAL)
+    # TENTA RESPOSTA VIA SDK GOOGLE-GENAI (SINTAXE OFICIAL ATUALIZADA)
     if client is not None:
-        modelos_testar = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash']
-        for modelo_nome in modelos_testar:
-            try:
-                prompt_completo = f"{PROMPT_SANT_AI}\n\nCliente perguntou: {mensagem_usuario}\nSANT; AI:"
-                
-                response = client.models.generate_content(
-                    model=modelo_nome,
-                    contents=prompt_completo
-                )
-                
-                if response and response.text:
-                    print(f"✅ [GEMINI ({modelo_nome}) RESPONDEU]: {response.text[:50]}...", flush=True)
-                    return jsonify({"resposta": response.text.strip()})
-            except Exception as e:
-                print(f"⚠️ Modelo {modelo_nome} indisponível: {e}", flush=True)
-                continue
+        # Correção crítica: Alterado para o modelo atual suportado 'gemini-3.8-flash'
+        modelo_nome = 'gemini-3.8-flash'
+        try:
+            prompt_completo = f"{PROMPT_SANT_AI}\n\nCliente perguntou: {mensagem_usuario}\nSANT; AI:"
+            
+            response = client.models.generate_content(
+                model=modelo_nome,
+                contents=prompt_completo
+            )
+            
+            if response and response.text:
+                print(f"✅ [GEMINI ({modelo_nome}) RESPONDEU]: {response.text[:50]}...", flush=True)
+                return jsonify({"resposta": response.text.strip()})
+        except Exception as e:
+            print(f"⚠️ Erro crítico no modelo {modelo_nome}: {e}", flush=True)
 
     # FALLBACK INTELIGENTE (Caso a API oscile ou a chave esteja ausente)
     msg = mensagem_usuario.lower()
