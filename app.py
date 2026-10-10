@@ -1,3 +1,18 @@
+import os
+from datetime import datetime
+from flask import Flask, render_template, redirect, request, jsonify
+import google.generativeai as genai
+from dotenv import load_dotenv  # 👈 Adicione isso!
+
+# Carrega as variáveis do arquivo .env no seu PC!
+load_dotenv()  # 👈 Adicione isso!
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
+STATIC_DIR = os.path.join(BASE_DIR, "static")
+PORTFOLIO_DIR = os.path.join(STATIC_DIR, "portfolio")
+
+app = Flask(__name__, template_folder=TEMPLATE_DIR, static_folder=STATIC_DIR)
 # ============================================
 # 🤖 CONFIGURAÇÃO DA IA SANT; (GEMINI + FALLBACK HIGH-TICKET)
 # ============================================
