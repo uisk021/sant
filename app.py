@@ -3,10 +3,10 @@ from datetime import datetime
 from flask import Flask, render_template, redirect, request, jsonify
 from dotenv import load_dotenv
 
-# Carrega as variáveis do arquivo .env (Ambiente Local)
+# Carrega as variáveis de ambiente do arquivo .env (se existir localmente)
 load_dotenv()
 
-# Novo SDK Oficial da Google
+# NOVO SDK OFICIAL DA GOOGLE
 from google import genai
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -24,19 +24,33 @@ def inject_year():
     return {'ano_atual': datetime.now().year}
 
 # ============================================
-# 🤖 2. CONFIGURAÇÃO DA IA SANT; (SDK GOOGLE-GENAI)
+# ⚙️ 2. CONFIGURAÇÕES & WHATSAPP DA SANT;
+# ============================================
+SEU_WHATSAPP = "5511999999999"  # 👈 Coloque seu DDD + Número real aqui
+
+LINKS_ENCURTADOS = {
+    "zap": f"https://wa.me/{SEU_WHATSAPP}?text=Ol%C3%A1%20SANT%3B!%20Vim%20pelo%20link%20encurtado.",
+    "whatsapp": f"https://wa.me/{SEU_WHATSAPP}",
+    "insta": "https://www.instagram.com/sant.social/",
+    "instagram": "https://www.instagram.com/sant.social/",
+    "patinho": "https://bot-radio-habbler.onrender.com",
+}
+
+# ============================================
+# 🤖 3. CONFIGURAÇÃO DA IA SANT; (SDK GOOGLE-GENAI)
 # ============================================
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 
 client = None
 if GEMINI_API_KEY:
     try:
+        # Inicializa o cliente oficial informando a chave
         client = genai.Client(api_key=GEMINI_API_KEY)
-        print("🤖 SANT; AI ativada com sucesso via novo SDK google-genai!", flush=True)
+        print("🤖 SANT; AI ativada com sucesso via SDK google-genai!", flush=True)
     except Exception as e:
         print(f"⚠️ Erro ao inicializar o cliente do Gemini: {e}", flush=True)
 else:
-    print("⚠️ GEMINI_API_KEY não encontrada no arquivo .env ou no Render.", flush=True)
+    print("⚠️ GEMINI_API_KEY não encontrada no .env ou no Render.", flush=True)
 
 PROMPT_SANT_AI = """
 Você é a SANT; AI, a inteligência artificial oficial de atendimento da agência de aceleração digital SANT;.
@@ -56,18 +70,8 @@ SUA MISSÃO:
 Responder a dúvida do cliente com clareza e sempre convidar para qualificar o projeto no WhatsApp comercial.
 """
 
-SEU_WHATSAPP = "5511999999999"  # 👈 Coloque seu número real com DDD
-
-LINKS_ENCURTADOS = {
-    "zap": f"https://wa.me/{SEU_WHATSAPP}?text=Ol%C3%A1%20SANT%3B!%20Vim%20pelo%20link%20encurtado.",
-    "whatsapp": f"https://wa.me/{SEU_WHATSAPP}",
-    "insta": "https://www.instagram.com/sant.social/",
-    "instagram": "https://www.instagram.com/sant.social/",
-    "patinho": "https://bot-radio-habbler.onrender.com",
-}
-
 # ============================================
-# 🏠 3. ROTA 1: HOME (PÁGINA PRINCIPAL)
+# 🏠 4. ROTA 1: HOME (PÁGINA PRINCIPAL)
 # ============================================
 @app.route('/')
 def index():
@@ -80,7 +84,7 @@ def index():
     return render_template('index.html', portfolio_images=portfolio_images)
 
 # ============================================
-# 📱 4. ROTA 2: LINKTREE / BIO EXCLUSIVO
+# 📱 5. ROTA 2: LINKTREE / BIO EXCLUSIVO
 # ============================================
 @app.route('/links')
 @app.route('/bio')
@@ -88,10 +92,7 @@ def bio_links():
     return render_template('links.html')
 
 # ============================================
-# 🤖 5. ROTA 3: API DA IA (SANT; AI)
-# ============================================
-# ============================================
-# 🤖 5. ROTA 3: API DA IA (SANT; AI) - CORRIGIDA
+# 🤖 6. ROTA 3: API DA IA (SANT; AI)
 # ============================================
 @app.route('/api/chat-ai', methods=['POST'])
 def chat_ai():
@@ -101,26 +102,26 @@ def chat_ai():
     if not mensagem_usuario:
         return jsonify({"resposta": "Como posso te ajudar a escalar sua presença digital hoje?"})
 
-    # TENTA RESPOSTA VIA SDK GOOGLE-GENAI (INTERACTIONS API)
+    # TENTA RESPOSTA VIA SDK GOOGLE-GENAI (SINTAXE OFICIAL)
     if client is not None:
-        modelo_atual = 'gemini-3.8-flash'
-        try:
-            prompt_completo = f"{PROMPT_SANT_AI}\n\nCliente perguntou: {mensagem_usuario}\nSANT; AI:"
-            
-            # Chamada direta usando a Interactions API sem loops antigos
-            interaction = client.interactions.create(
-                model=modelo_atual,
-                input=prompt_completo
-            )
-            
-            if interaction and interaction.output_text:
-                print(f"✅ [GEMINI ({modelo_atual}) RESPONDEU]: {interaction.output_text[:50]}...", flush=True)
-                return jsonify({"resposta": interaction.output_text.strip()})
+        modelos_testar = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash']
+        for modelo_nome in modelos_testar:
+            try:
+                prompt_completo = f"{PROMPT_SANT_AI}\n\nCliente perguntou: {mensagem_usuario}\nSANT; AI:"
                 
-        except Exception as e:
-            print(f"⚠️ Erro no modelo principal ({modelo_atual}): {e}", flush=True)
+                response = client.models.generate_content(
+                    model=modelo_nome,
+                    contents=prompt_completo
+                )
+                
+                if response and response.text:
+                    print(f"✅ [GEMINI ({modelo_nome}) RESPONDEU]: {response.text[:50]}...", flush=True)
+                    return jsonify({"resposta": response.text.strip()})
+            except Exception as e:
+                print(f"⚠️ Modelo {modelo_nome} indisponível: {e}", flush=True)
+                continue
 
-    # FALLBACK INTELIGENTE (Modo de Segurança caso a API falhe)
+    # FALLBACK INTELIGENTE (Caso a API oscile ou a chave esteja ausente)
     msg = mensagem_usuario.lower()
 
     if any(p in msg for p in ["quanto", "preco", "preço", "valor", "custo", "investimento", "orcamento", "orçamento"]):
@@ -130,12 +131,12 @@ def chat_ai():
     elif any(p in msg for p in ["como", "funciona", "passo", "processo", "metodo", "método", "aga"]):
         resp = "Operamos através do **Método AGA;**: construímos seu site AEO-Native integrado ao Autobot de IA que atende, qualifica e envia o lead pronto para o seu WhatsApp 24/7. Quer ver uma demonstração do processo?"
     else:
-        resp = "Para analisarmos a arquitetura exata para o seu caso, clique no botão e fale direto com nossos especialistas no WhatsApp ;"
+        resp = "Para analisarmos a arquitetura exata para o seu caso, fale direto com nossos especialistas no WhatsApp comercial ;"
 
     return jsonify({"resposta": resp})
 
 # ============================================
-# 🚀 6. ROTA 4: ENCURTADOR DE LINKS
+# 🚀 7. ROTA 4: ENCURTADOR DE LINKS
 # ============================================
 @app.route('/<short_code>')
 def redirecionar_link(short_code):
