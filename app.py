@@ -26,7 +26,7 @@ def inject_year():
 # ============================================
 # ⚙️ 2. CONFIGURAÇÕES & WHATSAPP DA SANT;
 # ============================================
-SEU_WHATSAPP = "5521986010634"  # 👈 Coloque seu DDD + Número real aqui
+SEU_WHATSAPP = "5511999999999"  # 👈 Coloque seu DDD + Número real aqui
 
 ZAP_LINK_BASE = f"https://wa.me/{SEU_WHATSAPP}?text="
 
@@ -105,16 +105,15 @@ def chat_ai():
 
     msg = mensagem_usuario.lower().strip()
 
-      if len(msg) < 3 and msg not in ["oi", "ok", "bi", "ia"]:
+    # 0. TRATA MENSAGENS MUITO CURTAS OU LETRAS SOLTAS
+    if len(msg) < 3 and msg not in ["oi", "ok", "bi", "ia"]:
         resp = (
             "Não consegui compreender totalmente sua mensagem. Como a SANT; pode ajudar sua empresa hoje? "
-            "Você pode escolher uma das opções acima ou [Falar no WhatsApp](https://wa.me/" + SEU_WHATSAPP + ") com nossos especialistas ;"
+            f"Você pode escolher uma das opções acima ou [Falar no WhatsApp](https://wa.me/{SEU_WHATSAPP}) com nossos especialistas ;"
         )
         return jsonify({"resposta": resp})
 
-    # 1. RESPOSTAS DIRETAS DAS PÍLULAS DO SITE (RESPOSTA INSTANTÂNEA + LINK WHATSAPP)
-    
-    # Pílula: Discord & Bots
+    # 1. RESPOSTAS DIRETAS DAS PÍLULAS DO SITE
     if any(p in msg for p in ["discord", "bot", "patinho", "servidor", "comunidade", "serviços para discord"]):
         resp = (
             "Desenvolvemos soluções completas para Discord! Criamos Bots personalizados em Python (a partir de R$ 150), "
@@ -123,7 +122,6 @@ def chat_ai():
         )
         return jsonify({"resposta": resp})
 
-    # Pílula: Plano Continuum
     elif any(p in msg for p in ["continuum", "plano continuum", "fidelidade", "anual"]):
         resp = (
             "O **Plano SANT; CONTINUUM;** é nosso programa de aceleração anual com 20% OFF: por **Entrada de R$ 390 (Lote Fundador) + 11x de R$ 350/mês**, "
@@ -132,7 +130,6 @@ def chat_ai():
         )
         return jsonify({"resposta": resp})
 
-    # Pílula: Brand & Rebrand
     elif any(p in msg for p in ["brand", "rebrand", "marca", "logo", "identidade"]):
         resp = (
             "No **Brand & Rebrand;**, redefinimos o posicionamento da sua empresa com identidade visual High-Ticket, "
@@ -141,7 +138,6 @@ def chat_ai():
         )
         return jsonify({"resposta": resp})
 
-    # Pílula: Growth & Ads
     elif any(p in msg for p in ["growth", "ads", "trafego", "tráfego", "anúncio", "anuncio"]):
         resp = (
             "No **Growth & Ads;**, gerenciamos suas campanhas de tráfego pago no Meta e Google Ads com foco em menor Custo por Lead "
@@ -150,7 +146,6 @@ def chat_ai():
         )
         return jsonify({"resposta": resp})
 
-    # Pílula: Social Media
     elif any(p in msg for p in ["social", "media", "mídia", "reels", "post", "conteudo", "conteúdo"]):
         resp = (
             "No **Social Media Strategy;**, produzimos conteúdo de alta retenção com copywriting visceral e design de elite "
@@ -159,7 +154,6 @@ def chat_ai():
         )
         return jsonify({"resposta": resp})
 
-    # Pílula: Métricas & BI
     elif any(p in msg for p in ["métricas", "metricas", "bi", "dash", "dashboard", "dashsocial"]):
         resp = (
             "Com nosso módulo de **Métricas & BI;**, você acompanha todas as vendas e atendimentos do Autobot em tempo real "
@@ -168,7 +162,6 @@ def chat_ai():
         )
         return jsonify({"resposta": resp})
 
-    # Afirmativas ("sim", "ok", "quero", "claro", "bora")
     elif msg in ["sim", "sim!", "ok", "claro", "com certeza", "quero", "bora", "pode ser", "vamos"]:
         resp = (
             "Excelente! 🚀 Clique no link abaixo para abrir a conversa direta com nosso time comercial no WhatsApp e qualificar seu projeto agora mesmo:\n\n"
@@ -176,7 +169,7 @@ def chat_ai():
         )
         return jsonify({"resposta": resp})
 
-    # 2. TENTA RESPOSTA VIA SDK GOOGLE-GENAI (Para perguntas livres)
+    # 2. TENTA RESPOSTA VIA SDK GOOGLE-GENAI
     if client is not None:
         modelos_validos = ['gemini-2.0-flash', 'gemini-1.5-flash']
         for modelo_nome in modelos_validos:
@@ -203,7 +196,7 @@ def chat_ai():
                 print(f"⚠️ Alerta Gemini ({modelo_nome}): {e}", flush=True)
                 continue
 
-    # 3. FALLBACK GENÉRICO COM LINK DE WHATSAPP (Para qualquer outra dúvida)
+    # 3. FALLBACK GENÉRICO COM LINK DE WHATSAPP
     resp = (
         f"Entendi perfeitamente sua dúvida sobre '{mensagem_usuario}'! Para analisarmos a arquitetura exata do Método AGA; para o seu caso, fale direto com nossos especialistas no WhatsApp comercial ;\n\n"
         f"👉 [Falar com a Equipe no WhatsApp](https://wa.me/{SEU_WHATSAPP}?text=Ol%C3%A1%20SANT%3B!%20Tenho%20uma%20d%C3%BAvida%20sobre%20{mensagem_usuario}.)"
@@ -227,3 +220,4 @@ def redirecionar_link(short_code):
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=True)
+    
