@@ -102,9 +102,8 @@ def chat_ai():
     if not mensagem_usuario:
         return jsonify({"resposta": "Como posso te ajudar a escalar sua presença digital hoje?"})
 
-    # TENTA RESPOSTA VIA SDK GOOGLE-GENAI (SINTAXE OFICIAL ATUALIZADA)
+    # TENTA RESPOSTA VIA SDK GOOGLE-GENAI
     if client is not None:
-        # Correção crítica: Alterado para o modelo atual suportado 'gemini-3.8-flash'
         modelo_nome = 'gemini-3.8-flash'
         try:
             prompt_completo = f"{PROMPT_SANT_AI}\n\nCliente perguntou: {mensagem_usuario}\nSANT; AI:"
@@ -118,7 +117,22 @@ def chat_ai():
                 print(f"✅ [GEMINI ({modelo_nome}) RESPONDEU]: {response.text[:50]}...", flush=True)
                 return jsonify({"resposta": response.text.strip()})
         except Exception as e:
-            print(f"⚠️ Erro crítico no modelo {modelo_nome}: {e}", flush=True)
+            # IMPRIME O ERRO EXATO NO PAINEL DA RENDER PARA DIAGNÓSTICO
+            print(f"❌ [ERRO CRÍTICO GEMINI]: {str(e)}", flush=True)
+
+    # FALLBACK INTELIGENTE (Caso a API oscile, falhe ou falte saldo)
+    msg = mensagem_usuario.lower()
+
+    if any(p in msg for p in ["quanto", "preco", "preço", "valor", "custo", "investimento", "orcamento", "orçamento"]):
+        resp = "Nossos ecossistemas empresariais operam pelo **Plano SANT; CONTINUUM;**: por **Entrada de R$ 390 + 11x de R$ 350/mês**, você recebe o site completo, o Autobot e 12 meses de acompanhamento ;"
+    elif any(p in msg for p in ["onde", "aonde", "fica", "local", "cidade"]):
+        resp = "A SANT; é uma agência 100% digital AEO-Native. Atendemos empresas de todo o Brasil e do exterior de forma remota e ágil ;"
+    elif any(p in msg for p in ["como", "funciona", "passo", "processo", "metodo", "método", "aga"]):
+        resp = "Operamos através do **Método AGA;**: construímos seu site AEO-Native integrado ao Autobot de IA que atende, qualifica e envia o lead pronto para o seu WhatsApp 24/7. Quer ver uma demonstração do processo?"
+    else:
+        resp = "Para analisarmos a arquitetura exata para o seu caso, clique no botão abaixo para qualificar seu projeto com nossa equipe no WhatsApp comercial ;"
+
+    return jsonify({"resposta": resp})
 
     # FALLBACK INTELIGENTE (Caso a API oscile ou a chave esteja ausente)
     msg = mensagem_usuario.lower()
