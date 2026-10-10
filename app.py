@@ -105,6 +105,13 @@ def chat_ai():
 
     msg = mensagem_usuario.lower().strip()
 
+      if len(msg) < 3 and msg not in ["oi", "ok", "bi", "ia"]:
+        resp = (
+            "Não consegui compreender totalmente sua mensagem. Como a SANT; pode ajudar sua empresa hoje? "
+            "Você pode escolher uma das opções acima ou [Falar no WhatsApp](https://wa.me/" + SEU_WHATSAPP + ") com nossos especialistas ;"
+        )
+        return jsonify({"resposta": resp})
+
     # 1. RESPOSTAS DIRETAS DAS PÍLULAS DO SITE (RESPOSTA INSTANTÂNEA + LINK WHATSAPP)
     
     # Pílula: Discord & Bots
