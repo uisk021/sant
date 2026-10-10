@@ -31,7 +31,6 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 client = None
 if GEMINI_API_KEY:
     try:
-        # No novo SDK, a inicialização padrão já resolve os endpoints estáveis
         client = genai.Client(api_key=GEMINI_API_KEY)
         print("🤖 SANT; AI ativada com sucesso via novo SDK google-genai!", flush=True)
     except Exception as e:
@@ -44,7 +43,7 @@ Você é a SANT; AI, a inteligência artificial oficial de atendimento da agênc
 
 SUA PERSONALIDADE & TOM DE VOZ:
 - Sofisticada, direta, técnica, educada, humana e de alto padrão (High-Ticket).
-- Você usa o estilo visual da marca: use pontuação com ponto e vírajula ";" em frases de destaque.
+- Você usa o estilo visual da marca: use pontuação com ponto e vírgula ";" em frases de destaque.
 - Respostas curtas e elegantes de 1 a 2 parágrafos.
 
 SOU A SANT;:
@@ -96,31 +95,30 @@ def chat_ai():
     dados = request.get_json() or {}
     mensagem_usuario = dados.get("mensagem", "").strip()
     
-    if not mensaje_usuario:
+    if not mensagem_usuario:
         return jsonify({"resposta": "Como posso te ajudar a escalar sua presença digital hoje?"})
 
-    # TENTA RESPOSTA VIA SDK GOOGLE-GENAI (INTERACTIONS API)
+    # TENTA RESPOSTA VIA SDK GOOGLE-GENAI
     if client is not None:
-        # gemini-3.8-flash é o modelo padrão atualizado recomendado
-        modelo_atual = 'gemini-3.8-flash'
-        try:
-            prompt_completo = f"{PROMPT_SANT_AI}\n\nCliente perguntou: {mensagem_usuario}\nSANT; AI:"
-            
-            # Correção crítica: Uso do método .interactions.create exigido pelo novo SDK
-            interaction = client.interactions.create(
-                model=modelo_atual,
-                input=prompt_completo
-            )
-            
-            # Correção crítica: A resposta agora é extraída através de .output_text
-            if interaction and interaction.output_text:
-                print(f"✅ [GEMINI ({modelo_atual}) RESPONDEU]: {interaction.output_text[:50]}...", flush=True)
-                return jsonify({"resposta": interaction.output_text.strip()})
+        modelos_disponiveis = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash']
+        
+        for modelo_nome in modelos_disponiveis:
+            try:
+                prompt_completo = f"{PROMPT_SANT_AI}\n\nCliente perguntou: {mensagem_usuario}\nSANT; AI:"
                 
-        except Exception as e:
-            print(f"⚠️ Erro no modelo principal ({modelo_atual}): {e}", flush=True)
+                response = client.models.generate_content(
+                    model=modelo_nome,
+                    contents=prompt_completo
+                )
+                
+                if response and response.text:
+                    print(f"✅ [GEMINI ({modelo_nome}) RESPONDEU]: {response.text[:50]}...", flush=True)
+                    return jsonify({"resposta": response.text.strip()})
+            except Exception as e:
+                print(f"⚠️ Tentando modelo alternativo ({modelo_nome} indisponível): {e}", flush=True)
+                continue
 
-    # FALLBACK INTELIGENTE (Modo de Segurança caso a API falhe ou fique sem saldo)
+    # FALLBACK INTELIGENTE (Modo de Segurança)
     msg = mensagem_usuario.lower()
 
     if any(p in msg for p in ["quanto", "preco", "preço", "valor", "custo", "investimento", "orcamento", "orçamento"]):
