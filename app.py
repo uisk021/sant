@@ -90,6 +90,9 @@ def bio_links():
 # ============================================
 # 🤖 5. ROTA 3: API DA IA (SANT; AI)
 # ============================================
+# ============================================
+# 🤖 5. ROTA 3: API DA IA (SANT; AI) - CORRIGIDA
+# ============================================
 @app.route('/api/chat-ai', methods=['POST'])
 def chat_ai():
     dados = request.get_json() or {}
@@ -98,27 +101,26 @@ def chat_ai():
     if not mensagem_usuario:
         return jsonify({"resposta": "Como posso te ajudar a escalar sua presença digital hoje?"})
 
-    # TENTA RESPOSTA VIA SDK GOOGLE-GENAI
+    # TENTA RESPOSTA VIA SDK GOOGLE-GENAI (INTERACTIONS API)
     if client is not None:
-        modelos_disponiveis = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash']
-        
-        for modelo_nome in modelos_disponiveis:
-            try:
-                prompt_completo = f"{PROMPT_SANT_AI}\n\nCliente perguntou: {mensagem_usuario}\nSANT; AI:"
+        modelo_atual = 'gemini-3.8-flash'
+        try:
+            prompt_completo = f"{PROMPT_SANT_AI}\n\nCliente perguntou: {mensagem_usuario}\nSANT; AI:"
+            
+            # Chamada direta usando a Interactions API sem loops antigos
+            interaction = client.interactions.create(
+                model=modelo_atual,
+                input=prompt_completo
+            )
+            
+            if interaction and interaction.output_text:
+                print(f"✅ [GEMINI ({modelo_atual}) RESPONDEU]: {interaction.output_text[:50]}...", flush=True)
+                return jsonify({"resposta": interaction.output_text.strip()})
                 
-                response = client.models.generate_content(
-                    model=modelo_nome,
-                    contents=prompt_completo
-                )
-                
-                if response and response.text:
-                    print(f"✅ [GEMINI ({modelo_nome}) RESPONDEU]: {response.text[:50]}...", flush=True)
-                    return jsonify({"resposta": response.text.strip()})
-            except Exception as e:
-                print(f"⚠️ Tentando modelo alternativo ({modelo_nome} indisponível): {e}", flush=True)
-                continue
+        except Exception as e:
+            print(f"⚠️ Erro no modelo principal ({modelo_atual}): {e}", flush=True)
 
-    # FALLBACK INTELIGENTE (Modo de Segurança)
+    # FALLBACK INTELIGENTE (Modo de Segurança caso a API falhe)
     msg = mensagem_usuario.lower()
 
     if any(p in msg for p in ["quanto", "preco", "preço", "valor", "custo", "investimento", "orcamento", "orçamento"]):
