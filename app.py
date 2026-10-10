@@ -104,10 +104,19 @@ def chat_ai():
             prompt_completo = f"{PROMPT_SANT_AI}\n\nCliente perguntou: {mensagem_usuario}\nSANT; AI:"
             
             # Chamada direta com o modelo mais atual e estável
-            response = client.models.generate_content(
-                model='gemini-2.5-flash',
-                contents=prompt_completo
-            )
+           modelo_nome = 'gemini-3.8-flash'
+try:
+    # O modelo 3.8 exige o uso de interactions.create
+    interaction = client.interactions.create(
+        model=modelo_nome,
+        input=prompt_completo
+    )
+    
+    if interaction and interaction.output_text:
+        print(f"✅ [GEMINI ({modelo_nome}) RESPONDEU]: {interaction.output_text[:50]}...", flush=True)
+        return jsonify({"resposta": interaction.output_text.strip()})
+except Exception as e:
+    print(f"⚠️ Gemini indisponível no momento: {e}", flush=True)
             
             if response and response.text:
                 print(f"✅ [GEMINI RESPONDEU]: {response.text[:50]}...", flush=True)
