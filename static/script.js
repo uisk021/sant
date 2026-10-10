@@ -2,7 +2,7 @@
 // SANT; — LÓGICA DO CHATBOT, IA, AUDIO, DRAG & ZAP
 // ============================================
 
-const SEU_WHATSAPP = "5511999999999"; // 👈 COLOQUE SEU DDD + NÚMERO AQUI
+const SEU_WHATSAPP = "5521986010634"; // 👈 COLOQUE SEU DDD + NÚMERO AQUI
 
 let fluxoAtual = 0;
 let dadosLead = {};
