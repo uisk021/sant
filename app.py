@@ -16,7 +16,7 @@ PORTFOLIO_DIR = os.path.join(STATIC_DIR, "portfolio")
 app = Flask(__name__, template_folder=TEMPLATE_DIR, static_folder=STATIC_DIR)
 
 # ============================================
-# 🤖 CONFIGURAÇÃO AUTOMÁTICA DA IA SANT; (GEMINI)
+# 🤖 CONFIGURAÇÃO DA IA SANT; (MODELOS ATUALIZADOS)
 # ============================================
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 
@@ -25,38 +25,31 @@ if GEMINI_API_KEY:
     try:
         genai.configure(api_key=GEMINI_API_KEY)
         
-        # Busca automaticamente a lista de modelos ativos na sua conta do Google
-        modelos_suportados = []
-        for m in genai.list_models():
-            if 'generateContent' in m.supported_generation_methods:
-                modelos_suportados.append(m.name)
+        # Lista dos modelos recomendados e atualizados da Google (na ordem de prioridade)
+        modelos_recomendados = [
+            'gemini-1.5-flash',
+            'gemini-1.5-flash-002',
+            'gemini-2.0-flash',
+            'gemini-1.5-pro',
+            'gemini-pro'
+        ]
         
-        print(f"📋 Modelos disponíveis na sua chave: {modelos_suportados}", flush=True)
-
-        # Seleciona o melhor modelo disponível
-        modelo_escolhido = None
-        for pref in ['gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-pro']:
-            for item in modelos_suportados:
-                if pref in item:
-                    modelo_escolhido = item
-                    break
-            if modelo_escolhido:
+        for nome_modelo in modelos_recomendados:
+            try:
+                m = genai.GenerativeModel(nome_modelo)
+                # Teste de validação rápido
+                m.generate_content("ping")
+                model = m
+                print(f"🤖 SANT; AI ativada com sucesso no modelo: {nome_modelo}!", flush=True)
                 break
-
-        # Se não achou por palavra-chave, pega o primeiro modelo de texto da lista
-        if not modelo_escolhido and modelos_suportados:
-            modelo_escolhido = modelos_suportados[0]
-
-        if modelo_escolhido:
-            model = genai.GenerativeModel(modelo_escolhido)
-            print(f"🤖 SANT; AI ativada com sucesso usando o modelo: {modelo_escolhido}!", flush=True)
-        else:
-            print("⚠️ Nenhum modelo de geração de texto disponível para esta chave.", flush=True)
+            except Exception as e_mod:
+                print(f"⚠️ Modelo {nome_modelo} indisponível: {e_mod}", flush=True)
+                continue
 
     except Exception as e:
-        print(f"⚠️ Erro ao consultar modelos do Gemini: {e}", flush=True)
+        print(f"⚠️ Erro geral ao configurar Gemini: {e}", flush=True)
 else:
-    print("⚠️ GEMINI_API_KEY não encontrada nas variáveis de ambiente.", flush=True)
+    print("⚠️ GEMINI_API_KEY não encontrada no .env ou Render.", flush=True)
 
 PROMPT_SANT_AI = """
 Você é a SANT; AI, a inteligência artificial oficial de atendimento da agência de aceleração digital SANT;.
@@ -64,7 +57,7 @@ Você é a SANT; AI, a inteligência artificial oficial de atendimento da agênc
 SUA PERSONALIDADE & TOM DE VOZ:
 - Sofisticada, direta, técnica, educada, humana e de alto padrão (High-Ticket).
 - Você usa o estilo visual da marca: use pontuação com ponto e vírgula ";" em frases de destaque.
-- Respostas curtas e elegantes de no máximo 1 a 2 parágrafos curtos.
+- Respostas curtas de no máximo 1 a 2 parágrafos.
 
 SOU A SANT;:
 - Não vendemos sites comuns, construímos ecossistemas digitais de vendas autônomas.
@@ -116,7 +109,7 @@ def chat_ai():
     if not mensagem_usuario:
         return jsonify({"resposta": "Como posso te ajudar a escalar sua presença digital hoje?"})
 
-    # 1. TENTA RESPOSTA COM GEMINI IA
+    # TENTA RESPOSTA COM GEMINI IA
     if model is not None:
         try:
             prompt_completo = f"{PROMPT_SANT_AI}\n\nCliente perguntou: {mensagem_usuario}\nSANT; AI:"
@@ -127,7 +120,7 @@ def chat_ai():
         except Exception as e:
             print(f"❌ [ERRO GEMINI]: {e}", flush=True)
 
-    # 2. FALLBACK INTELIGENTE (Se a IA oscilar)
+    # FALLBACK INTELIGENTE (Se a IA oscilar)
     msg = mensagem_usuario.lower()
 
     if any(p in msg for p in ["quanto", "preco", "preço", "valor", "custo", "investimento", "orcamento", "orçamento"]):
