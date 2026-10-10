@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 # Carrega as variáveis do arquivo .env (Ambiente Local)
 load_dotenv()
 
-# SDK Oficial da Google
+# NOVO SDK OFICIAL DA GOOGLE
 from google import genai
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -24,7 +24,22 @@ def inject_year():
     return {'ano_atual': datetime.now().year}
 
 # ============================================
-# 🤖 2. CONFIGURAÇÃO DA IA SANT; (GOOGLE-GENAI)
+# ⚙️ 2. CONFIGURAÇÕES & WHATSAPP DA SANT;
+# ============================================
+SEU_WHATSAPP = "5521986010634"  # 👈 Coloque seu DDD + Número real aqui
+
+ZAP_LINK_BASE = f"https://wa.me/{SEU_WHATSAPP}?text="
+
+LINKS_ENCURTADOS = {
+    "zap": f"{ZAP_LINK_BASE}Ol%C3%A1%20SANT%3B!%20Vim%20pelo%20link%20encurtado.",
+    "whatsapp": f"https://wa.me/{SEU_WHATSAPP}",
+    "insta": "https://www.instagram.com/sant.social/",
+    "instagram": "https://www.instagram.com/sant.social/",
+    "patinho": "https://bot-radio-habbler.onrender.com",
+}
+
+# ============================================
+# 🤖 3. CONFIGURAÇÃO DA IA SANT; (SDK GOOGLE-GENAI)
 # ============================================
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 
@@ -38,36 +53,26 @@ if GEMINI_API_KEY:
 else:
     print("⚠️ GEMINI_API_KEY não encontrada no arquivo .env ou no Render.", flush=True)
 
-PROMPT_SANT_AI = """
+PROMPT_SANT_AI = f"""
 Você é a SANT; AI, a inteligência artificial oficial de atendimento da agência de aceleração digital SANT;.
 
 SUA PERSONALIDADE & TOM DE VOZ:
 - Sofisticada, direta, técnica, educada, humana e de alto padrão (High-Ticket).
 - Você usa o estilo visual da marca: use pontuação com ponto e vírgula ";" em frases de destaque.
-- Respostas curtas e elegantes de no máximo 1 a 2 parágrafos.
+- Respostas curtas e elegantes de 1 a 2 parágrafos.
 
 SOU A SANT;:
 - Não vendemos sites comuns, construímos ecossistemas digitais de vendas autônomas.
 - Método AGA;: Arquitetura (Brand + Web), Gestão (Ads + Social + BI) e Autonomia (Autobot IA 24/7).
 - Plano SANT; CONTINUUM;: Entrada de R$ 390 (Fundador) ou R$ 490 (Oficial) + 11x de R$ 350 ou R$ 450/mês.
-- Discord: Desenvolvemos bots em Python, economia, loja Pix automática e portais integrados (ex: Patinho Bot da Rádio Habbler).
+- Discord: Desenvolvemos bots em Python (a partir de R$ 150), economia, loja Pix automática e portais integrados (ex: Patinho Bot da Rádio Habbler).
 
 SUA MISSÃO:
-Responder a dúvida do cliente com clareza e sempre convidar para qualificar o projeto no WhatsApp comercial.
+Responder a dúvida do cliente com clareza e SEMPRE incluir o link formatado [Falar no WhatsApp](https://wa.me/{SEU_WHATSAPP}) para ele agendar a reunião.
 """
 
-SEU_WHATSAPP = "5521986010634"  # 👈 Coloque seu DDD + Número real aqui
-
-LINKS_ENCURTADOS = {
-    "zap": f"https://wa.me/{SEU_WHATSAPP}?text=Ol%C3%A1%20SANT%3B!%20Vim%20pelo%20link%20encurtado.",
-    "whatsapp": f"https://wa.me/{SEU_WHATSAPP}",
-    "insta": "https://www.instagram.com/sant.social/",
-    "instagram": "https://www.instagram.com/sant.social/",
-    "patinho": "https://bot-radio-habbler.onrender.com",
-}
-
 # ============================================
-# 🏠 3. ROTA 1: HOME (PÁGINA PRINCIPAL)
+# 🏠 4. ROTA 1: HOME (PÁGINA PRINCIPAL)
 # ============================================
 @app.route('/')
 def index():
@@ -80,7 +85,7 @@ def index():
     return render_template('index.html', portfolio_images=portfolio_images)
 
 # ============================================
-# 📱 4. ROTA 2: LINKTREE / BIO EXCLUSIVO
+# 📱 5. ROTA 2: LINKTREE / BIO EXCLUSIVO
 # ============================================
 @app.route('/links')
 @app.route('/bio')
@@ -88,7 +93,7 @@ def bio_links():
     return render_template('links.html')
 
 # ============================================
-# 🤖 ROTA 3: API DA IA (SANT; AI - BULLETPROOF)
+# 🤖 6. ROTA 3: API DA IA (SANT; AI - RESPOSTAS ESPECÍFICAS)
 # ============================================
 @app.route('/api/chat-ai', methods=['POST'])
 def chat_ai():
@@ -100,16 +105,71 @@ def chat_ai():
 
     msg = mensagem_usuario.lower().strip()
 
-    # 1. RESPOSTAS AFIRMATIVAS DIRETAS ("sim", "ok", "quero", "claro", "bora") -> RESPOSTA INSTANTÂNEA!
-    afirmativas = ["sim", "sim!", "ok", "claro", "com certeza", "quero", "bora", "pode ser", "vamos"]
-    if msg in afirmativas or any(msg == a for a in afirmativas):
-        resp_zap = (
-            "Excelente! 🚀 Clique no botão abaixo para abrir a conversa direta com nosso time comercial no WhatsApp e qualificar seu projeto agora mesmo:\n\n"
-            f"👉 [Falar no WhatsApp Comercial](https://wa.me/{SEU_WHATSAPP}?text=Ol%C3%A1%20SANT%3B!%20Vim%20pelo%20Autobot%20do%20site%20e%20quero%20iniciar%20meu%20projeto.)"
+    # 1. RESPOSTAS DIRETAS DAS PÍLULAS DO SITE (RESPOSTA INSTANTÂNEA + LINK WHATSAPP)
+    
+    # Pílula: Discord & Bots
+    if any(p in msg for p in ["discord", "bot", "patinho", "servidor", "comunidade", "serviços para discord"]):
+        resp = (
+            "Desenvolvemos soluções completas para Discord! Criamos Bots personalizados em Python (a partir de R$ 150), "
+            "Sistemas de Loja Pix automáticos e Portais Web integrados com ranking e rádio (como o famoso Patinho Bot) ;\n\n"
+            f"👉 [Solicitar Projeto para Discord no WhatsApp](https://wa.me/{SEU_WHATSAPP}?text=Ol%C3%A1%20SANT%3B!%20Tenho%20interesse%20em%20projetos%20para%20Discord.)"
         )
-        return jsonify({"resposta": resp_zap})
+        return jsonify({"resposta": resp})
 
-    # 2. TENTA RESPOSTA VIA GEMINI IA (COM PROTEÇÃO CONTRA BLOQUEIO)
+    # Pílula: Plano Continuum
+    elif any(p in msg for p in ["continuum", "plano continuum", "fidelidade", "anual"]):
+        resp = (
+            "O **Plano SANT; CONTINUUM;** é nosso programa de aceleração anual com 20% OFF: por **Entrada de R$ 390 (Lote Fundador) + 11x de R$ 350/mês**, "
+            "sua empresa recebe o site completo AEO-Native, o Autobot de IA e 12 meses de suporte, atualizações e reuniões de BI ;\n\n"
+            f"👉 [Garantir Vaga de Fundador no WhatsApp](https://wa.me/{SEU_WHATSAPP}?text=Ol%C3%A1%20SANT%3B!%20Quero%20garantir%20minha%20vaga%20no%20Plano%20Continuum.)"
+        )
+        return jsonify({"resposta": resp})
+
+    # Pílula: Brand & Rebrand
+    elif any(p in msg for p in ["brand", "rebrand", "marca", "logo", "identidade"]):
+        resp = (
+            "No **Brand & Rebrand;**, redefinimos o posicionamento da sua empresa com identidade visual High-Ticket, "
+            "manual de marca, tipografia e paleta estratégica para você transmitir autoridade imediata e parar de dar desconto ;\n\n"
+            f"👉 [Solicitar Rebrand no WhatsApp](https://wa.me/{SEU_WHATSAPP}?text=Ol%C3%A1%20SANT%3B!%20Quero%20fazer%20o%20Rebrand%20da%20minha%20empresa.)"
+        )
+        return jsonify({"resposta": resp})
+
+    # Pílula: Growth & Ads
+    elif any(p in msg for p in ["growth", "ads", "trafego", "tráfego", "anúncio", "anuncio"]):
+        resp = (
+            "No **Growth & Ads;**, gerenciamos suas campanhas de tráfego pago no Meta e Google Ads com foco em menor Custo por Lead "
+            "e ROI real, tudo integrado ao Autobot e acompanhado pelo painel **DashSocial;** ;\n\n"
+            f"👉 [Acelerar Vendas com Tráfego Pago](https://wa.me/{SEU_WHATSAPP}?text=Ol%C3%A1%20SANT%3B!%20Quero%20acelerar%20minhas%20vendas%20com%20Growth.)"
+        )
+        return jsonify({"resposta": resp})
+
+    # Pílula: Social Media
+    elif any(p in msg for p in ["social", "media", "mídia", "reels", "post", "conteudo", "conteúdo"]):
+        resp = (
+            "No **Social Media Strategy;**, produzimos conteúdo de alta retenção com copywriting visceral e design de elite "
+            "para transformar seguidores em compradores no WhatsApp, sem perder tempo com posts irrelevantes ;\n\n"
+            f"👉 [Estruturar meu Social Media no WhatsApp](https://wa.me/{SEU_WHATSAPP}?text=Ol%C3%A1%20SANT%3B!%20Quero%20aumentar%20as%20vendas%20com%20Social%20Media.)"
+        )
+        return jsonify({"resposta": resp})
+
+    # Pílula: Métricas & BI
+    elif any(p in msg for p in ["métricas", "metricas", "bi", "dash", "dashboard", "dashsocial"]):
+        resp = (
+            "Com nosso módulo de **Métricas & BI;**, você acompanha todas as vendas e atendimentos do Autobot em tempo real "
+            "através do seu painel exclusivo **DashSocial;** no celular ou computador ;\n\n"
+            f"👉 [Ver Demonstração do DashSocial; no WhatsApp](https://wa.me/{SEU_WHATSAPP}?text=Ol%C3%A1%20SANT%3B!%20Quero%20conhecer%20o%20DashSocial.)"
+        )
+        return jsonify({"resposta": resp})
+
+    # Afirmativas ("sim", "ok", "quero", "claro", "bora")
+    elif msg in ["sim", "sim!", "ok", "claro", "com certeza", "quero", "bora", "pode ser", "vamos"]:
+        resp = (
+            "Excelente! 🚀 Clique no link abaixo para abrir a conversa direta com nosso time comercial no WhatsApp e qualificar seu projeto agora mesmo:\n\n"
+            f"👉 [Iniciar Atendimento no WhatsApp](https://wa.me/{SEU_WHATSAPP}?text=Ol%C3%A1%20SANT%3B!%20Quero%20iniciar%20meu%20projeto.)"
+        )
+        return jsonify({"resposta": resp})
+
+    # 2. TENTA RESPOSTA VIA SDK GOOGLE-GENAI (Para perguntas livres)
     if client is not None:
         modelos_validos = ['gemini-2.0-flash', 'gemini-1.5-flash']
         for modelo_nome in modelos_validos:
@@ -121,7 +181,6 @@ def chat_ai():
                     contents=prompt_completo
                 )
                 
-                # Leitura segura de texto sem gerar ValueError
                 texto_resposta = None
                 try:
                     if response and response.text:
@@ -137,23 +196,16 @@ def chat_ai():
                 print(f"⚠️ Alerta Gemini ({modelo_nome}): {e}", flush=True)
                 continue
 
-    # 3. FALLBACK INTELIGENTE POR PALAVRAS-CHAVE
-    if any(p in msg for p in ["quanto", "preco", "preço", "valor", "custo", "investimento", "orcamento", "orçamento"]):
-        resp = "Nossos ecossistemas empresariais operam pelo **Plano SANT; CONTINUUM;**: por **Entrada de R$ 390 + 11x de R$ 350/mês**, você recebe o site completo, o Autobot e 12 meses de acompanhamento ;\n\nQuer dar esse próximo passo no WhatsApp?"
-
-    elif any(p in msg for p in ["onde", "aonde", "fica", "local", "cidade"]):
-        resp = "A SANT; é uma agência 100% digital AEO-Native. Atendemos empresas de todo o Brasil e do exterior de forma remota e ágil. De onde é sua empresa? ;"
-
-    elif any(p in msg for p in ["como", "funciona", "passo", "processo", "metodo", "método", "aga"]):
-        resp = "Operamos através do **Método AGA;**: construímos seu site AEO-Native integrado ao Autobot de IA que atende, qualifica e envia o lead pronto para o seu WhatsApp 24/7. Podemos agendar uma reunião?"
-
-    else:
-        resp = f"Perfeito! Para analisarmos os detalhes do seu projeto, clique no botão e fale direto com nossos especialistas no WhatsApp comercial ;"
+    # 3. FALLBACK GENÉRICO COM LINK DE WHATSAPP (Para qualquer outra dúvida)
+    resp = (
+        f"Entendi perfeitamente sua dúvida sobre '{mensagem_usuario}'! Para analisarmos a arquitetura exata do Método AGA; para o seu caso, fale direto com nossos especialistas no WhatsApp comercial ;\n\n"
+        f"👉 [Falar com a Equipe no WhatsApp](https://wa.me/{SEU_WHATSAPP}?text=Ol%C3%A1%20SANT%3B!%20Tenho%20uma%20d%C3%BAvida%20sobre%20{mensagem_usuario}.)"
+    )
 
     return jsonify({"resposta": resp})
 
 # ============================================
-# 🚀 6. ROTA 4: ENCURTADOR DE LINKS
+# 🚀 7. ROTA 4: ENCURTADOR DE LINKS
 # ============================================
 @app.route('/<short_code>')
 def redirecionar_link(short_code):
