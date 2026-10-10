@@ -128,21 +128,25 @@ function addMsg(texto, tipo) {
     const div = document.createElement("div");
     div.className = `msg ${tipo}-msg`;
 
+    // Converte sintaxe Markdown simples (**negrito** e [links](url)) para HTML
+    let textoFormatado = texto
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\[(.*?)\]\((https?:\/\/[^\s]+)\)/g, '<a href="$2" target="_blank" style="color: #4da6ff; text-decoration: underline; font-weight: bold;">$1</a>');
+
     if (tipo === "bot") {
         div.innerHTML = `
             <div class="msg-label">SANT; AI</div>
-            <div class="msg-content">${texto}</div>
+            <div class="msg-content">${textoFormatado}</div>
         `;
     } else {
         div.innerHTML = `
-            <div class="msg-content">${texto}</div>
+            <div class="msg-content">${textoFormatado}</div>
         `;
     }
 
     box.appendChild(div);
     box.scrollTop = box.scrollHeight;
 }
-
 function comprar(produto) {
     const textoZap = `Olá SANT;! Quero adquirir o produto: *${produto}*.`;
     window.open(`https://wa.me/${SEU_WHATSAPP}?text=${textoZap}`, '_blank');
