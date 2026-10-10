@@ -3,7 +3,7 @@ from datetime import datetime
 from flask import Flask, render_template, redirect, request, jsonify
 from dotenv import load_dotenv
 
-# ⚠️ O load_dotenv() DEVE vir antes de carregar as variáveis de ambiente!
+# Carrega as variáveis do arquivo .env
 load_dotenv()
 
 import google.generativeai as genai
@@ -16,7 +16,7 @@ PORTFOLIO_DIR = os.path.join(STATIC_DIR, "portfolio")
 app = Flask(__name__, template_folder=TEMPLATE_DIR, static_folder=STATIC_DIR)
 
 # ============================================
-# 🤖 CONFIGURAÇÃO DA IA SANT; (GEMINI)
+# 🤖 CONFIGURAÇÃO AUTOMÁTICA DA IA SANT; (GEMINI)
 # ============================================
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 
@@ -24,10 +24,37 @@ model = None
 if GEMINI_API_KEY:
     try:
         genai.configure(api_key=GEMINI_API_KEY)
-        model = genai.GenerativeModel('gemini-1.5-flash')
-        print("🤖 SANT; AI ativada com sucesso via Gemini!", flush=True)
+        
+        # Busca automaticamente a lista de modelos ativos na sua conta do Google
+        modelos_suportados = []
+        for m in genai.list_models():
+            if 'generateContent' in m.supported_generation_methods:
+                modelos_suportados.append(m.name)
+        
+        print(f"📋 Modelos disponíveis na sua chave: {modelos_suportados}", flush=True)
+
+        # Seleciona o melhor modelo disponível
+        modelo_escolhido = None
+        for pref in ['gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-pro']:
+            for item in modelos_suportados:
+                if pref in item:
+                    modelo_escolhido = item
+                    break
+            if modelo_escolhido:
+                break
+
+        # Se não achou por palavra-chave, pega o primeiro modelo de texto da lista
+        if not modelo_escolhido and modelos_suportados:
+            modelo_escolhido = modelos_suportados[0]
+
+        if modelo_escolhido:
+            model = genai.GenerativeModel(modelo_escolhido)
+            print(f"🤖 SANT; AI ativada com sucesso usando o modelo: {modelo_escolhido}!", flush=True)
+        else:
+            print("⚠️ Nenhum modelo de geração de texto disponível para esta chave.", flush=True)
+
     except Exception as e:
-        print(f"⚠️ Erro ao configurar Gemini: {e}", flush=True)
+        print(f"⚠️ Erro ao consultar modelos do Gemini: {e}", flush=True)
 else:
     print("⚠️ GEMINI_API_KEY não encontrada nas variáveis de ambiente.", flush=True)
 
@@ -37,7 +64,7 @@ Você é a SANT; AI, a inteligência artificial oficial de atendimento da agênc
 SUA PERSONALIDADE & TOM DE VOZ:
 - Sofisticada, direta, técnica, educada, humana e de alto padrão (High-Ticket).
 - Você usa o estilo visual da marca: use pontuação com ponto e vírgula ";" em frases de destaque.
-- Respostas curtas de no máximo 2 parágrafos curtos.
+- Respostas curtas e elegantes de no máximo 1 a 2 parágrafos curtos.
 
 SOU A SANT;:
 - Não vendemos sites comuns, construímos ecossistemas digitais de vendas autônomas.
@@ -89,7 +116,7 @@ def chat_ai():
     if not mensagem_usuario:
         return jsonify({"resposta": "Como posso te ajudar a escalar sua presença digital hoje?"})
 
-    # TENTA RESPOSTA DINÂMICA DA IA DO GEMINI
+    # 1. TENTA RESPOSTA COM GEMINI IA
     if model is not None:
         try:
             prompt_completo = f"{PROMPT_SANT_AI}\n\nCliente perguntou: {mensagem_usuario}\nSANT; AI:"
@@ -100,7 +127,7 @@ def chat_ai():
         except Exception as e:
             print(f"❌ [ERRO GEMINI]: {e}", flush=True)
 
-    # FALLBACK INTELIGENTE (Modo de Segurança)
+    # 2. FALLBACK INTELIGENTE (Se a IA oscilar)
     msg = mensagem_usuario.lower()
 
     if any(p in msg for p in ["quanto", "preco", "preço", "valor", "custo", "investimento", "orcamento", "orçamento"]):
