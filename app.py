@@ -88,7 +88,7 @@ def bio_links():
     return render_template('links.html')
 
 # ============================================
-# 🤖 6. ROTA 3: API DA IA (SANT; AI)
+# 🤖 ROTA 3: API DA IA (SANT; AI - BULLETPROOF)
 # ============================================
 @app.route('/api/chat-ai', methods=['POST'])
 def chat_ai():
@@ -98,38 +98,59 @@ def chat_ai():
     if not mensagem_usuario:
         return jsonify({"resposta": "Como posso te ajudar a escalar sua presença digital hoje?"})
 
-    # TENTA RESPOSTA VIA SDK GOOGLE-GENAI
+    msg = mensagem_usuario.lower().strip()
+
+    # 1. RESPOSTAS AFIRMATIVAS DIRETAS ("sim", "ok", "quero", "claro", "bora") -> RESPOSTA INSTANTÂNEA!
+    afirmativas = ["sim", "sim!", "ok", "claro", "com certeza", "quero", "bora", "pode ser", "vamos"]
+    if msg in afirmativas or any(msg == a for a in afirmativas):
+        resp_zap = (
+            "Excelente! 🚀 Clique no botão abaixo para abrir a conversa direta com nosso time comercial no WhatsApp e qualificar seu projeto agora mesmo:\n\n"
+            f"👉 [Falar no WhatsApp Comercial](https://wa.me/{SEU_WHATSAPP}?text=Ol%C3%A1%20SANT%3B!%20Vim%20pelo%20Autobot%20do%20site%20e%20quero%20iniciar%20meu%20projeto.)"
+        )
+        return jsonify({"resposta": resp_zap})
+
+    # 2. TENTA RESPOSTA VIA GEMINI IA (COM PROTEÇÃO CONTRA BLOQUEIO)
     if client is not None:
-        modelo_nome = 'gemini-3.8-flash'
-        try:
-            prompt_completo = f"{PROMPT_SANT_AI}\n\nCliente perguntou: {mensagem_usuario}\nSANT; AI:"
-            
-            # SINTAXE OFICIAL EXIGIDA PARA O GEMINI 3.8 FLASH
-            interaction = client.interactions.create(
-                model=modelo_nome,
-                input=prompt_completo
-            )
-            
-            if interaction and interaction.output_text:
-                print(f"✅ [GEMINI ({modelo_nome}) RESPONDEU]: {interaction.output_text[:50]}...", flush=True)
-                return jsonify({"resposta": interaction.output_text.strip()})
-        except Exception as e:
-            print(f"❌ [ERRO CRÍTICO GEMINI 3.8]: {str(e)}", flush=True)
+        modelos_validos = ['gemini-2.0-flash', 'gemini-1.5-flash']
+        for modelo_nome in modelos_validos:
+            try:
+                prompt_completo = f"{PROMPT_SANT_AI}\n\nCliente perguntou: {mensagem_usuario}\nSANT; AI:"
+                
+                response = client.models.generate_content(
+                    model=modelo_nome,
+                    contents=prompt_completo
+                )
+                
+                # Leitura segura de texto sem gerar ValueError
+                texto_resposta = None
+                try:
+                    if response and response.text:
+                        texto_resposta = response.text.strip()
+                except Exception:
+                    pass
 
-    # FALLBACK INTELIGENTE (Caso a API oscile ou falte saldo)
-    msg = mensagem_usuario.lower()
+                if texto_resposta:
+                    print(f"✅ [GEMINI ({modelo_nome}) RESPONDEU]: {texto_resposta[:50]}...", flush=True)
+                    return jsonify({"resposta": texto_resposta})
 
+            except Exception as e:
+                print(f"⚠️ Alerta Gemini ({modelo_nome}): {e}", flush=True)
+                continue
+
+    # 3. FALLBACK INTELIGENTE POR PALAVRAS-CHAVE
     if any(p in msg for p in ["quanto", "preco", "preço", "valor", "custo", "investimento", "orcamento", "orçamento"]):
-        resp = "Nossos ecossistemas empresariais operam pelo **Plano SANT; CONTINUUM;**: por **Entrada de R$ 390 + 11x de R$ 350/mês**, você recebe o site completo, o Autobot e 12 meses de acompanhamento調整;"
+        resp = "Nossos ecossistemas empresariais operam pelo **Plano SANT; CONTINUUM;**: por **Entrada de R$ 390 + 11x de R$ 350/mês**, você recebe o site completo, o Autobot e 12 meses de acompanhamento ;\n\nQuer dar esse próximo passo no WhatsApp?"
+
     elif any(p in msg for p in ["onde", "aonde", "fica", "local", "cidade"]):
-        resp = "A SANT; é uma agência 100% digital AEO-Native. Atendemos empresas de todo o Brasil e do exterior de forma remota e ágil ;"
+        resp = "A SANT; é uma agência 100% digital AEO-Native. Atendemos empresas de todo o Brasil e do exterior de forma remota e ágil. De onde é sua empresa? ;"
+
     elif any(p in msg for p in ["como", "funciona", "passo", "processo", "metodo", "método", "aga"]):
-        resp = "Operamos através do **Método AGA;**: construímos seu site AEO-Native integrado ao Autobot de IA que atende, qualifica e envia o lead pronto para o seu WhatsApp 24/7. Quer ver uma demonstração do processo?"
+        resp = "Operamos através do **Método AGA;**: construímos seu site AEO-Native integrado ao Autobot de IA que atende, qualifica e envia o lead pronto para o seu WhatsApp 24/7. Podemos agendar uma reunião?"
+
     else:
-        resp = "Para analisarmos a arquitetura exata para o seu caso, clique no botão abaixo para qualificar seu projeto com nossa equipe no WhatsApp comercial ;"
+        resp = f"Perfeito! Para analisarmos os detalhes do seu projeto, clique no botão e fale direto com nossos especialistas no WhatsApp comercial ;"
 
     return jsonify({"resposta": resp})
-
 
 # ============================================
 # 🚀 6. ROTA 4: ENCURTADOR DE LINKS
