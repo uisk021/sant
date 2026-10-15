@@ -1,461 +1,332 @@
-<!DOCTYPE html>
-<html lang="pt-br">
+<!doctype html>
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SANT; — Método AGA; & Ecossistemas Digitais</title>
-    
-    <!-- Fontes Oficiais -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0A0A0B">
+  <meta name="description" content="A SANT; instala site AEO-Native, Autobot de IA e dados de funil para empresas pararem de perder oportunidades no WhatsApp.">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://sant-agencia.onrender.com/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:title" content="SANT; — Infraestrutura de crescimento com IA">
+  <meta property="og:description" content="Seu WhatsApp não pode parar quando sua equipe para.">
+  <meta property="og:url" content="https://sant-agencia.onrender.com/">
+  <meta property="og:image" content="{{ url_for('static', filename='portfolio/system-interface.webp', _external=True) }}">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <title>SANT; | Infraestrutura de crescimento com IA</title>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "SANT;",
+    "url": "{{ canonical_url }}",
+    "description": "Infraestrutura de crescimento com IA: site, automação de WhatsApp e dados de funil.",
+    "sameAs": ["https://www.instagram.com/sant.social/"]
+  }
+  </script>
 </head>
 <body>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
 
-    <!-- ========== NAVBAR ========== -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="#home" class="logo-link" title="SANT;">
-                <img src="{{ url_for('static', filename='logo.png') }}" alt="SANT;" class="brand-logo-nav">
-            </a>
+  <header class="topbar" data-header>
+    <nav class="nav shell" aria-label="Navegação principal">
+      <a class="brand" href="#inicio" aria-label="SANT; — ir para o início">
+        <img src="{{ url_for('static', filename='brand/logo.svg') }}" alt="SANT;">
+      </a>
 
-            <ul class="nav-menu">
-                <li><a href="#erros">O PROBLEMA</a></li>
-                <li><a href="#metodologia">MÉTODO AGA;</a></li>
-                <li><a href="#continuum">PLANO CONTINUUM;</a></li>
-                <li><a href="#portfolio">PORTFÓLIO</a></li>
-                <li><a href="#faq">FAQ</a></li>
-            </ul>
+      <div class="nav-links" data-nav-links>
+        <a href="#problema">O problema</a>
+        <a href="#sistema">Como funciona</a>
+        <a href="#continuum">Plano CONTINUUM;</a>
+        <a href="#provas">Provas</a>
+        <a href="#perguntas">Perguntas</a>
+      </div>
 
-            <button class="btn-nav btn-nav-desktop" onclick="abrirWhatsAppDirect()">INICIAR PROJETO ;</button>
+      <button class="button button-small nav-cta" type="button" data-whatsapp="demo" data-track="nav_demo">
+        Ver o Chatbot <span aria-hidden="true">↗</span>
+      </button>
 
-            <button class="mobile-menu-btn" id="mobile-toggle" onclick="toggleMobileMenu()" aria-label="Abrir Menu">
-                <span class="hamburger-bar"></span>
-                <span class="hamburger-bar"></span>
-            </button>
-        </div>
+      <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu-mobile" data-menu-toggle>
+        <span></span><span></span>
+      </button>
     </nav>
 
-    <!-- ========== DRAWER MENU MOBILE (COM REDES SOCIAIS) ========== -->
-    <div class="mobile-drawer" id="mobile-drawer">
-        <div class="drawer-header">
-            <img src="{{ url_for('static', filename='logo.png') }}" alt="SANT;" class="drawer-logo">
-            <button class="drawer-close" onclick="toggleMobileMenu()">✕</button>
-        </div>
-
-        <ul class="drawer-links">
-            <li><a href="#erros" onclick="toggleMobileMenu()">01. O PROBLEMA</a></li>
-            <li><a href="#metodologia" onclick="toggleMobileMenu()">02. MÉTODO AGA;</a></li>
-            <li><a href="#continuum" onclick="toggleMobileMenu()">03. PLANO CONTINUUM;</a></li>
-            <li><a href="#portfolio" onclick="toggleMobileMenu()">04. PORTFÓLIO</a></li>
-            <li><a href="#faq" onclick="toggleMobileMenu()">05. FAQ</a></li>
-        </ul>
-
-        <div class="drawer-footer">
-            <button class="btn btn-primary btn-drawer" onclick="abrirWhatsAppDirect(); toggleMobileMenu();">
-                INICIAR PROJETO NO WHATSAPP ;
-            </button>
-
-            <!-- Redes Sociais no Menu Mobile -->
-            <div style="display: flex; justify-content: center; gap: 20px; margin-top: 20px;">
-                <a href="https://www.instagram.com/sant.social/" target="_blank" style="color: #E3E2E2; text-decoration: none; font-size: 0.8rem; font-weight: 600;">
-                    📸 INSTAGRAM
-                </a>
-                <a href="https://wa.me/5511999999999" target="_blank" style="color: #E3E2E2; text-decoration: none; font-size: 0.8rem; font-weight: 600;">
-                    💬 WHATSAPP
-                </a>
-            </div>
-        </div>
+    <div class="mobile-menu" id="menu-mobile" data-mobile-menu hidden>
+      <a href="#problema">O problema</a>
+      <a href="#sistema">Como funciona</a>
+      <a href="#continuum">Plano CONTINUUM;</a>
+      <a href="#provas">Provas</a>
+      <a href="#perguntas">Perguntas</a>
+      <button class="button button-full" type="button" data-whatsapp="demo" data-track="mobile_demo">Ver o Chatbot em ação <span aria-hidden="true">↗</span></button>
     </div>
+  </header>
 
-    <!-- ========== DOBRA 1: HERO ========== -->
-    <section id="home" class="hero">
-        <video class="hero-bg-video" autoplay loop muted playsinline>
-            <source src="{{ url_for('static', filename='bg-hero.mp4') }}" type="video/mp4">
-        </video>
-
-        <div class="hero-bg-glow"></div>
-        <div class="hero-vignette"></div>
-
-        <div class="container hero-content">
-            <div class="hero-tag">SANT; — DIGITAL ECOSYSTEMS</div>
-            <h1 class="hero-title">
-                ENQUANTO SEU SITE DORMIA,<br>
-                SEU CONCORRENTE <span class="highlight">FECHOU 3 VENDAS;</span>
-            </h1>
-            <p class="hero-subtitle">
-                Reconstruímos sua presença digital com o <strong>Método AGA;</strong>: Sites de Alta Conversão integrados a Autobots de IA que atendem, qualificam e vendem no seu WhatsApp 24/7.
-            </p>
-
-            <div class="hero-actions">
-                <button onclick="abrirWhatsAppDirect()" class="btn btn-primary">
-                    CONSTRUIR MEU ECOSSISTEMA ;
-                </button>
-            </div>
-
-            <div class="hero-proof-pills">
-                <span>⚡ Atendimento em 4 segundos</span>
-                <span>🔒 100% Autônomo</span>
-                <span>📈 Foco em ROI Real</span>
-            </div>
+  <main id="conteudo">
+    <section class="hero" id="inicio">
+      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="hero-orbit orbit-one" aria-hidden="true"></div>
+      <div class="hero-orbit orbit-two" aria-hidden="true"></div>
+      <div class="shell hero-layout">
+        <div class="hero-copy reveal">
+          <p class="eyebrow"><span class="eyebrow-dot"></span> INFRAESTRUTURA DE CRESCIMENTO COM IA</p>
+          <h1 class="hero-title">Seu WhatsApp não pode parar quando sua equipe para.</h1>
+          <p class="hero-lead">A SANT; instala um site que aparece, um Autobot que atende e qualifica 24/7 e uma camada de dados para sua empresa enxergar cada oportunidade.</p>
+          <div class="hero-actions">
+            <button class="button" type="button" data-whatsapp="demo" data-track="hero_demo" data-magnetic>Ver o Chatbot em ação <span aria-hidden="true">↗</span></button>
+            <a class="text-link" href="#sistema">Entender o sistema <span aria-hidden="true">↓</span></a>
+          </div>
+          <p class="hero-note">Site AEO-Native <i></i> Autobot 24/7 <i></i> DashSocial;</p>
         </div>
+
+        <div class="hero-console-wrap" data-parallax><div class="hero-console reveal delay-2" aria-label="Fluxo ilustrativo do Autobot">
+          <div class="console-bar">
+            <span class="console-mark"><i></i><i></i><i></i></span>
+            <span>SANT; / sistema ativo</span>
+            <span class="console-status"><b></b> online</span>
+          </div>
+          <div class="console-body">
+            <div class="console-label">FLUXO ILUSTRATIVO — QUALIFICAÇÃO</div>
+            <div class="conversation">
+              <div class="message incoming"><span>Cliente</span>Olá, queria entender como funciona.</div>
+              <div class="message system"><span>Autobot</span>Claro. Para eu direcionar você, qual serviço procura e para quando?</div>
+              <div class="message incoming"><span>Cliente</span>Preciso automatizar meu atendimento.</div>
+              <div class="message system"><span>Autobot</span>Entendi. Vou organizar o contexto para a equipe continuar a conversa.</div>
+            </div>
+            <div class="console-progress">
+              <span>Conversa iniciada</span><b></b><span>Qualificação</span><b></b><strong>Próximo passo</strong>
+            </div>
+          </div>
+          <div class="console-footer"><span>Resposta, contexto e origem em uma só operação.</span><span>↗</span></div>
+        </div>
+        </div>
+      </div>
     </section>
 
-    <!-- ========== DOBRA 2: ERROS DO MERCADO ========== -->
-    <section id="erros" class="section erros-section">
-        <div class="container">
-            <h2 class="section-title-left reveal-left">POR QUE SEU MARKETING ATUAL NÃO FUNCIONA;</h2>
-            <p class="section-subtitle-left reveal delay-1">A maioria das empresas comete estes 3 erros fatais e rasga dinheiro no digital todos os dias.</p>
-
-            <div class="grid-3">
-                <div class="card erro-card reveal delay-1">
-                    <div class="erro-num">01</div>
-                    <h3>O Site Panfleteiro;</h3>
-                    <p>Um site institucional bonito que ninguém visita, não captura contatos e não gera 1 real de faturamento no final do mês.</p>
-                </div>
-
-                <div class="card erro-card reveal delay-2">
-                    <div class="erro-num">02</div>
-                    <h3>Mídia Social Escrava;</h3>
-                    <p>Produzir posts e Reels sem constância para ganhar curtidas de quem nunca vai comprar o seu produto ou serviço.</p>
-                </div>
-
-                <div class="card erro-card reveal delay-3">
-                    <div class="erro-num">03</div>
-                    <h3>Atendimento Lento;</h3>
-                    <p>Perder clientes quentes à noite, no almoço ou no final de semana porque ninguém respondeu no WhatsApp em menos de 5 minutos.</p>
-                </div>
-            </div>
-        </div>
+    <section class="proof-rail" aria-label="Componentes do sistema">
+      <div class="shell proof-items">
+        <div><span>01</span><strong>Site AEO-Native</strong><small>descoberta e conversão</small></div>
+        <div><span>02</span><strong>Autobot de IA</strong><small>resposta e qualificação</small></div>
+        <div><span>03</span><strong>DashSocial;</strong><small>dados para decidir</small></div>
+        <div><span>AGA</span><strong>Autonomia</strong><small>o ativo permanece seu</small></div>
+      </div>
     </section>
 
-    <!-- ========== DOBRA 3: TIMELINE (MÉTODO AGA;) ========== -->
-    <section id="metodologia" class="section timeline-section">
-        <div class="container">
-            <h2 class="section-title-left reveal-left">A SOLUÇÃO: MÉTODO AGA;</h2>
-            <p class="section-subtitle-left reveal delay-1">Arquitetura, Gestão e Autonomia. A jornada exata para transformar sua empresa em uma operação autônoma de vendas.</p>
+    <section class="section section-ink" id="problema">
+      <div class="shell">
+        <div class="section-intro reveal">
+          <p class="eyebrow">O PROBLEMA</p>
+          <h2>Não é falta de lead.<br><em>É falta de sistema.</em></h2>
+          <p>Tráfego não resolve quando ninguém responde. Conteúdo não resolve quando a conversa esfria. E relatório não resolve se ninguém sabe o que virou venda.</p>
         </div>
-
-        <div class="timeline-wrapper">
-            <div class="timeline-track">
-                <div class="timeline-item reveal delay-1">
-                    <div class="timeline-dot"></div>
-                    <span class="step-number">01</span>
-                    <h3>Brand & Rebrand;</h3>
-                    <p><strong>[ARQUITETURA]</strong> Redefinição de posicionamento. Criação de identidade visual marcante, manual de marca e design estratégico para transmitir autoridade imediata.</p>
-                </div>
-                
-                <div class="timeline-item reveal delay-2">
-                    <div class="timeline-dot"></div>
-                    <span class="step-number">02</span>
-                    <h3>Growth & Ads;</h3>
-                    <p><strong>[GESTÃO]</strong> Tráfego pago focado em ROI (Meta & Google Ads). Atraímos pessoas qualificadas diminuindo o seu Custo Por Lead (CPL).</p>
-                </div>
-                
-                <div class="timeline-item reveal delay-3">
-                    <div class="timeline-dot"></div>
-                    <span class="step-number">03</span>
-                    <h3>Social Media;</h3>
-                    <p><strong>[GESTÃO]</strong> Conteúdo de alta retenção. Estratégia editorial e design de autoridade para aquecer seu público antes da venda.</p>
-                </div>
-                
-                <div class="timeline-item reveal delay-1">
-                    <div class="timeline-dot"></div>
-                    <span class="step-number">04</span>
-                    <h3>Métricas & BI;</h3>
-                    <p><strong>[GESTÃO]</strong> Dashboards em tempo real para monitorar vendas, origens de tráfego e o retorno exato de cada centavo investido.</p>
-                </div>
-
-                <div class="timeline-item destaque reveal delay-2">
-                    <div class="timeline-dot"></div>
-                    <span class="step-number">05</span>
-                    <h3>Web + Autobot;</h3>
-                    <p><strong>[AUTONOMIA]</strong> O coração do ecossistema. Site ultra-rápido integrado a um Autobot de IA que atende, qualifica e entrega o lead pronto no seu WhatsApp 24/7.</p>
-                </div>
-            </div>
+        <div class="problem-grid">
+          <article class="problem-card spotlight-card reveal delay-1">
+            <span>01</span>
+            <h3>O cliente chega.<br>A equipe não está.</h3>
+            <p>Mensagens à noite, no almoço e no fim de semana ficam acumuladas. Quando alguém responde, a intenção já mudou.</p>
+          </article>
+          <article class="problem-card spotlight-card reveal delay-2">
+            <span>02</span>
+            <h3>A conversa começa.<br>Ninguém qualifica.</h3>
+            <p>Boas oportunidades se misturam a curiosos e perguntas repetidas. A equipe perde tempo antes de entender a demanda.</p>
+          </article>
+          <article class="problem-card spotlight-card reveal delay-3">
+            <span>03</span>
+            <h3>A venda se perde.<br>Ninguém enxerga.</h3>
+            <p>Sem origem, etapa e número, não existe clareza sobre o que funciona — nem sobre onde a empresa está vazando receita.</p>
+          </article>
         </div>
+        <div class="section-callout reveal"><span></span><p>O gargalo não é tráfego. É sistema.</p><button class="text-link" type="button" data-whatsapp="diagnostico" data-track="problem_diagnosis">Diagnosticar meu WhatsApp <b>↗</b></button></div>
+      </div>
     </section>
 
-    <!-- ========== DOBRA 4: PLANO CONTINUUM ========== -->
-    <section id="continuum" class="section continuum-section">
-        <div class="container">
-            <div class="continuum-card reveal-scale">
-                <div class="continuum-badge">PROGRAMA DE PARCERIA & ACELERAÇÃO</div>
-                <h2 class="continuum-title">Plano Continuum<span class="semicolon">;</span></h2>
-                <p class="continuum-subtitle">Seu ecossistema blindado, gerenciado e em constante evolução por 12 meses.</p>
-
-                <div class="continuum-grid">
-                    <div class="continuum-info">
-                        <h3 class="stack-title">O QUE VOCÊ RECEBE NO ECOSSISTEMA:</h3>
-                        <div class="stack-list">
-                            <div class="stack-item">
-                                <span class="stack-check">✓</span>
-                                <div>
-                                    <strong>Site Ultra-Rápido AEO-Native</strong>
-                                    <small>Desenvolvido em código puro preparado para conversão e IA.</small>
-                                </div>
-                            </div>
-                            <div class="stack-item">
-                                <span class="stack-check">✓</span>
-                                <div>
-                                    <strong>Autobot de IA 24/7 para WhatsApp</strong>
-                                    <small>Atendimento, triagem e qualificação de clientes em tempo real.</small>
-                                </div>
-                            </div>
-                            <div class="stack-item">
-                                <span class="stack-check">✓</span>
-                                <div>
-                                    <strong>Dashboard de Métricas & BI</strong>
-                                    <small>Painel interativo para acompanhar leads e conversões.</small>
-                                </div>
-                            </div>
-                            <div class="stack-item">
-                                <span class="stack-check">✓</span>
-                                <div>
-                                    <strong>Seguro de Evolução Digital (12 Meses)</strong>
-                                    <small>Alterações, atualizações e suporte contra quedas o ano todo.</small>
-                                </div>
-                            </div>
-                            <div class="stack-item">
-                                <span class="stack-check">✓</span>
-                                <div>
-                                    <strong>Reuniões Mensais de Estratégia & BI</strong>
-                                    <small>12 encontros no ano para analisar e otimizar suas vendas.</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="continuum-pricing-box">
-                        <span class="box-tag">CONDIÇÃO EXCLUSIVA SANT;</span>
-                        <div class="discount-badge">20% OFF</div>
-                        
-                        <div class="pricing-display">
-                            <span class="price-from">Valor Avulso: R$ 3.000,00</span>
-                            <div class="price-main">
-                                <span class="price-currency">R$</span>
-                                <span class="price-val">220</span>
-                                <span class="price-cents">,00</span>
-                                <span class="price-period">entrada</span>
-                            </div>
-                            <span class="price-sub">+ 11 parcelas de <strong>R$ 200,00/mês</strong></span>
-                        </div>
-
-                        <button onclick="abrirWhatsAppDirect()" class="btn btn-primary btn-continuum">
-                            ATIVAR PLANO CONTINUUM ;
-                        </button>
-                        
-                        <div class="scarcity-note">
-                            Atenção: Aceitamos apenas 4 novos ecossistemas por mês para garantir o padrão de atendimento.
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <section class="section section-surface" id="sistema">
+      <div class="shell system-layout">
+        <div class="system-sticky reveal">
+          <p class="eyebrow">O SISTEMA</p>
+          <h2>Da busca à oportunidade.<br><em>Sem ponto cego.</em></h2>
+          <p>Não é um pacote de marketing. É a operação entre o interesse e a venda, desenhada para sua empresa aparecer, responder e decidir melhor.</p>
+          <button class="button button-outline" type="button" data-whatsapp="demo" data-track="system_demo">Conversar com o Chatbot <span aria-hidden="true">↗</span></button>
         </div>
+        <div class="system-steps">
+          <article class="system-card spotlight-card reveal">
+            <div class="system-number">01</div>
+            <div>
+              <p class="card-kicker">DESCOBERTA</p>
+              <h3>Site AEO-Native</h3>
+              <p>Uma página rápida e clara, estruturada para ser encontrada por pessoas, mecanismos de busca e motores de resposta — e transformar atenção em conversa.</p>
+            </div>
+          </article>
+          <article class="system-card spotlight-card reveal delay-1">
+            <div class="system-number signal">02</div>
+            <div>
+              <p class="card-kicker">CONVERSA</p>
+              <h3>Autobot de IA</h3>
+              <p>Uma IA que faz o atendimento inicial, entende a demanda, organiza contexto e entrega uma oportunidade mais preparada para sua equipe.</p>
+            </div>
+          </article>
+          <article class="system-card spotlight-card reveal delay-2">
+            <div class="system-number">03</div>
+            <div>
+              <p class="card-kicker">DECISÃO</p>
+              <h3>DashSocial;</h3>
+              <p>Um painel para acompanhar conversas, qualificações, reuniões, propostas e pagamentos — menos opinião, mais próximo passo.</p>
+            </div>
+          </article>
+        </div>
+      </div>
     </section>
 
-    <!-- ========== DOBRA 5: PORTFÓLIO ========== -->
-    <section id="portfolio" class="section">
-        <div class="container">
-            <h2 class="section-title-left reveal-left">PORTFÓLIO;</h2>
-            <p class="section-subtitle-left reveal delay-1">Uma amostra dos ecossistemas e marcas construídas pela SANT;.</p>
-
-            <div class="clientes-track-wrapper reveal delay-2" style="margin-bottom: 50px;">
-                <div class="clientes-track">
-                    <div class="cliente-logo"><img src="{{ url_for('static', filename='clientes/cliente1.png') }}" alt="" onerror="this.parentElement.style.display='none'"></div>
-                    <div class="cliente-logo"><img src="{{ url_for('static', filename='clientes/cliente2.png') }}" alt="" onerror="this.parentElement.style.display='none'"></div>
-                    <div class="cliente-logo"><img src="{{ url_for('static', filename='clientes/cliente3.png') }}" alt="" onerror="this.parentElement.style.display='none'"></div>
-                    <div class="cliente-logo"><img src="{{ url_for('static', filename='clientes/cliente4.png') }}" alt="" onerror="this.parentElement.style.display='none'"></div>
-                    <div class="cliente-logo"><img src="{{ url_for('static', filename='clientes/cliente5.png') }}" alt="" onerror="this.parentElement.style.display='none'"></div>
-                    <!-- Infinito -->
-                    <div class="cliente-logo"><img src="{{ url_for('static', filename='clientes/cliente1.png') }}" alt="" onerror="this.parentElement.style.display='none'"></div>
-                    <div class="cliente-logo"><img src="{{ url_for('static', filename='clientes/cliente2.png') }}" alt="" onerror="this.parentElement.style.display='none'"></div>
-                    <div class="cliente-logo"><img src="{{ url_for('static', filename='clientes/cliente3.png') }}" alt="" onerror="this.parentElement.style.display='none'"></div>
-                    <div class="cliente-logo"><img src="{{ url_for('static', filename='clientes/cliente4.png') }}" alt="" onerror="this.parentElement.style.display='none'"></div>
-                    <div class="cliente-logo"><img src="{{ url_for('static', filename='clientes/cliente5.png') }}" alt="" onerror="this.parentElement.style.display='none'"></div>
-                </div>
-            </div>
-
-            <div class="portfolio-grid">
-                {% if portfolio_images %}
-                    {% for img in portfolio_images %}
-                        <div class="portfolio-item reveal delay-{{ loop.index0 % 3 + 1 }}">
-                            <img src="{{ url_for('static', filename='portfolio/' + img) }}" alt="Portfólio SANT;">
-                        </div>
-                    {% endfor %}
-                {% else %}
-                    <p style="color: #888;">Imagens do portfólio carregadas via pasta static/portfolio.</p>
-                {% endif %}
-            </div>
+    <section class="section demo-section" aria-labelledby="demo-title">
+      <div class="shell demo-layout">
+        <div class="demo-copy reveal">
+          <p class="eyebrow"><span class="eyebrow-dot"></span> PROVA VIVA</p>
+          <h2 id="demo-title">Antes de contratar,<br><em>converse com o sistema.</em></h2>
+          <p>Uma demonstração vale mais do que uma apresentação. Veja como o Autobot responde, pergunta o que importa e organiza a oportunidade antes de ela chegar à equipe.</p>
+          <button class="button" type="button" data-whatsapp="demo" data-track="demo_section">Abrir demonstração <span aria-hidden="true">↗</span></button>
+          <small>Ambiente de demonstração. Não envie dados sensíveis.</small>
         </div>
+        <div class="demo-panel reveal delay-2">
+          <div class="demo-panel-head"><span>SANT; AI</span><span><b></b> demonstração</span></div>
+          <div class="demo-panel-main">
+            <p class="demo-label">ESCOLHA UMA RESPOSTA PARA VER O FLUXO</p>
+            <p class="demo-question">Qual ponto da sua operação mais perde oportunidades hoje?</p>
+            <div class="quick-answers" role="group" aria-label="Respostas de demonstração">
+              <button type="button" data-demo-answer="fora do horário">Fora do horário</button>
+              <button type="button" data-demo-answer="muitas mensagens">Muitas mensagens</button>
+              <button type="button" data-demo-answer="sem dados">Sem dados do funil</button>
+            </div>
+            <div class="demo-response" data-demo-response aria-live="polite">Escolha uma opção para iniciar a demonstração.</div>
+          </div>
+          <div class="demo-panel-foot"><span>Autobot · Qualificação inicial</span><span>01/03</span></div>
+        </div>
+      </div>
     </section>
 
-    <!-- ========== DOBRA 6: FAQ ========== -->
-    <section id="faq" class="section faq-section">
-        <div class="container">
-            <h2 class="section-title-center">PERGUNTAS FREQUENTES;</h2>
-            <p class="section-subtitle-center">Tudo o que você precisa saber antes de iniciar seu projeto.</p>
-
-            <div class="faq-container">
-                <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFaq(this)">
-                        <span>Preciso ter conhecimento técnico para gerenciar o site ou Autobot?</span>
-                        <span class="faq-icon">+</span>
-                    </button>
-                    <div class="faq-answer">
-                        <p><strong>Não.</strong> A SANT; cuida de 100% da infraestrutura técnica, servidores e código. Você só precisa receber os leads qualificados prontos no seu WhatsApp.</p>
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFaq(this)">
-                        <span>Como o Autobot de IA funciona no meu WhatsApp?</span>
-                        <span class="faq-icon">+</span>
-                    </button>
-                    <div class="faq-answer">
-                        <p>Quando o cliente acessa o seu site, o Autobot faz o atendimento inicial, identifica a dor dele, filtra o orçamento disponível e gera um link formatado enviando a conversa pronta para o WhatsApp da sua equipe.</p>
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFaq(this)">
-                        <span>Qual a vantagem do SANT; CONTINUUM; comparado ao projeto avulso?</span>
-                        <span class="faq-icon">+</span>
-                    </button>
-                    <div class="faq-answer">
-                        <p>No avulso, você recebe o site e fica sozinho. No <strong>SANT; CONTINUUM;</strong>, você ganha 20% de desconto no setup, entrada facilitada e 12 meses de suporte, atualizações ilimitadas e reuniões mensais de vendas.</p>
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFaq(this)">
-                        <span>Qual é o prazo de entrega do ecossistema?</span>
-                        <span class="faq-icon">+</span>
-                    </button>
-                    <div class="faq-answer">
-                        <p>O tempo médio de desenvolvimento e integração do site + Autobot de IA é de <strong>7 a 15 dias úteis</strong> após o envio das informações da sua empresa.</p>
-                    </div>
-                </div>
-            </div>
+    <section class="section offer-section" id="continuum">
+      <div class="shell">
+        <div class="offer-top reveal">
+          <div>
+            <p class="eyebrow">O PLANO SANT;</p>
+            <h2>CONTINUUM;<br><em>operação completa.</em></h2>
+          </div>
+          <p>Uma operação integrada para estruturar marca, aquisição, conteúdo, automação e dados — com acompanhamento contínuo durante 12 meses.</p>
         </div>
+        <div class="offer-grid">
+          <div class="offer-scope reveal">
+            <p class="card-kicker">O QUE VEM INCLUSO</p>
+            <ul class="scope-list">
+              <li><span>01</span><div><strong>Brand &amp; Rebrand;</strong><small>Identidade visual e posicionamento para transmitir autoridade.</small></div></li>
+              <li><span>02</span><div><strong>Growth &amp; Ads;</strong><small>Tráfego pago orientado a ROI e oportunidades qualificadas.</small></div></li>
+              <li><span>03</span><div><strong>Social Media Strategy;</strong><small>Conteúdo e roteiros de retenção para aquecer a decisão.</small></div></li>
+              <li><span>04</span><div><strong>Métricas &amp; BI;</strong><small>Painel próprio no DashSocial; para acompanhar o funil.</small></div></li>
+              <li><span>05</span><div><strong>Web + Autobot IA 24/7;</strong><small>Site e atendimento autônomo para captar e qualificar.</small></div></li>
+              <li><span>06</span><div><strong>Seguro de Evolução Digital;</strong><small>12 meses de suporte, ajustes e otimização da operação.</small></div></li>
+              <li><span>07</span><div><strong>Reuniões Mensais de BI;</strong><small>12 encontros no ano para decisão com o CEO.</small></div></li>
+            </ul>
+            <p class="ownership-note"><span>+</span> Uma operação integrada: cada frente existe para a empresa aparecer, responder, medir e evoluir com consistência.</p>
+          </div>
+          <aside class="offer-card spotlight-card reveal delay-2">
+            <p class="offer-tag">CONDIÇÃO FUNDADORA · CAPACIDADE LIMITADA</p>
+            <h3>Ecossistema com gestão por 12 meses.</h3>
+            <div class="investment"><span>R$</span><strong>390</strong><small>ativação</small></div>
+            <p class="installments">+ 11 parcelas de <b>R$ 350</b></p>
+            <div class="offer-divider"></div>
+            <p class="offer-total">TCV da condição fundadora <strong>R$ 4.240</strong></p>
+            <button class="button button-full" type="button" data-whatsapp="continuum" data-track="offer_scope" data-magnetic>Solicitar apresentação do CONTINUUM; <span aria-hidden="true">↗</span></button>
+            <small>Sem promoção, preço riscado ou letra miúda. A condição é limitada pela capacidade real de implantação e gestão.</small>
+          </aside>
+        </div>
+      </div>
     </section>
 
-    <!-- ========== CTA FINAL (CLÍMAX) ========== -->
-    <section class="section cta-climax-section">
-        <div class="cta-glow"></div>
-        <div class="container text-center cta-content">
-            <h2 class="cta-title reveal">PRONTO PARA CONSTRUIR SEU <span class="highlight">ECOSSISTEMA;</span></h2>
-            <p class="cta-desc reveal delay-1">Pare de perder vendas enquanto você dorme. Fale com nosso atendimento e qualifique o seu projeto em menos de 2 minutos.</p>
-            <button onclick="abrirWhatsAppDirect()" class="btn btn-climax reveal delay-2">
-                INICIAR PROJETO NO WHATSAPP ;
-            </button>
+    <section class="section method-section" id="metodo">
+      <div class="shell">
+        <div class="method-heading reveal">
+          <p class="eyebrow">MÉTODO AGA</p>
+          <h2>Arquitetura, Gestão<br><em>e Autonomia.</em></h2>
+          <p>O método organiza como cada operação é instalada e evolui. Não é uma sigla para decorar: é como a empresa deixa de depender de improviso.</p>
         </div>
+        <div class="method-grid">
+          <article class="method-card spotlight-card reveal delay-1"><span>A</span><div><h3>Arquitetura</h3><p>Mensagem, página, automação, rastreamento e o ponto de conversão são desenhados para funcionar como um sistema.</p></div></article>
+          <article class="method-card spotlight-card reveal delay-2"><span>G</span><div><h3>Gestão</h3><p>O funil é lido com frequência para transformar conversas, propostas e caixa em decisões claras de operação.</p></div></article>
+          <article class="method-card spotlight-card reveal delay-3"><span>A</span><div><h3>Autonomia</h3><p>Site, bot, dados e processo são construídos para dar capacidade — não criar dependência.</p></div></article>
+        </div>
+      </div>
     </section>
 
-    <!-- ========== FOOTER ========== -->
-    <footer>
-        <div class="container footer-content">
-            <div class="footer-brand">
-                <img src="{{ url_for('static', filename='logo.png') }}" alt="SANT;" class="footer-logo">
-                <p>Agência de Reconstrução & Aceleração Digital.</p>
-            </div>
-            <p class="copy">SANT; © {{ ano_atual }} · Todos os direitos reservados.</p>
+    <section class="section proof-section" id="provas">
+      <div class="shell">
+        <div class="proof-heading reveal">
+          <p class="eyebrow">CAPACIDADE VISÍVEL</p>
+          <h2>Não acredite no discurso.<br><em>Veja o sistema.</em></h2>
+          <p>Produto demonstrável, interface real e conteúdo que explica o que está sendo construído. Resultado de cliente entra aqui com contexto, número e autorização.</p>
         </div>
-    </footer>
+        <div class="proof-grid">
+          <article class="proof-card spotlight-card proof-card-wide reveal">
+            <img src="{{ url_for('static', filename='portfolio/system-interface.webp') }}" alt="Interface conceitual de site e conversa automatizada em notebook e celular" loading="lazy" decoding="async">
+            <div class="proof-overlay"><p>INTERFACE SANT;</p><h3>Um sistema que parece<br>o que entrega.</h3><span>Site, conversa e operação no mesmo ecossistema.</span></div>
+          </article>
+          <article class="proof-card spotlight-card reveal delay-2">
+            <img src="{{ url_for('static', filename='portfolio/content-authority.webp') }}" alt="Composição editorial de conteúdos e interfaces sociais em telas de celular" loading="lazy" decoding="async">
+            <div class="proof-overlay"><p>CONTEÚDO COM SISTEMA</p><h3>Autoridade que<br>aquece a conversa.</h3><span>O conteúdo explica a dor e sustenta a decisão.</span></div>
+          </article>
+        </div>
+        <div class="case-note reveal"><span>PRÓXIMO ATIVO DE PROVA</span><p>Screen-proof: o cliente mostra a tela do próprio Autobot e do painel funcionando. Prova acima de discurso.</p></div>
+      </div>
+    </section>
 
-    <!-- ========== REDES SOCIAIS FLUTUANTES ========== -->
-    <div class="social-float">
-        <a href="https://www.instagram.com/sant.social/" target="_blank" class="social-btn ig" title="Instagram SANT;">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                <path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3-3 3 3 0 0 0 3-3z"/>
-            </svg>
-        </a>
-        <a href="https://wa.me/5511999999999" target="_blank" class="social-btn wa" title="WhatsApp SANT;">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/>
-            </svg>
-        </a>
+    <section class="section faq-section" id="perguntas">
+      <div class="shell faq-layout">
+        <div class="faq-intro reveal"><p class="eyebrow">PERGUNTAS</p><h2>Antes de instalar,<br><em>entenda o essencial.</em></h2><p>Se a resposta não estiver aqui, o Autobot pode orientar o próximo passo.</p><button class="text-link" type="button" data-whatsapp="diagnostico" data-track="faq_diagnosis">Solicitar diagnóstico <b>↗</b></button></div>
+        <div class="faq-list reveal delay-1">
+          <details open><summary>Preciso entender de tecnologia para operar?<span>+</span></summary><p>Não. A implantação é conduzida pela SANT;. Sua equipe recebe oportunidades com contexto e sua empresa mantém acesso aos ativos e aos dados do projeto.</p></details>
+          <details><summary>O Autobot substitui minha equipe comercial?<span>+</span></summary><p>Não. Ele atende a primeira camada: responde, entende a demanda e organiza contexto. A equipe assume as conversas que já têm informação para avançar.</p></details>
+          <details><summary>O que será medido no DashSocial;?<span>+</span></summary><p>O funil acordado na implantação: conversas, qualificações, reuniões, propostas, pagamentos e os indicadores de negócio aplicáveis à operação.</p></details>
+          <details><summary>Por que o lote fundador é limitado?<span>+</span></summary><p>Cada sistema exige configuração, integração e acompanhamento próximo. O limite existe para preservar a qualidade de implantação, não para criar urgência artificial.</p></details>
+          <details><summary>Como o CONTINUUM; evolui ao longo dos 12 meses?<span>+</span></summary><p>A implantação começa pelas prioridades que mais impactam a operação. Marca, aquisição, conteúdo, automação e BI são conduzidos como uma frente integrada, com reuniões mensais para decidir o próximo ciclo.</p></details>
+        </div>
+      </div>
+    </section>
+
+    <section class="final-cta">
+      <div class="final-grid" aria-hidden="true"></div>
+      <div class="shell final-content reveal">
+        <p class="eyebrow"><span class="eyebrow-dot"></span> PRÓXIMO PASSO</p>
+        <h2>Pare de descobrir vendas perdidas<br><em>depois que já é tarde.</em></h2>
+        <p>Se sua empresa depende de conversa para vender, ela precisa responder, qualificar e medir mesmo quando ninguém está olhando.</p>
+        <div class="hero-actions">
+          <button class="button" type="button" data-whatsapp="demo" data-track="final_demo" data-magnetic>Ver o Chatbot em ação <span aria-hidden="true">↗</span></button>
+          <button class="button button-ghost" type="button" data-whatsapp="diagnostico" data-track="final_diagnosis">Diagnóstico de 20 min</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="shell footer-inner">
+      <div><a class="brand footer-brand" href="#inicio"><img src="{{ url_for('static', filename='brand/assinatura.svg') }}" alt="SANT; — Entre recomeços e acertos"></a><p>Infraestrutura de crescimento com IA.</p></div>
+      <div class="footer-links"><a href="https://www.instagram.com/sant.social/" target="_blank" rel="noopener noreferrer">Instagram ↗</a><button type="button" data-whatsapp="geral" data-track="footer_whatsapp">WhatsApp ↗</button><a href="#perguntas">Perguntas</a></div>
+      <p class="copyright">SANT; © <span data-current-year></span></p>
     </div>
+  </footer>
 
-    <!-- ========== AUDIO BACKGROUND ========== -->
-    <audio id="bg-music" loop preload="none">
-        <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73220.mp3?filename=ambient-piano-amp-strings-10711.mp3" type="audio/mpeg">
-    </audio>
+  <div class="chat-launcher" data-chat-shell>
+    <button class="chat-button" type="button" aria-controls="sant-chat" aria-expanded="false" data-chat-toggle><span class="chat-pulse"></span><span>Falar com a SANT;</span><b>↗</b></button>
+    <section class="chat-panel" id="sant-chat" aria-label="CHATBOT SANT;" hidden>
+      <div class="chat-head"><div><span class="chat-dot"></span><strong>CHATBOT SANT;</strong><small data-chat-stage>01 / diagnóstico inicial</small></div><button type="button" aria-label="Fechar chat" data-chat-close>×</button></div>
+      <div class="chat-log" data-chat-log aria-live="polite"><div class="chat-message bot">Olá. Sou o CHATBOT da SANT;. Qual ponto da sua operação hoje mais perde oportunidades?</div></div>
+      <div class="chat-chips" data-chat-chips><button type="button" data-chat-prompt="Perco mensagens fora do horário">Fora do horário</button><button type="button" data-chat-prompt="Recebo muitas mensagens e não consigo qualificar">Muitas mensagens</button><button type="button" data-chat-prompt="Não tenho dados do meu funil">Não tenho dados</button></div>
+      <form class="chat-form" data-chat-form><label class="sr-only" for="chat-input">Escreva sua mensagem</label><input id="chat-input" name="message" autocomplete="off" placeholder="Conte brevemente o seu cenário"><button type="submit" aria-label="Enviar mensagem">↑</button></form>
+      <p class="chat-disclaimer">O CHATBOT pede somente nome e empresa antes de encaminhar. Não envie dados sensíveis.</p>
+    </section>
+  </div>
 
-    <button class="audio-toggle-btn" id="audio-toggle" onclick="toggleAudio()" title="Trilha Sonora SANT;">
-        <span class="audio-icon" id="audio-icon">🔇</span>
-        <span class="audio-text" id="audio-text">SOUND OFF</span>
-        <div class="sound-bars" id="sound-bars">
-            <span></span><span></span><span></span>
-        </div>
-    </button>
-
-    <!-- ========== BOTÃO FLUTUANTE DO CHAT (SÓ MOBILE) ========== -->
-    <button class="chat-fab" id="chat-fab" onclick="abrirChatMobile()" aria-label="Abrir chat">
-        <div class="chat-fab-orb"></div>
-        <span class="chat-fab-icon">💬</span>
-    </button>
-
-    <!-- ========== CHATBOT FIXO (FLUTUANTE NO RODAPÉ) ========== -->
-    <div class="chatbot-wrapper" id="chatbot-wrapper">
-        <div class="chat-history" id="chat-history">
-            <div class="chat-header">
-                <div class="chat-header-left">
-                    <img src="{{ url_for('static', filename='logo.png') }}" alt="SANT;" class="chat-header-logo">
-                    <div class="chat-header-text">
-                        <strong>ASSISTENTE SANT;</strong>
-                        <span class="chat-status">Online agora</span>
-                    </div>
-                </div>
-                <button class="close-chat" onclick="fecharChat()">✕</button>
-            </div>
-
-            <div class="chat-messages" id="chat-messages">
-                <div class="msg bot-msg">
-                    <div class="msg-label">SANT; AI</div>
-                    <div class="msg-content">
-                        Olá! Sou a IA da SANT;. Como posso ajudar a escalar seu negócio hoje?
-                    </div>
-                </div>
-            </div>
-
-            <div class="chat-footer-note">
-                <span class="dot-online"></span>
-                Método AGA; · Qualificação em tempo real
-            </div>
-        </div>
-
-        <div class="chat-suggestions" id="chat-suggestions">
-            <button onclick="enviarMensagem('Quero o Plano Continuum')">Quero o Plano Continuum ;</button>
-            <button onclick="enviarMensagem('Serviços para Discord')">Serviços para Discord ;</button>
-            <button onclick="enviarMensagem('Brand & Rebrand')">Brand & Rebrand ;</button>
-            <button onclick="enviarMensagem('Growth & Ads')">Growth & Ads ;</button>
-            <button onclick="enviarMensagem('Social Media')">Social Media ;</button>
-        </div>
-
-        <div class="chat-input-container">
-            <div class="chat-icon-left">
-                <div class="ia-orb"></div>
-            </div>
-            <input type="text" id="chat-input" placeholder="Digite uma mensagem ou escolha acima..." onkeypress="handleEnter(event)">
-            <button class="chat-send-btn" onclick="enviarInput()" aria-label="Enviar">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-                    <path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"/>
-                </svg>
-            </button>
-        </div>
-    </div>
-
-    <!-- ========== CURSOR PERSONALIZADO SANT; ========== -->
-    <div class="custom-cursor" id="custom-cursor">
-        <svg viewBox="0 0 100 100" class="cursor-svg">
-            <path d="M18 12C12.5 12 9 17.5 11.2 22.8L28.5 64.2C30.8 69.7 37.8 70.8 41.5 66.2L51.2 54.1L68.8 72.8C70.8 74.9 74.2 75 76.4 73L81 68.4C83.1 66.3 83.1 62.8 81 60.7L63.3 41.9L75.3 32.1C79.8 28.4 78.6 21.3 73 19.1L21.8 12.3C20.5 12.1 19.2 12 18 12Z" fill="#FFFFFF"/>
-        </svg>
-    </div>
-
-    <!-- JS Principal -->
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

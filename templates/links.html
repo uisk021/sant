@@ -1,61 +1,27 @@
-<!DOCTYPE html>
-<html lang="pt-br">
+<!doctype html>
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SANT; — Links Oficiais</title>
-    
-    <!-- Fontes Oficiais -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0A0A0B">
+  <meta name="description" content="Links oficiais da SANT; — infraestrutura de crescimento com IA.">
+  <meta name="robots" content="noindex,follow">
+  <title>SANT; | Links oficiais</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body class="bio-page">
-
-    <div class="bio-container">
-        
-        <header class="bio-header">
-            <div class="bio-logo-wrapper">
-                <img src="{{ url_for('static', filename='logo.png') }}" alt="SANT;" class="bio-logo">
-            </div>
-            <h1 class="bio-title">SANT<span class="semicolon">;</span></h1>
-            <p class="bio-tagline">Reconstrução & Aceleração Digital</p>
-        </header>
-
-        <main class="bio-links">
-            <a href="https://wa.me/5511999999999?text=Ol%C3%A1%20SANT%3B!%20Vim%20pelo%20link%20da%20Bio." target="_blank" class="bio-btn highlight-btn">
-                <span class="btn-icon">💬</span>
-                <span class="btn-text">Iniciar Projeto no WhatsApp ;</span>
-            </a>
-
-            <a href="/" class="bio-btn">
-                <span class="btn-icon">🌐</span>
-                <span class="btn-text">Nosso Site Oficial</span>
-            </a>
-
-            <a href="https://bot-radio-habbler.onrender.com" target="_blank" class="bio-btn">
-                <span class="btn-icon">🐤</span>
-                <span class="btn-text">Patinho Bot (Rádio & Discord)</span>
-            </a>
-
-            <a href="/#produtos" class="bio-btn">
-                <span class="btn-icon">🛒</span>
-                <span class="btn-text">Loja de Templates & Scripts</span>
-            </a>
-
-            <a href="https://www.instagram.com/sant.social/" target="_blank" class="bio-btn">
-                <span class="btn-icon">📸</span>
-                <span class="btn-text">Instagram Oficial @sant.social</span>
-            </a>
-        </main>
-
-        <footer class="bio-footer">
-            <p>SANT; © {{ ano_atual }} · Ecossistemas Digitais</p>
-        </footer>
-
+<body class="link-page">
+  <main class="link-card">
+    <a class="brand link-brand" href="/" aria-label="SANT; — ir para o site"><img src="{{ url_for('static', filename='brand/logo.svg') }}" alt="SANT;"></a>
+    <p class="eyebrow">INFRAESTRUTURA DE CRESCIMENTO COM IA</p>
+    <h1>Onde a conversa<br><em>vira sistema.</em></h1>
+    <p class="link-lead">Site, Autobot e dados para empresas que não podem perder oportunidade no WhatsApp.</p>
+    <div class="link-list">
+      <a class="button button-full" href="{{ whatsapp_url }}" target="_blank" rel="noopener noreferrer">Falar com a SANT; <span aria-hidden="true">↗</span></a>
+      <a class="link-row" href="/">Conhecer o Plano CONTINUUM; <span>→</span></a>
+      <a class="link-row" href="https://www.instagram.com/sant.social/" target="_blank" rel="noopener noreferrer">Instagram @sant.social <span>↗</span></a>
+      <a class="link-row" href="https://bot-radio-habbler.onrender.com" target="_blank" rel="noopener noreferrer">Patinho Bot · Rádio &amp; Discord <span>↗</span></a>
     </div>
-
+    <p class="link-footer">SANT; © {{ ano_atual }}</p>
+  </main>
 </body>
 </html>

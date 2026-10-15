@@ -1,353 +1,314 @@
-// ============================================
-// SANT; — LÓGICA DO CHATBOT, IA, AUDIO, DRAG & ZAP
-// ============================================
+/* SANT; — Home V2 | interações, conversão e chat seguro */
 
-const SEU_WHATSAPP = "5521986010634"; // 👈 COLOQUE SEU DDD + NÚMERO AQUI
+const SANT_CONFIG = {
+  whatsapp: "5521986010634",
+  whatsappMessages: {
+    demo: "Olá, SANT;! Quero conhecer o CHATBOT.",
+    diagnostico: "Olá, SANT;! Quero solicitar um diagnóstico do meu WhatsApp.",
+    continuum: "Olá, SANT;! Quero receber a apresentação do Plano SANT; CONTINUUM;.",
+    geral: "Olá, SANT;! Quero falar sobre a infraestrutura de crescimento com IA."
+  },
+  chatEndpoint: "/api/chat-ai"
+};
 
-let fluxoAtual = 0;
-let dadosLead = {};
+function trackEvent(eventName, parameters = {}) {
+  const payload = { event: eventName, ...parameters };
+  document.dispatchEvent(new CustomEvent("sant:track", { detail: payload }));
 
-// ----- 1. ABRIR WHATSAPP DIRETO -----
-function abrirWhatsAppDirect() {
-    const textoZap = encodeURIComponent("Olá SANT;! Gostaria de iniciar um novo projeto.");
-    window.open(`https://wa.me/${SEU_WHATSAPP}?text=${textoZap}`, "_blank");
+  // Integrações só disparam se GA4/Meta forem configurados no servidor.
+  if (typeof window.gtag === "function") window.gtag("event", eventName, parameters);
+  if (typeof window.fbq === "function") window.fbq("trackCustom", eventName, parameters);
 }
 
-// ----- 2. CHATBOT COM IA (SANT; AI) -----
-function focusChat() {
-    const input = document.getElementById("chat-input");
-    if (input) input.focus();
-    const container = document.querySelector(".chat-input-container");
-    if (container) {
-        container.style.borderColor = "#E3E2E2";
-        setTimeout(() => { container.style.borderColor = "rgba(227,226,226,0.25)"; }, 1000);
-    }
+function openWhatsApp(source = "geral") {
+  const message = SANT_CONFIG.whatsappMessages[source] || SANT_CONFIG.whatsappMessages.geral;
+  const url = new URL(`https://wa.me/${SANT_CONFIG.whatsapp}`);
+  url.searchParams.set("text", message);
+  url.searchParams.set("utm_source", "site");
+  url.searchParams.set("utm_medium", "cta");
+  url.searchParams.set("utm_content", source);
+
+  trackEvent("whatsapp_click", { source });
+  window.open(url.toString(), "_blank", "noopener,noreferrer");
 }
 
-function abrirHistorico() {
-    const history = document.getElementById("chat-history");
-    const suggestions = document.getElementById("chat-suggestions");
-    const wrapper = document.getElementById("chatbot-wrapper");
+function setMobileMenu(open) {
+  const button = document.querySelector("[data-menu-toggle]");
+  const menu = document.querySelector("[data-mobile-menu]");
+  if (!button || !menu) return;
 
-    if (history) history.classList.add("active");
-    if (suggestions) suggestions.style.display = "none";
-    if (wrapper) wrapper.classList.add("chat-ativo");
+  menu.hidden = !open;
+  button.setAttribute("aria-expanded", String(open));
+  button.setAttribute("aria-label", open ? "Fechar menu" : "Abrir menu");
 }
 
-function fecharChat() {
-    const history = document.getElementById("chat-history");
-    const suggestions = document.getElementById("chat-suggestions");
-    const wrapper = document.getElementById("chatbot-wrapper");
-    const fab = document.getElementById("chat-fab");
+function appendChatMessage(text, type = "bot", cta = null) {
+  const log = document.querySelector("[data-chat-log]");
+  if (!log) return null;
 
-    if (history) history.classList.remove("active");
-    if (suggestions) suggestions.style.display = "flex";
+  const message = document.createElement("div");
+  message.className = `chat-message ${type}`;
 
-    if (wrapper) {
-        wrapper.classList.remove("chat-ativo");
-        wrapper.classList.remove("mobile-open");
-    }
+  const body = document.createElement("span");
+  // textContent evita injeção de HTML de usuário ou resposta de API.
+  body.textContent = String(text || "");
+  message.appendChild(body);
 
-    if (fab) fab.classList.remove("hidden");
-
-    fluxoAtual = 0;
-    dadosLead = {};
-
-    const messages = document.getElementById("chat-messages");
-    if (messages) {
-        messages.innerHTML = `
-            <div class="msg bot-msg">
-                <div class="msg-label">SANT; AI</div>
-                <div class="msg-content">Olá! Sou a IA da SANT;. Como posso ajudar a escalar seu negócio hoje?</div>
-            </div>
-        `;
-    }
-}
-
-function handleEnter(e) {
-    if (e.key === 'Enter') {
-        enviarInput();
-    }
-}
-
-function enviarInput() {
-    const inputField = document.getElementById("chat-input");
-    if (!inputField) return;
-    const texto = inputField.value.trim();
-    if (texto !== "") {
-        enviarMensagem(texto);
-        inputField.value = "";
-    }
-}
-
-// ----- CONECTADO À API DA IA NO PYTHON -----
-async function enviarMensagem(textoUsuario) {
-    if (!textoUsuario) return;
-
-    abrirHistorico();
-    addMsg(textoUsuario, 'user');
-    
-    // Indicador de "SANT; AI está analisando..."
-    const box = document.getElementById("chat-messages");
-    if (!box) return;
-
-    const divDigitando = document.createElement("div");
-    divDigitando.className = "msg bot-msg digitando-msg";
-    divDigitando.innerHTML = `
-        <div class="msg-label">SANT; AI</div>
-        <div class="msg-content" style="color: #888; font-style: italic;">
-            SANT; AI está analisando... 🤖
-        </div>
-    `;
-    box.appendChild(divDigitando);
-    box.scrollTop = box.scrollHeight;
-
+  // CTA só é renderizado quando aponta para o domínio oficial do WhatsApp.
+  if (type === "bot" && cta?.label && cta?.url) {
     try {
-        const resposta = await fetch('/api/chat-ai', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ mensagem: textoUsuario })
-        });
-
-        const dados = await resposta.json();
-        
-        divDigitando.remove();
-        addMsg(dados.resposta, 'bot');
-
-    } catch (erro) {
-        divDigitando.remove();
-        addMsg("Desculpe, tive uma oscilação de conexão. Clique no botão de WhatsApp abaixo para falar direto com nossa equipe ;", 'bot');
-        console.error("Erro na API da IA:", erro);
+      const url = new URL(cta.url);
+      if (url.protocol === "https:" && url.hostname === "wa.me") {
+        const link = document.createElement("a");
+        link.className = "chat-message-cta";
+        link.href = url.toString();
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = cta.label;
+        link.addEventListener("click", () => trackEvent("chat_whatsapp_click"));
+        message.appendChild(link);
+      }
+    } catch (_) {
+      // URL inválida: a resposta textual continua segura e visível.
     }
+  }
+
+  log.appendChild(message);
+  log.scrollTop = log.scrollHeight;
+  return message;
 }
 
-function addMsg(texto, tipo) {
-    const box = document.getElementById("chat-messages");
-    if (!box) return;
+function setChatOpen(open) {
+  const panel = document.getElementById("sant-chat");
+  const button = document.querySelector("[data-chat-toggle]");
+  if (!panel || !button) return;
 
-    const div = document.createElement("div");
-    div.className = `msg ${tipo}-msg`;
-
-    // Converte sintaxe Markdown simples (**negrito** e [links](url)) para HTML
-    let textoFormatado = texto
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        .replace(/\[(.*?)\]\((https?:\/\/[^\s]+)\)/g, '<a href="$2" target="_blank" style="color: #4da6ff; text-decoration: underline; font-weight: bold;">$1</a>');
-
-    if (tipo === "bot") {
-        div.innerHTML = `
-            <div class="msg-label">SANT; AI</div>
-            <div class="msg-content">${textoFormatado}</div>
-        `;
-    } else {
-        div.innerHTML = `
-            <div class="msg-content">${textoFormatado}</div>
-        `;
-    }
-
-    box.appendChild(div);
-    box.scrollTop = box.scrollHeight;
-}
-function comprar(produto) {
-    const textoZap = `Olá SANT;! Quero adquirir o produto: *${produto}*.`;
-    window.open(`https://wa.me/${SEU_WHATSAPP}?text=${textoZap}`, '_blank');
+  panel.hidden = !open;
+  button.setAttribute("aria-expanded", String(open));
+  if (open) {
+    document.getElementById("chat-input")?.focus();
+    trackEvent("chat_open");
+  }
 }
 
-// ----- 3. CONTROLE DA TRILHA SONORA AMBIENTE -----
-function toggleAudio() {
-    const bgMusic = document.getElementById("bg-music");
-    const audioBtn = document.getElementById("audio-toggle");
-    const audioIcon = document.getElementById("audio-icon");
-    const audioText = document.getElementById("audio-text");
+const chatQualification = {
+  step: "context",
+  context: "",
+  name: "",
+  company: ""
+};
 
-    if (!bgMusic) return;
-
-    bgMusic.volume = 0.25;
-
-    if (bgMusic.paused) {
-        bgMusic.play().then(() => {
-            if (audioBtn) audioBtn.classList.add("playing");
-            if (audioIcon) audioIcon.textContent = "🔊";
-            if (audioText) audioText.textContent = "SOUND ON";
-        }).catch((erro) => {
-            console.error("Erro áudio:", erro);
-        });
-    } else {
-        bgMusic.pause();
-        if (audioBtn) audioBtn.classList.remove("playing");
-        if (audioIcon) audioIcon.textContent = "🔇";
-        if (audioText) audioText.textContent = "SOUND OFF";
-    }
+function setChatStage(label, placeholder) {
+  const stage = document.querySelector("[data-chat-stage]");
+  const input = document.getElementById("chat-input");
+  if (stage) stage.textContent = label;
+  if (input && placeholder) input.placeholder = placeholder;
 }
 
-// ----- 4. ACORDEÃO DO FAQ -----
-function toggleFaq(button) {
-    button.parentElement.classList.toggle("active");
+function buildQualificationWhatsAppUrl() {
+  const url = new URL(`https://wa.me/${SANT_CONFIG.whatsapp}`);
+  const summary = [
+    "Olá, SANT;!",
+    `Sou ${chatQualification.name}, da ${chatQualification.company}.`,
+    "Falei com o CHATBOT pelo site e quero continuar o diagnóstico.",
+    `Contexto informado: ${chatQualification.context}`
+  ].join(" ");
+  url.searchParams.set("text", summary.slice(0, 900));
+  url.searchParams.set("utm_source", "site");
+  url.searchParams.set("utm_medium", "chatbot");
+  url.searchParams.set("utm_content", "qualificacao");
+  return url.toString();
 }
 
-// ----- 5. MENU DRAWER MOBILE -----
-function toggleMobileMenu() {
-    const drawer = document.getElementById("mobile-drawer");
-    if (drawer) {
-        drawer.classList.toggle("active");
-        if (drawer.classList.contains("active")) {
-            document.body.style.overflow = "hidden";
-        } else {
-            document.body.style.overflow = "";
-        }
-    }
+function finishQualification() {
+  chatQualification.step = "complete";
+  setChatStage("03 / pronto para encaminhar", "Qualificação concluída");
+  const chips = document.querySelector("[data-chat-chips]");
+  if (chips) chips.hidden = true;
+  appendChatMessage(
+    `Perfeito, ${chatQualification.name}. Organizei o seu contexto para a equipe. Clique abaixo para continuar no WhatsApp sem precisar repetir tudo.`,
+    "bot",
+    { label: "Continuar no WhatsApp", url: buildQualificationWhatsAppUrl() }
+  );
+  trackEvent("chat_qualified", { has_name: true, has_company: true });
 }
 
-// ----- 6. CHAT MOBILE (BOLINHA → ABRE O AUTOBOT) -----
-function abrirChatMobile() {
-    const wrapper = document.getElementById("chatbot-wrapper");
-    const fab = document.getElementById("chat-fab");
+async function sendChatMessage(rawMessage) {
+  const message = String(rawMessage || "").trim();
+  if (!message) return;
 
-    if (!wrapper) return;
+  if (chatQualification.step === "complete") {
+    appendChatMessage("Seu diagnóstico já está pronto para ser encaminhado. Use o botão acima para continuar no WhatsApp.", "bot");
+    return;
+  }
 
-    wrapper.classList.add("mobile-open");
-    wrapper.classList.add("chat-ativo");
+  appendChatMessage(message, "user");
+  trackEvent("chat_message", { step: chatQualification.step, length: message.length });
 
-    if (fab) fab.classList.add("hidden");
+  if (chatQualification.step === "name") {
+    chatQualification.name = message.slice(0, 80);
+    chatQualification.step = "company";
+    setChatStage("03 / empresa", "Nome da sua empresa");
+    appendChatMessage(`Prazer, ${chatQualification.name}. Qual é o nome da sua empresa?`, "bot");
+    return;
+  }
 
-    abrirHistorico();
+  if (chatQualification.step === "company") {
+    chatQualification.company = message.slice(0, 100);
+    finishQualification();
+    return;
+  }
 
-    setTimeout(() => {
-        const input = document.getElementById("chat-input");
-        if (input) input.focus();
-    }, 150);
-}
+  chatQualification.context = message.slice(0, 700);
+  const chips = document.querySelector("[data-chat-chips]");
+  if (chips) chips.hidden = true;
+  const typing = appendChatMessage("O CHATBOT está organizando sua resposta…", "bot");
+  typing.classList.add("is-typing");
 
-// ----- 7. DRAG HORIZONTAL NAS PÍLULAS -----
-(function () {
-    const slider = document.getElementById("chat-suggestions");
-    if (!slider) return;
-
-    let isDown = false;
-    let startX = 0;
-    let scrollLeft = 0;
-    let dragged = false;
-
-    slider.addEventListener("mousedown", (e) => {
-        isDown = true;
-        dragged = false;
-        startX = e.pageX - slider.offsetLeft;
-        scrollLeft = slider.scrollLeft;
+  try {
+    const response = await fetch(SANT_CONFIG.chatEndpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ mensagem: message, origem: "site_home_v2_chatbot" })
     });
 
-    slider.addEventListener("mouseleave", () => {
-        isDown = false;
-        slider.classList.remove("dragging");
+    if (!response.ok) throw new Error(`Chat API respondeu ${response.status}`);
+    const data = await response.json();
+    typing.remove();
+    appendChatMessage(
+      data.resposta || "Entendi o cenário. A SANT; pode organizar essa operação com mais contexto e velocidade.",
+      "bot"
+    );
+  } catch (error) {
+    typing.remove();
+    const fallback = appendChatMessage("Entendi o cenário. Mesmo sem conexão com a IA agora, consigo organizar seu encaminhamento para a equipe.", "bot");
+    fallback.classList.add("error");
+    trackEvent("chat_error", { message: String(error.message || "unknown") });
+  }
+
+  chatQualification.step = "name";
+  setChatStage("02 / identificação", "Como podemos te chamar?");
+  appendChatMessage("Para eu encaminhar um contexto melhor para a equipe, como posso te chamar?", "bot");
+}
+
+function setupDemo() {
+  const response = document.querySelector("[data-demo-response]");
+  const answers = {
+    "fora do horário": "Entendi. O Autobot pode responder a primeira mensagem fora do horário, capturar contexto e deixar a oportunidade organizada para sua equipe continuar.",
+    "muitas mensagens": "Entendi. O fluxo começa separando intenção, necessidade e urgência para que sua equipe priorize as conversas certas.",
+    "sem dados": "Entendi. Cada etapa pode ser registrada: conversa, qualificação, reunião, proposta e pagamento. Assim a operação deixa de decidir no escuro."
+  };
+
+  document.querySelectorAll("[data-demo-answer]").forEach((button) => {
+    button.addEventListener("click", () => {
+      document.querySelectorAll("[data-demo-answer]").forEach((item) => item.classList.remove("is-active"));
+      button.classList.add("is-active");
+      const key = button.dataset.demoAnswer;
+      if (response) response.textContent = answers[key] || "Vamos entender sua operação e definir o próximo passo.";
+      trackEvent("demo_interaction", { answer: key });
     });
+  });
+}
 
-    slider.addEventListener("mouseup", () => {
-        isDown = false;
-        slider.classList.remove("dragging");
+function setupMotion() {
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const hasFinePointer = window.matchMedia("(pointer: fine)").matches;
+  if (reduceMotion || !hasFinePointer) return;
+
+  const hero = document.querySelector(".hero");
+  const consoleWrap = document.querySelector("[data-parallax]");
+  if (hero && consoleWrap) {
+    hero.addEventListener("pointermove", (event) => {
+      const rect = hero.getBoundingClientRect();
+      const x = (event.clientX - rect.left) / rect.width - 0.5;
+      const y = (event.clientY - rect.top) / rect.height - 0.5;
+      consoleWrap.style.transform = `perspective(900px) rotateX(${y * -2.5}deg) rotateY(${x * 3.5}deg) rotate(1.7deg)`;
     });
-
-    slider.addEventListener("mousemove", (e) => {
-        if (!isDown) return;
-        const x = e.pageX - slider.offsetLeft;
-        const walk = (x - startX) * 1.4;
-
-        if (Math.abs(x - startX) > 6) {
-            dragged = true;
-            slider.classList.add("dragging");
-            e.preventDefault();
-            slider.scrollLeft = scrollLeft - walk;
-        }
+    hero.addEventListener("pointerleave", () => {
+      consoleWrap.style.transform = "rotate(1.7deg)";
     });
+  }
 
-    slider.querySelectorAll("button").forEach((btn) => {
-        btn.addEventListener("click", (e) => {
-            if (dragged) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
-        });
+  document.querySelectorAll("[data-magnetic]").forEach((button) => {
+    button.addEventListener("pointermove", (event) => {
+      const rect = button.getBoundingClientRect();
+      const x = (event.clientX - rect.left) / rect.width - 0.5;
+      const y = (event.clientY - rect.top) / rect.height - 0.5;
+      button.style.transform = `translate(${x * 7}px, ${y * 5}px)`;
     });
+    button.addEventListener("pointerleave", () => {
+      button.style.transform = "";
+    });
+  });
 
-    // Touch no celular
-    let touchStartX = 0;
-    let touchScrollLeft = 0;
+  document.querySelectorAll("[data-spotlight], .spotlight-card").forEach((card) => {
+    card.addEventListener("pointermove", (event) => {
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty("--spotlight-x", `${event.clientX - rect.left}px`);
+      card.style.setProperty("--spotlight-y", `${event.clientY - rect.top}px`);
+    });
+  });
+}
 
-    slider.addEventListener("touchstart", (e) => {
-        touchStartX = e.touches[0].pageX - slider.offsetLeft;
-        touchScrollLeft = slider.scrollLeft;
-    }, { passive: true });
+function setupReveal() {
+  const targets = document.querySelectorAll(".reveal");
+  if (!("IntersectionObserver" in window)) {
+    targets.forEach((element) => element.classList.add("is-visible"));
+    return;
+  }
 
-    slider.addEventListener("touchmove", (e) => {
-        const x = e.touches[0].pageX - slider.offsetLeft;
-        const walk = (x - touchStartX) * 1.4;
-        slider.scrollLeft = touchScrollLeft - walk;
-    }, { passive: true });
-})();
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add("is-visible");
+      observer.unobserve(entry.target);
+    });
+  }, { threshold: 0.08, rootMargin: "0px 0px -30px" });
 
-// ----- 8. OBSERVADOR DE SCROLL (REVEAL) -----
+  targets.forEach((element) => observer.observe(element));
+}
+
 document.addEventListener("DOMContentLoaded", () => {
-    const observerOptions = {
-        root: null,
-        rootMargin: "0px 0px -60px 0px",
-        threshold: 0.1
-    };
+  document.querySelector("[data-current-year]").textContent = new Date().getFullYear();
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add("active");
-            }
-        });
-    }, observerOptions);
+  document.querySelectorAll("[data-whatsapp]").forEach((button) => {
+    button.addEventListener("click", () => openWhatsApp(button.dataset.whatsapp));
+  });
 
-    document.querySelectorAll(".reveal, .reveal-left, .reveal-scale").forEach(el => {
-        observer.observe(el);
-    });
+  document.querySelectorAll("[data-track]").forEach((element) => {
+    element.addEventListener("click", () => trackEvent("cta_click", { cta: element.dataset.track }));
+  });
+
+  const header = document.querySelector("[data-header]");
+  const updateHeader = () => header?.classList.toggle("is-scrolled", window.scrollY > 8);
+  updateHeader();
+  window.addEventListener("scroll", updateHeader, { passive: true });
+
+  const menuToggle = document.querySelector("[data-menu-toggle]");
+  menuToggle?.addEventListener("click", () => {
+    const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
+    setMobileMenu(!isOpen);
+  });
+  document.querySelectorAll("[data-mobile-menu] a").forEach((link) => link.addEventListener("click", () => setMobileMenu(false)));
+
+  document.querySelector("[data-chat-toggle]")?.addEventListener("click", () => {
+    const button = document.querySelector("[data-chat-toggle]");
+    setChatOpen(button?.getAttribute("aria-expanded") !== "true");
+  });
+  document.querySelector("[data-chat-close]")?.addEventListener("click", () => setChatOpen(false));
+
+  document.querySelectorAll("[data-chat-prompt]").forEach((button) => {
+    button.addEventListener("click", () => sendChatMessage(button.dataset.chatPrompt));
+  });
+  document.querySelector("[data-chat-form]")?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const input = document.getElementById("chat-input");
+    const message = input?.value || "";
+    if (input) input.value = "";
+    sendChatMessage(message);
+  });
+
+  setupDemo();
+  setupReveal();
+  setupMotion();
 });
-
-// ----- 9. MOUSE CUSTOMIZADO SANT; -----
-(function () {
-    const cursor = document.getElementById("custom-cursor");
-    if (!cursor) return;
-
-    let mouseX = -100;
-    let mouseY = -100;
-
-    window.addEventListener("mousemove", (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-        
-        cursor.style.left = `${mouseX}px`;
-        cursor.style.top = `${mouseY}px`;
-        
-        if (!cursor.classList.contains("active")) {
-            cursor.classList.add("active");
-        }
-    });
-
-    document.addEventListener("mouseleave", () => {
-        cursor.classList.remove("active");
-    });
-    document.addEventListener("mouseenter", () => {
-        cursor.classList.add("active");
-    });
-
-    window.addEventListener("mousedown", () => {
-        cursor.classList.add("clicked");
-    });
-    window.addEventListener("mouseup", () => {
-        cursor.classList.remove("clicked");
-    });
-
-    const elementosInterativos = "a, button, input, select, textarea, .btn, .card, .social-btn, .timeline-item, .faq-question";
-    
-    document.addEventListener("mouseover", (e) => {
-        if (e.target.closest(elementosInterativos)) {
-            cursor.classList.add("hovered");
-        }
-    });
-
-    document.addEventListener("mouseout", (e) => {
-        if (e.target.closest(elementosInterativos)) {
-            cursor.classList.remove("hovered");
-        }
-    });
-})();

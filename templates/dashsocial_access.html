@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Acesso interno — DashSocial;</title>
+  <style>
+    @font-face{font-family:Bruno;src:url("{{ url_for('static', filename='fonts/BrunoAceSC-Regular.ttf') }}") format('truetype');font-display:swap}
+    @font-face{font-family:Mont;src:url("{{ url_for('static', filename='fonts/Montserrat-VariableFont_wght.ttf') }}") format('truetype');font-display:swap}
+    *{box-sizing:border-box}body{display:grid;min-width:320px;min-height:100svh;place-items:center;margin:0;background:#161616;color:#fafafa;font-family:Mont,Arial,sans-serif}.card{width:min(100% - 32px,400px);padding:31px;border:1px solid #444;background:#292929;box-shadow:0 30px 90px rgba(0,0,0,.45)}.mark{display:grid;width:32px;height:32px;place-items:center;border:1px solid #777;color:#e3e2e2;font-family:Bruno,Arial,sans-serif;font-size:10px;letter-spacing:-.12em}.eyebrow{margin:27px 0 8px;color:#949494;font-size:9px;font-weight:700;letter-spacing:.12em}.card h1{margin:0;font-family:Bruno,Arial,sans-serif;font-size:1.45rem;font-weight:400;letter-spacing:-.07em}.card p{margin:12px 0 24px;color:#b4b4b4;font-size:11px;line-height:1.65}.card label{display:block;margin-bottom:7px;color:#d8d8d8;font-size:10px;font-weight:700}.card input{width:100%;padding:13px;border:1px solid #555;background:#161616;color:#fafafa;outline:0;font:13px Mont,Arial,sans-serif}.card input:focus{border-color:#ddd}.card button{width:100%;margin-top:12px;padding:13px;border:0;background:#fafafa;color:#161616;cursor:pointer;font:700 10px Mont,Arial,sans-serif}.error{margin:0 0 12px;color:#e3c9c9;font-size:10px}
+  </style>
+</head>
+<body><main class="card"><div class="mark">iS</div><p class="eyebrow">DASHSOCIAL; / INTERNO</p><h1>Acesso ao painel.</h1><p>Use o código interno da SANT; para abrir os dados comerciais.</p>{% if error %}<p class="error">{{ error }}</p>{% endif %}<form method="post"><label for="access_code">Código de acesso</label><input id="access_code" name="access_code" type="password" autocomplete="current-password" required autofocus><button type="submit">Abrir DashSocial; ↗</button></form></main></body>
+</html>
